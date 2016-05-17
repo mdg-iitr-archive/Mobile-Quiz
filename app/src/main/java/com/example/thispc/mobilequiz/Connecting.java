@@ -1,11 +1,14 @@
 package com.example.thispc.mobilequiz;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +18,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 
@@ -22,11 +26,18 @@ public class Connecting extends AppCompatActivity {
 
 
     boolean refreshEnabled = false;
-    ConnectingThread ct = null;
     private BluetoothAdapter bluetoothAdapter;
     private ListView listview;
     private ArrayAdapter adapter;
-    private static final int ENABLE_BT_REQUEST_CODE = 1;
+    private static final int enable_bt_request = 1;
+    private static final int discoverable_bt_request = 2;
+    private ArrayList<UUID> mUuids;
+    private static final int Finished_Activity = 3;
+    private static final int discoverable_duration = 300;
+    public static BluetoothDevice mBluetoothDevice = null;
+    public static BluetoothSocket mBluetoothSocket = null;
+    ListeningThread t = null;
+    ConnectingThread ct = null;
 
 
 
@@ -52,7 +63,7 @@ public class Connecting extends AppCompatActivity {
         } else if (!refreshEnabled) {
             refreshEnabled = true;
             Intent enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBluetoothIntent, ENABLE_BT_REQUEST_CODE);
+            startActivityForResult(enableBluetoothIntent, enable_bt_request);
             Toast.makeText(Connecting.this, "Bluetooth Enabled", Toast.LENGTH_SHORT).show();
         } else if (refreshEnabled) {
 
@@ -69,9 +80,7 @@ public class Connecting extends AppCompatActivity {
                 String itemValue = (String) listview.getItemAtPosition(position);
                 String MAC = itemValue.substring(itemValue.length() - 17);
                 BluetoothDevice bluetoothDevice = bluetoothAdapter.getRemoteDevice(MAC);
-                String s1 = bluetoothAdapter.getAddress();
-                String s2 = "b7" + s1.substring(0, 1) + "46a40-c758-4868-aa19-7ac6b3475dfc";
-                ct = new ConnectingThread(bluetoothDevice, UUID.fromString(s2));
+                ct = new ConnectingThread(bluetoothDevice, uuid);
                 ct.start();
             }
         });
@@ -111,8 +120,119 @@ private class ConnectingThread extends Thread {
         if (bluetoothSocket != null && bluetoothDevice != null) {
 
 
-            
+
         }
 
     }
-}}
+}
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == enable_bt_request) {
+
+            if (resultCode == Activity.RESULT_OK) {
+                Toast.makeText(getApplicationContext(), "Bluetooth enabled." + "\n" + "Scanning for peers", Toast.LENGTH_SHORT).show();
+
+                makeDiscoverable();
+                discoverDevices();
+
+                t = new ListeningThread();
+                t.start();
+
+            } else {
+                Toast.makeText(getApplicationContext(), "Bluetooth is not enabled.", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == discoverable_bt_request) {
+            if (resultCode == discoverable_duration) {
+                Toast.makeText(getApplicationContext(), "Your device is now discoverable for " + discoverable_duration + " seconds", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Fail to enable discoverable mode.", Toast.LENGTH_SHORT).show();
+            }
+        } else if (resultCode == Finished_Activity) {
+            bluetoothAdapter.disable();
+            adapter.clear();
+            refreshEnabled = false;
+
+        }
+    }
+
+    protected void discoverDevices() {
+        if (bluetoothAdapter.startDiscovery()) {
+            Toast.makeText(getApplicationContext(), "Discovering peers", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Discovery failed to start.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    protected void makeDiscoverable() {
+        Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, discoverable_duration);
+        startActivityForResult(discoverableIntent, discoverable_bt_request);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        this.registerReceiver(broadcastReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        this.unregisterReceiver(broadcastReceiver);
+    }
+
+
+    private class ListeningThread extends Thread {
+        BluetoothServerSocket bluetoothServerSocket;
+
+        public ListeningThread() {
+
+
+
+        }
+
+        public void run() {
+            BluetoothSocket bluetoothSocket=null;
+            for (int i = 0; i < mUuids.size(); i++) {
+                BluetoothServerSocket temp = null;
+                try {
+                    temp = bluetoothAdapter.listenUsingRfcommWithServiceRecord(getString(R.string.app_name), mUuids.get(i));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                bluetoothServerSocket = temp;
+                while (true) {
+                    try {
+                        bluetoothSocket = bluetoothServerSocket.accept();
+                    } catch (IOException e) {
+                        break;
+                    }
+                    if (bluetoothSocket != null) {
+
+                       
+
+
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "A connection has been accepted.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                }
+
+                try {
+                    bluetoothServerSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+
+        }}
+
+
+}
