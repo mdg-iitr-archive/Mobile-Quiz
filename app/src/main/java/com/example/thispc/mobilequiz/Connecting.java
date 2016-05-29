@@ -195,44 +195,41 @@ private class ConnectingThread extends Thread {
         }
 
         public void run() {
-            BluetoothSocket bluetoothSocket=null;
-            for (int i = 0; i < mUuids.size(); i++) {
-                BluetoothServerSocket temp = null;
-                try {
-                    temp = bluetoothAdapter.listenUsingRfcommWithServiceRecord(getString(R.string.app_name), mUuids.get(i));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                bluetoothServerSocket = temp;
-                while (true) {
-                    try {
-                        bluetoothSocket = bluetoothServerSocket.accept();
-                    } catch (IOException e) {
-                        break;
-                    }
-                    if (bluetoothSocket != null) {
+            BluetoothSocket bluetoothSocket = null;
 
-                       
-
-
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "A connection has been accepted.", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-
-                }
-
-                try {
-                    bluetoothServerSocket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
+            BluetoothServerSocket temp = null;
+            try {
+                temp = bluetoothAdapter.listenUsingRfcommWithServiceRecord(getString(R.string.app_name), uuid);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            bluetoothServerSocket = temp;
+            while (true) {
+                try {
+                    bluetoothSocket = bluetoothServerSocket.accept();
+                } catch (IOException e) {
+                    break;
+                }
+                if (bluetoothSocket != null) {
+
+
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "A connection has been accepted.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+            }
+
+            try {
+                bluetoothServerSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
 
         }}
 
 
-}
