@@ -192,4 +192,52 @@ public class Twodevices extends AppCompatActivity {
             }
         }
     }
+    private class ConnectingThread extends Thread {
+        private final BluetoothDevice bluetoothDevice;
+        private final BluetoothSocket bluetoothSocket;
+
+        public ConnectingThread(BluetoothDevice device) {
+
+            BluetoothSocket temp = null;
+            bluetoothDevice = device;
+
+            // Get a BluetoothSocket to connect with the given BluetoothDevice
+            try {
+                temp = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            bluetoothSocket = temp;
+        }
+
+        public void run() {
+            bluetoothAdapter.cancelDiscovery();
+
+            try {
+                bluetoothSocket.connect();
+            } catch (IOException connectException) {
+                connectException.printStackTrace();
+                try {
+                    bluetoothSocket.close();
+                } catch (IOException closeException) {
+                    closeException.printStackTrace();
+                }
+            }
+
+            if (bluetoothSocket != null && bluetoothDevice != null) {
+               
+            }
+
+        }
+
+        // Cancel an open connection and terminate the thread
+        public void cancel() {
+            try {
+                bluetoothSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
