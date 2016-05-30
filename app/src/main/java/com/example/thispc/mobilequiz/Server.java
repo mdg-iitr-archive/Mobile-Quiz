@@ -24,7 +24,7 @@ import java.util.UUID;
 
 public class Server extends AppCompatActivity {
 
-   
+
     int c;
 
     boolean refreshEnabled = false;
@@ -120,7 +120,6 @@ public class Server extends AppCompatActivity {
             bluetoothAdapter.disable();
             adapter.clear();
             refreshEnabled = false;
-            btn.setText("Find Opponent");
         }
     }
 
