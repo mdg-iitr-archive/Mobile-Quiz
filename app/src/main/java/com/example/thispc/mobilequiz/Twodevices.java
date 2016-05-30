@@ -41,7 +41,7 @@ public class Twodevices extends AppCompatActivity {
     private static final int DISCOVERABLE_DURATION = 300;
     public static BluetoothDevice mBluetoothDevice = null;
     public static BluetoothSocket mBluetoothSocket = null;
-
+    ConnectingThread ct = null;
     private final static UUID uuid = UUID.fromString("fc5ffc49-00e3-4c8b-9cf1-6b72aad1001a");
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -98,6 +98,12 @@ public class Twodevices extends AppCompatActivity {
                 String itemValue = (String) listview.getItemAtPosition(position);
                 String MAC = itemValue.substring(itemValue.length() - 17);
                 BluetoothDevice bluetoothDevice = bluetoothAdapter.getRemoteDevice(MAC);
+                try {
+                    ct = new ConnectingThread(bluetoothDevice);
+                    ct.start();
+
+                } catch (Exception e) {
+                }
             }
         });
 

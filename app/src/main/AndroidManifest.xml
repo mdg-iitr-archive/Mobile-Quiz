@@ -25,7 +25,11 @@
         </activity>
         <activity android:name=".Twodevices" />
         <activity android:name=".Server" />
-        <activity android:name=".Category"></activity>
+        <activity android:name=".Category" />
+        <activity
+            android:name=".Questions"
+            android:label="@string/title_activity_questions"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
