@@ -65,7 +65,6 @@ public class Server extends AppCompatActivity {
                                         Toast.LENGTH_SHORT).show();
                             } else if (!refreshEnabled) {
                                 refreshEnabled = true;
-                                btn.setText("STOP");
                                 Intent enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                                 startActivityForResult(enableBluetoothIntent, ENABLE_BT_REQUEST_CODE);
                                 Toast.makeText(Server.this, "Bluetooth Enabled", Toast.LENGTH_SHORT).show();
