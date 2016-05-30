@@ -24,7 +24,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Twodevices" />
-        <activity android:name=".Server"></activity>
+        <activity android:name=".Server" />
+        <activity android:name=".Category"></activity>
     </application>
 
 </manifest>

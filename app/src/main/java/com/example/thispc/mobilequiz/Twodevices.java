@@ -28,7 +28,10 @@ public class Twodevices extends AppCompatActivity {
     boolean refreshEnabled = false;
 
     private BluetoothAdapter bluetoothAdapter;
-
+    public static String MyName = "";
+    public static String OpponentName;
+    Button btn;
+    EditText name;
     private ArrayAdapter adapter;
     private ListView listview;
     ListeningThread t = null;
@@ -54,21 +57,39 @@ public class Twodevices extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twodevices);
-        if (bluetoothAdapter == null) {
-            Toast.makeText(getApplicationContext(), "Your device does not support Bluetooth",
-                    Toast.LENGTH_SHORT).show();
-        } else if (!refreshEnabled) {
-            refreshEnabled = true;
-            Intent enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBluetoothIntent, ENABLE_BT_REQUEST_CODE);
-            Toast.makeText(Twodevices.this, "Bluetooth Enabled", Toast.LENGTH_SHORT).show();
-        } else if (refreshEnabled) {
+        btn = (Button) findViewById(R.id.btn_find);
+        name = (EditText) findViewById(R.id.myName);
+        name.setText(MyName);
 
-            refreshEnabled = false;
-            adapter.clear();
-            bluetoothAdapter.disable();
-        }
-
+        btn.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MyName = name.getText().toString();
+                        if (MyName.trim().equals("")) {
+                            name.setError("Enter Name");
+                        } else {
+                            /*Intent intent = new Intent(TwoDevice2P_names.this, BluetoothActivity.class);
+                            startActivity(intent);*/
+                            if (bluetoothAdapter == null) {
+                                Toast.makeText(getApplicationContext(), "Oops! Your device does not support Bluetooth",
+                                        Toast.LENGTH_SHORT).show();
+                            } else if (!refreshEnabled) {
+                                refreshEnabled = true;
+                                btn.setText("STOP");
+                                Intent enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                                startActivityForResult(enableBluetoothIntent, ENABLE_BT_REQUEST_CODE);
+                                Toast.makeText(Twodevices.this, "Bluetooth Enabled", Toast.LENGTH_SHORT).show();
+                            } else if (refreshEnabled) {
+                                btn.setText("Find Opponent");
+                                refreshEnabled = false;
+                                adapter.clear();
+                                bluetoothAdapter.disable();
+                            }
+                        }
+                    }
+                }
+        );
 
         listview = (ListView) findViewById(R.id.listView);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -144,6 +165,14 @@ public class Twodevices extends AppCompatActivity {
         super.onPause();
         this.unregisterReceiver(broadcastReceiver);
     }
+    public synchronized void connected(BluetoothSocket socket, BluetoothDevice device) {
+
+        mBluetoothDevice = device;
+        mBluetoothSocket = socket;
+        Intent intent = new Intent(Twodevices.this,Category.class);
+        startActivityForResult(intent, Finished_Activity);
+
+    }
     private class ListeningThread extends Thread {
         private final BluetoothServerSocket bluetoothServerSocket;
 
@@ -173,7 +202,7 @@ public class Twodevices extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "A connection has been accepted.", Toast.LENGTH_SHORT).show();
                         }
                     });
-
+                    connected(bluetoothSocket, bluetoothSocket.getRemoteDevice());
                     try {
                         bluetoothServerSocket.close();
                     } catch (IOException e) {
@@ -225,7 +254,7 @@ public class Twodevices extends AppCompatActivity {
             }
 
             if (bluetoothSocket != null && bluetoothDevice != null) {
-               
+                connected(bluetoothSocket, bluetoothSocket.getRemoteDevice());
             }
 
         }
