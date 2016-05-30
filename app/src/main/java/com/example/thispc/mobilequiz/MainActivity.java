@@ -16,15 +16,16 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences.Editor editor=null;
   public void server(View v)
   {
-      Intent i=new Intent(MainActivity.this,Connecting.class);
-      editor.putString("type","server");
+      editor.putString("type", "server");
+
+      Intent i =new Intent(MainActivity.this,Server.class);
       startActivity(i);
   }
     public void client(View v)
     {
-        Intent i=new Intent(MainActivity.this,Connecting.class);
+
         editor.putString("type","cleint");
-        startActivity(i);
+
     }
 
     @Override
