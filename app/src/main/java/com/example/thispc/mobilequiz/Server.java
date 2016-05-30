@@ -23,24 +23,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class Server extends AppCompatActivity {
-    public static String MyName = "";
-    public static String OpponentName;
-    Button btn;
-    EditText name;
-    int c;
 
-    boolean refreshEnabled = false;
-
-    private BluetoothAdapter bluetoothAdapter;
-    private ListView listview;
-    private ArrayAdapter adapter;
-    private static final int ENABLE_BT_REQUEST_CODE = 1;
-    private static final int DISCOVERABLE_BT_REQUEST_CODE = 2;
-    private ArrayList<UUID> mUuids;
-    public static String MyName = "";
-    public static String OpponentName;
-    Button btn;
-    EditText name;
+   
     int c;
 
     boolean refreshEnabled = false;
