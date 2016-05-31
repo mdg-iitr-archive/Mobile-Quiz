@@ -176,7 +176,7 @@ public class Twodevices extends AppCompatActivity {
         mBluetoothDevice = device;
         mBluetoothSocket = socket;
         Intent intent = new Intent(Twodevices.this,Category.class);
-        startActivityForResult(intent, Finished_Activity);
+        startActivity(intent);
 
     }
     private class ListeningThread extends Thread {

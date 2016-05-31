@@ -23,7 +23,7 @@ public class Questions extends AppCompatActivity {
         setContentView(R.layout.activity_questions);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        bluetoothSocket = Twodevices.mBluetoothSocket;
+        bluetoothSocket = Category.bluetoothSocket;
         connectedThread = new ConnectedThread(bluetoothSocket);
         connectedThread.start();
         Intent i= getIntent();
@@ -38,14 +38,14 @@ public class Questions extends AppCompatActivity {
         }
         if(j=="2")
         {
-resoning();
+           reasoning();
         }
     }
 public void aptitude()
 {
 
 }
-    public void resoning()
+    public void reasoning()
     {
 
     }
@@ -62,12 +62,12 @@ public void aptitude()
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
             // Get the BluetoothSocket input and output streams
-            try {
+          /*  try {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
             } catch (IOException e) {
 
-            }
+            }*/
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
         }

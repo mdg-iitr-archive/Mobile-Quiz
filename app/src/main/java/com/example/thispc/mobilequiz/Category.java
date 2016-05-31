@@ -15,7 +15,7 @@ import java.io.OutputStream;
 
 public class Category extends AppCompatActivity {
     public static ConnectedThread connectedThread = null;
-    BluetoothSocket bluetoothSocket;
+   public static BluetoothSocket bluetoothSocket;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +32,7 @@ public class Category extends AppCompatActivity {
         byte[] ByteArray = "1".getBytes();
         connectedThread.write(ByteArray);
     }
-    public void resoning(View v)
+    public void reasoning(View v)
     {
         Intent i=new Intent(Category.this,Questions.class);
         i.putExtra("type","2");
@@ -49,6 +49,7 @@ public class Category extends AppCompatActivity {
         public ConnectedThread(BluetoothSocket socket) {
 
             mmSocket = socket;
+            bluetoothSocket=socket;
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
             // Get the BluetoothSocket input and output streams
@@ -113,7 +114,6 @@ public class Category extends AppCompatActivity {
             }
 
         }
-
 
         public void cancel() {
             try {
