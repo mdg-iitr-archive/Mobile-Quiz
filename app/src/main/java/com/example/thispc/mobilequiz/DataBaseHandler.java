@@ -32,10 +32,10 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String create_table_reasoning = "CREATE TABLE " + TABLE_REASONING + "(" + id + " INTEGER PRIMARY KEY," + question + " TEXT," + option1 + " TEXT," + option2 + " TEXT," + option3 + " TEXT" + option4 + "TEXT" + answer + "TEXT)";
-        db.execSQL(create_table_reasoning);
-        String create_table_aptitude = "CREATE TABLE " + TABLE_APTITUDE + "(" + id + " INTEGER PRIMARY KEY," + question + " TEXT," + option1 + " TEXT," + option2 + " TEXT," + option3 + " TEXT" + option4 + "TEXT" + answer + "TEXT)";
-        db.execSQL(create_table_aptitude);
+        String z="Create Table if not exists Reasoning(id Int,question Text,option1 Text,option2 Text,option3 Text,option4 Text,answer Text)";
+        db.execSQL(z);
+        String z1="Create Table if not exists Aptitude(id Int,question Text,option1 Text,option2 Text,option3 Text,option4 Text,answer Text)";
+        db.execSQL(z1);
     }
 
     @Override
@@ -77,7 +77,7 @@ public void adReasoningQ(QuestionDetails qd)
     }
     public  QuestionDetails getAptitudeQ(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery("Select * from TABLE_APTITUDE where id=" + id + "", null);
+        Cursor c = db.rawQuery("Select * from Aptitude where id=" + id + "", null);
         QuestionDetails qd=null;
         if (c.moveToNext() == true) {
 
@@ -88,7 +88,7 @@ public void adReasoningQ(QuestionDetails qd)
     public  QuestionDetails getReasoningQ(int id)
     {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery("Select * from TABLE_REASONING where id=" + id + "", null);
+        Cursor c = db.rawQuery("Select * from Reasoning where id=" + id + "", null);
         QuestionDetails qd=null;
         if (c.moveToNext() == true) {
 

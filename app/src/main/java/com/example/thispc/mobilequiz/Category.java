@@ -15,12 +15,14 @@ import java.io.OutputStream;
 
 public class Category extends AppCompatActivity {
     public static ConnectedThread connectedThread = null;
-   public static BluetoothSocket bluetoothSocket;
+   public static BluetoothSocket bluetoothSocket=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
         bluetoothSocket = Twodevices.mBluetoothSocket;
+
         connectedThread = new ConnectedThread(bluetoothSocket);
         connectedThread.start();
     }
@@ -35,7 +37,7 @@ public class Category extends AppCompatActivity {
     public void reasoning(View v)
     {
         Intent i=new Intent(Category.this,Questions.class);
-        i.putExtra("type","2");
+        i.putExtra("type", "2");
         startActivity(i);
         byte[] ByteArray = "2".getBytes();
         connectedThread.write(ByteArray);
@@ -49,7 +51,7 @@ public class Category extends AppCompatActivity {
         public ConnectedThread(BluetoothSocket socket) {
 
             mmSocket = socket;
-            bluetoothSocket=socket;
+          bluetoothSocket=socket;
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
             // Get the BluetoothSocket input and output streams
@@ -64,16 +66,6 @@ public class Category extends AppCompatActivity {
         }
 
         public void run() {
-
-            if (cnt == 0) {
-                try {
-                    byte[] ByteArray = Twodevices.MyName.getBytes();
-                    connectedThread.write(ByteArray);
-                    cnt++;
-                } catch (Exception e) {
-
-                }
-            }
             byte[] buffer = new byte[1024];
             int bytes;
             // Keep listening to the InputStream while connected
