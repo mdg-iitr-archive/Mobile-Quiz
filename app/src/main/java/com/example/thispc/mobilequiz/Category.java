@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.io.OutputStream;
 public class Category extends AppCompatActivity {
     public static ConnectedThread connectedThread = null;
    public static BluetoothSocket bluetoothSocket=null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

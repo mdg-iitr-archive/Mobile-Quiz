@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import java.io.OutputStream;
 public class Questions extends AppCompatActivity {
     public ConnectedThread connectedThread = null;
     BluetoothSocket bluetoothSocket;
+    Chronometer mChronometer;
     Button o1;
     Button o2;
     Button o3;
@@ -37,6 +39,7 @@ public class Questions extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
+        mChronometer = (Chronometer) findViewById(R.id.chronometer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         bluetoothSocket = Category.bluetoothSocket;
@@ -51,126 +54,145 @@ public class Questions extends AppCompatActivity {
        j= getIntent().getExtras().getString("type");
         if(j.equals("1"))
         {
+            mChronometer.start();
             aptitude();
         }
         if(j.equals("2"))
         {
+            mChronometer.start();
            reasoning();
         }
         connectedThread = new ConnectedThread(bluetoothSocket);
         connectedThread.start();
-    }
-public void aptitude()
-{
+        mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                if (chronometer.getText().toString().equalsIgnoreCase("00:05"))
+                {  Toast.makeText(Questions.this,
+                            "time reached", Toast.LENGTH_SHORT).show();
+                             mChronometer.stop();
+                    Toast.makeText(Questions.this, "please wait for results", Toast.LENGTH_LONG).show();
+                   byte[] ByteArray = (c + ".").getBytes();
+                    connectedThread.write(ByteArray);
+                    if (value > 0) {
+                        if (value > c) {
+                            Toast.makeText(Questions.this, "You Loose", Toast.LENGTH_LONG).show();
+                        }
+                        if (value < c) {
+                            Toast.makeText(Questions.this, "You Win", Toast.LENGTH_LONG).show();
+                        }
+                        if (value > c) {
+                            Toast.makeText(Questions.this, "Draw", Toast.LENGTH_LONG).show();
+                        }
+                    }
 
-    if(i<=2)
+
+            }}
+        });
+    }
+
+public void aptitude() {
+
+    if (Integer.parseInt(mChronometer.getText().toString().substring(3, 5)) < 05 && Integer.parseInt(mChronometer.getText().toString().substring(0, 2)) == 0)
     {
-qd=dbh.getAptitudeQ(i);
-    tv.setText(qd.getQuestion());
-    o1.setText(qd.getOption1());
-    o2.setText(qd.getOption2());
-    o3.setText(qd.getOption3());
-    o4.setText(qd.getOption4());
-        ans=qd.getAnswer();
-    }else
-    {
+        if (i <= 2) {
+            qd = dbh.getAptitudeQ(i);
+            tv.setText(qd.getQuestion());
+            o1.setText(qd.getOption1());
+            o2.setText(qd.getOption2());
+            o3.setText(qd.getOption3());
+            o4.setText(qd.getOption4());
+            ans = qd.getAnswer();
+        } else {
         byte[] ByteArray =(c+"").getBytes();
         connectedThread.write(ByteArray);
-        if(value>0)
-        {
-            if(value>c)
-            {
-                Toast.makeText( Questions.this,"You Loose",Toast.LENGTH_LONG).show();
-            }
-            if(value<c)
-            {
-                Toast.makeText( Questions.this,"You Win",Toast.LENGTH_LONG).show();
-            }
-            if(value==c)
-            {
-                Toast.makeText( Questions.this,"Draw",Toast.LENGTH_LONG).show();
+            mChronometer.stop();
+            Toast.makeText(Questions.this, "please wait for results", Toast.LENGTH_LONG).show();
+
+            if (value > 0) {
+                if (value > c) {
+                    Toast.makeText(Questions.this, "You Loose", Toast.LENGTH_LONG).show();
+                }
+                if (value < c) {
+                    Toast.makeText(Questions.this, "You Win", Toast.LENGTH_LONG).show();
+                }
+                if (value == c) {
+                    Toast.makeText(Questions.this, "Draw", Toast.LENGTH_LONG).show();
+                }
             }
         }
-    }
 
-    o1.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-           byte[] ByteArray = "fool".getBytes();
-            connectedThread.write(ByteArray);
-if(o1.getText().equals(ans))
-{
-    c++;
-}
-            i++;
-            aptitude();
-        }
-    });
-    o2.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if(o2.getText().equals(ans))
-            {
-                c++;
+        o1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (o1.getText().equals(ans)) {
+                    c++;
+                }
+                i++;
+                aptitude();
             }
-            i++;
-            aptitude();
+        });
+        o2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (o2.getText().equals(ans)) {
+                    c++;
+                }
+                i++;
+                aptitude();
 
-        }
-    });
-    o3.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if(o3.getText().equals(ans))
-            {
-                c++;
             }
-            i++;
-            aptitude();
+        });
+        o3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (o3.getText().equals(ans)) {
+                    c++;
+                }
+                i++;
+                aptitude();
 
-        }
-    });
-    o4.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if(o4.getText().equals(ans))
-            {
-                c++;
             }
-            i++;
-            aptitude();
+        });
+        o4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (o4.getText().equals(ans)) {
+                    c++;
+                }
+                i++;
+                aptitude();
 
-        }
-    });
-
-}
-    public void reasoning()
+            }
+        });
+    }else
     {
-        if(i<=2) {
+        Toast.makeText(Questions.this, "Quiz is over", Toast.LENGTH_LONG).show();
+    }
+}
+    public void reasoning() {
+        if(Integer.valueOf(mChronometer.getText().toString().substring(3,5))<05&&Integer.valueOf(mChronometer.getText().toString().substring(0,2))==0)
+        {
+        if (i <= 2) {
             qd = dbh.getReasoningQ(i);
             tv.setText(qd.getQuestion());
             o1.setText(qd.getOption1());
             o2.setText(qd.getOption2());
             o3.setText(qd.getOption3());
             o4.setText(qd.getOption4());
-            ans=qd.getAnswer();
-        }else
-        {
-            byte[] ByteArray =(c+".").getBytes();
+            ans = qd.getAnswer();
+        } else {
+            byte[] ByteArray = (c + ".").getBytes();
             connectedThread.write(ByteArray);
-            if(value>0)
-            {
-                if(value>c)
-                {
-                    Toast.makeText( Questions.this,"You Loose",Toast.LENGTH_LONG).show();
+            if (value > 0) {
+                if (value > c) {
+                    Toast.makeText(Questions.this, "You Loose", Toast.LENGTH_LONG).show();
                 }
-                if(value<c)
-                {
-                    Toast.makeText( Questions.this,"You Win",Toast.LENGTH_LONG).show();
+                if (value < c) {
+                    Toast.makeText(Questions.this, "You Win", Toast.LENGTH_LONG).show();
                 }
-                if(value>c)
-                {
-                    Toast.makeText( Questions.this,"Draw",Toast.LENGTH_LONG).show();
+                if (value > c) {
+                    Toast.makeText(Questions.this, "Draw", Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -217,7 +239,12 @@ if(o1.getText().equals(ans))
 
             }
         });
-    }
+    }else
+        {
+            Toast.makeText(Questions.this, "Quiz is over", Toast.LENGTH_LONG).show();
+        }
+        }
+
 
     public class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
@@ -253,10 +280,6 @@ if(o1.getText().equals(ans))
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
-
-                    if(readMessage.equals("fool"))
-                    {
-                        Toast.makeText( Questions.this,"foool",Toast.LENGTH_LONG).show();}
                     if(readMessage.contains("."))
                     {
                         value =Integer.valueOf(readMessage.charAt(0));

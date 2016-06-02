@@ -10,7 +10,7 @@ public class Main2Activity extends AppCompatActivity {
 public void twodevices(View v)
 {
     Intent i=new Intent(Main2Activity.this,Twodevices.class);
-    i.putExtra("type","1");
+   // i.putExtra("type","1");
     startActivity(i);
 }
     public void multipledevices(View v)
