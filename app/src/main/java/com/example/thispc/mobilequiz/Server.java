@@ -41,20 +41,18 @@ public class Server extends AppCompatActivity {
     private static final int Finished_Activity = 3;
     private static final int DISCOVERABLE_DURATION = 300;
     public static BluetoothDevice mBluetoothDevice = null;
+    boolean check=true;
     public static BluetoothSocket mBluetoothSocket = null;
     ListeningThread t = null;
-
-
-
+    public static BluetoothSocket a[];
+int a1=0;
+int b;
 
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice bluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                String s1=bluetoothDevice.getAddress();
-                String s2="b774aa40-c758-4868-aa19-7ac6b3475d"+s1.substring(7,8).toLowerCase();
-                mUuids.add(UUID.fromString(s2));
                 adapter.add(bluetoothDevice.getName() + "\n" +bluetoothDevice.getAddress() );
             }
         }
@@ -68,7 +66,10 @@ public class Server extends AppCompatActivity {
         btn = (Button) findViewById(R.id.btn_find);
         name = (EditText) findViewById(R.id.myName);
         name.setText(MyName);
-
+        mUuids = new ArrayList<UUID>();
+        a=new BluetoothSocket[2];
+        mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
+        mUuids.add(UUID.fromString("2d64189d-5a2c-4511-a074-77f199fd0834"));
         btn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -120,13 +121,13 @@ public class Server extends AppCompatActivity {
 
                 makeDiscoverable();
                 discoverDevices();
-                for (int i = 0; i < mUuids.size(); i++) {
-                    t = new ListeningThread(mUuids.get(i));
+
+                    t = new ListeningThread();
                     t.start();
 
 
 
-                } }else {
+                 }else {
                 Toast.makeText(getApplicationContext(), "Bluetooth is not enabled.", Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == DISCOVERABLE_BT_REQUEST_CODE) {
@@ -170,29 +171,42 @@ public class Server extends AppCompatActivity {
 
     private class ListeningThread extends Thread {
         BluetoothServerSocket bluetoothServerSocket;
+        BluetoothServerSocket temp = null;
+        public ListeningThread( ) {
 
-        public ListeningThread(UUID uuid) {
 
-            BluetoothServerSocket temp = null;
-            try {
-                temp = bluetoothAdapter.listenUsingRfcommWithServiceRecord(getString(R.string.app_name), uuid);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            bluetoothServerSocket = temp;
 
         }
 
         public void run() {
             BluetoothSocket bluetoothSocket=null;
-
-
-            while (true) {
+            for (int i = 0; i < mUuids.size(); i++) {
                 try {
-                    bluetoothSocket = bluetoothServerSocket.accept();
+                    temp = bluetoothAdapter.listenUsingRfcommWithServiceRecord(getString(R.string.app_name), mUuids.get(i));
+
                 } catch (IOException e) {
-                    break;
+                    e.printStackTrace();
+                }
+                check=true;
+                bluetoothServerSocket = temp;
+                b=0;
+                while(check) {
+                    try {
+                        bluetoothSocket = bluetoothServerSocket.accept();
+                    } catch (IOException e) {
+                    }
+                    for(i=0;i<a1;i++)
+                    {
+                        if(bluetoothSocket.equals(a[i]))
+                        b++;
+                    }
+                    if(b==0)
+                    {
+                        a[a1]=bluetoothSocket;
+                        check=false;
+                        a1++;
+                    }
+
                 }
                 if (bluetoothSocket != null) {
                     //connected(bluetoothSocket, bluetoothSocket.getRemoteDevice());
@@ -204,18 +218,16 @@ public class Server extends AppCompatActivity {
                     });
                 }
 
+
+               /* try {
+                    bluetoothServerSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
             }
 
 
-            try {
-                bluetoothServerSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-    }
+    }}
 
 
 }

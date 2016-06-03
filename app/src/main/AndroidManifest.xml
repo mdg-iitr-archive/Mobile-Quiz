@@ -29,7 +29,7 @@
             android:name=".Questions"
             android:label="@string/title_activity_questions"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Cleint"></activity>
+        <activity android:name=".Cleint" />
     </application>
 
 </manifest>

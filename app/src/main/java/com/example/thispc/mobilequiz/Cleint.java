@@ -45,6 +45,7 @@ public class Cleint extends AppCompatActivity {
     public static BluetoothDevice mBluetoothDevice = null;
     public static BluetoothSocket mBluetoothSocket = null;
     ConnectingThread ct = null;
+
     private  static final UUID uuid = UUID.fromString("fc5ffc49-00e3-4c8b-9cf1-6b72aad1001a");
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -65,9 +66,8 @@ public class Cleint extends AppCompatActivity {
         name = (EditText) findViewById(R.id.myName);
         name.setText(MyName);
         mUuids = new ArrayList<UUID>();
-        mUuids.add(UUID.fromString("b774aa40-c758-4868-aa19-7ac6b3475d9f"));
+        mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
         mUuids.add(UUID.fromString("2d64189d-5a2c-4511-a074-77f199fd0834"));
-        mUuids.add(UUID.fromString("e442e09a-51f3-4a7b-91cb-f638491d1412"));
         btn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -76,8 +76,7 @@ public class Cleint extends AppCompatActivity {
                         if (MyName.trim().equals("")) {
                             name.setError("Enter Name");
                         } else {
-                            /*Intent intent = new Intent(TwoDevice2P_names.this, BluetoothActivity.class);
-                            startActivity(intent);*/
+
                             if (bluetoothAdapter == null) {
                                 Toast.makeText(getApplicationContext(), "Oops! Your device does not support Bluetooth",
                                         Toast.LENGTH_SHORT).show();
@@ -95,7 +94,7 @@ public class Cleint extends AppCompatActivity {
                             }
                         }
                     }
-                }
+}
         );
 
         listview = (ListView) findViewById(R.id.listView);
@@ -107,13 +106,15 @@ public class Cleint extends AppCompatActivity {
                 BluetoothDevice bluetoothDevice = bluetoothAdapter.getRemoteDevice(MAC);
 
 
-
-                try {
-                    ct = new ConnectingThread(bluetoothDevice);
-                    ct.start();
-
-                } catch (Exception e) {
+                for (int i = 0; i < 2; i++) {
+                    try {
+                        ct = new ConnectingThread(bluetoothDevice, mUuids.get(i));
+                        ct.start();
+                    } catch (Exception e) {
+                    }
                 }
+
+
 
 
 
@@ -157,7 +158,7 @@ public class Cleint extends AppCompatActivity {
             bluetoothAdapter.disable();
             adapter.clear();
             refreshEnabled = false;
-            btn.setText("Find Opponent");
+            btn.setText("Find Server");
         }
     }
 
@@ -201,7 +202,7 @@ public class Cleint extends AppCompatActivity {
         private final BluetoothDevice bluetoothDevice;
         private final BluetoothSocket bluetoothSocket;
 
-        public ConnectingThread(BluetoothDevice device) {
+        public ConnectingThread(BluetoothDevice device, UUID uuid) {
 
             BluetoothSocket temp = null;
             bluetoothDevice = device;
@@ -230,7 +231,12 @@ public class Cleint extends AppCompatActivity {
             }
 
             if (bluetoothSocket!= null && bluetoothDevice != null) {
-                connected(bluetoothSocket, bluetoothDevice);
+                runOnUiThread(new Runnable() {
+                    public void run() {
+
+                        Toast.makeText(getApplicationContext(), "A connection has been made.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
         }
