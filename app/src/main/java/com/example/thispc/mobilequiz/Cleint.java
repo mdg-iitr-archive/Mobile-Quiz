@@ -1,5 +1,8 @@
 package com.example.thispc.mobilequiz;
 
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -12,63 +15,59 @@ import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Server extends AppCompatActivity {
+public class Cleint extends AppCompatActivity {
 
-
-    int c;
-
-    boolean refreshEnabled = false;
-
-    private BluetoothAdapter bluetoothAdapter;
     public static String MyName = "";
     Button btn;
     EditText name;
+    private ArrayList<UUID> mUuids;
+    boolean refreshEnabled = false;
+
+    private BluetoothAdapter bluetoothAdapter;
     private ListView listview;
     private ArrayAdapter adapter;
     private static final int ENABLE_BT_REQUEST_CODE = 1;
     private static final int DISCOVERABLE_BT_REQUEST_CODE = 2;
-    private ArrayList<UUID> mUuids;
     private static final int Finished_Activity = 3;
     private static final int DISCOVERABLE_DURATION = 300;
     public static BluetoothDevice mBluetoothDevice = null;
     public static BluetoothSocket mBluetoothSocket = null;
-    ListeningThread t = null;
-
-
-
-
+    ConnectingThread ct = null;
+    private  static final UUID uuid = UUID.fromString("fc5ffc49-00e3-4c8b-9cf1-6b72aad1001a");
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice bluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                String s1=bluetoothDevice.getAddress();
-                String s2="b774aa40-c758-4868-aa19-7ac6b3475d"+s1.substring(7,8).toLowerCase();
-                mUuids.add(UUID.fromString(s2));
-                adapter.add(bluetoothDevice.getName() + "\n" +bluetoothDevice.getAddress() );
+                adapter.add(bluetoothDevice.getName() + "\n" + bluetoothDevice.getAddress());
+
             }
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_server);
+        setContentView(R.layout.activity_cleint);
         btn = (Button) findViewById(R.id.btn_find);
         name = (EditText) findViewById(R.id.myName);
         name.setText(MyName);
-
+        mUuids = new ArrayList<UUID>();
+        mUuids.add(UUID.fromString("b774aa40-c758-4868-aa19-7ac6b3475d9f"));
+        mUuids.add(UUID.fromString("2d64189d-5a2c-4511-a074-77f199fd0834"));
+        mUuids.add(UUID.fromString("e442e09a-51f3-4a7b-91cb-f638491d1412"));
         btn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -87,7 +86,7 @@ public class Server extends AppCompatActivity {
                                 btn.setText("STOP");
                                 Intent enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                                 startActivityForResult(enableBluetoothIntent, ENABLE_BT_REQUEST_CODE);
-                                Toast.makeText(Server.this, "Bluetooth Enabled", Toast.LENGTH_SHORT).show();
+                                Toast.makeText( Cleint.this, "Bluetooth Enabled", Toast.LENGTH_SHORT).show();
                             } else if (refreshEnabled) {
                                 btn.setText("Find Server");
                                 refreshEnabled = false;
@@ -99,13 +98,36 @@ public class Server extends AppCompatActivity {
                 }
         );
 
-
         listview = (ListView) findViewById(R.id.listView);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String itemValue = (String) listview.getItemAtPosition(position);
+                String MAC = itemValue.substring(itemValue.length() - 17);
+                BluetoothDevice bluetoothDevice = bluetoothAdapter.getRemoteDevice(MAC);
+
+
+
+                try {
+                    ct = new ConnectingThread(bluetoothDevice);
+                    ct.start();
+
+                } catch (Exception e) {
+                }
+
+
+
+
+
+            }
+        });
+
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1);
         listview.setAdapter(adapter);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        if (bluetoothAdapter.isEnabled()) {
+        if (bluetoothAdapter.isEnabled())
+        {
             bluetoothAdapter.disable();
             adapter.clear();
         }
@@ -120,13 +142,9 @@ public class Server extends AppCompatActivity {
 
                 makeDiscoverable();
                 discoverDevices();
-                for (int i = 0; i < mUuids.size(); i++) {
-                    t = new ListeningThread(mUuids.get(i));
-                    t.start();
 
 
-
-                } }else {
+            } else {
                 Toast.makeText(getApplicationContext(), "Bluetooth is not enabled.", Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == DISCOVERABLE_BT_REQUEST_CODE) {
@@ -139,6 +157,7 @@ public class Server extends AppCompatActivity {
             bluetoothAdapter.disable();
             adapter.clear();
             refreshEnabled = false;
+            btn.setText("Find Opponent");
         }
     }
 
@@ -166,56 +185,65 @@ public class Server extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        this.unregisterReceiver(broadcastReceiver);}
+        this.unregisterReceiver(broadcastReceiver);
+    }
 
-    private class ListeningThread extends Thread {
-        BluetoothServerSocket bluetoothServerSocket;
+    public synchronized void connected(BluetoothSocket socket, BluetoothDevice device) {
 
-        public ListeningThread(UUID uuid) {
-
-            BluetoothServerSocket temp = null;
-            try {
-                temp = bluetoothAdapter.listenUsingRfcommWithServiceRecord(getString(R.string.app_name), uuid);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            bluetoothServerSocket = temp;
-
-        }
-
-        public void run() {
-            BluetoothSocket bluetoothSocket=null;
-
-
-            while (true) {
-                try {
-                    bluetoothSocket = bluetoothServerSocket.accept();
-                } catch (IOException e) {
-                    break;
-                }
-                if (bluetoothSocket != null) {
-                    //connected(bluetoothSocket, bluetoothSocket.getRemoteDevice());
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            c++;
-                            Toast.makeText(getApplicationContext(), "A connection has been accepted."+c, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-
-            }
-
-
-            try {
-                bluetoothServerSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
+        mBluetoothDevice = device;
+        mBluetoothSocket = socket;
 
     }
 
 
+
+    private class ConnectingThread extends Thread {
+        private final BluetoothDevice bluetoothDevice;
+        private final BluetoothSocket bluetoothSocket;
+
+        public ConnectingThread(BluetoothDevice device) {
+
+            BluetoothSocket temp = null;
+            bluetoothDevice = device;
+
+            // Get a BluetoothSocket to connect with the given BluetoothDevice
+            try {
+                temp = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            bluetoothSocket = temp;
+        }
+
+        public void run() {
+            bluetoothAdapter.cancelDiscovery();
+
+            try {
+                bluetoothSocket.connect();
+            } catch (IOException connectException) {
+                connectException.printStackTrace();
+                try {
+                    bluetoothSocket.close();
+                } catch (IOException closeException) {
+                    closeException.printStackTrace();
+                }
+            }
+
+            if (bluetoothSocket!= null && bluetoothDevice != null) {
+                connected(bluetoothSocket, bluetoothDevice);
+            }
+
+        }
+
+        // Cancel an open connection and terminate the thread
+        public void cancel() {
+            try {
+                bluetoothSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
+

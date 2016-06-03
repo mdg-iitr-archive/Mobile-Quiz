@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:text="Discover Clients"
+        android:text="Select Server"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
         android:id="@+id/btn_find"
@@ -38,3 +38,4 @@
 
 
 </RelativeLayout>
+

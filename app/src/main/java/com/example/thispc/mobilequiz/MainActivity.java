@@ -25,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
     {
 
         editor.putString("type","cleint");
-
+        Intent i =new Intent(MainActivity.this,Cleint.class);
+        startActivity(i);
     }
 
     @Override
