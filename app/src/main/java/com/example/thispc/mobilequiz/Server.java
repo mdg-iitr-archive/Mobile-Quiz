@@ -19,6 +19,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -33,6 +35,7 @@ public class Server extends AppCompatActivity {
     public static String MyName = "";
     Button btn;
     EditText name;
+
     private ListView listview;
     private ArrayAdapter adapter;
     private static final int ENABLE_BT_REQUEST_CODE = 1;
@@ -42,8 +45,11 @@ public class Server extends AppCompatActivity {
     private static final int DISCOVERABLE_DURATION = 300;
     public static BluetoothDevice mBluetoothDevice = null;
     boolean check=true;
+    int playnum=0;
+    String playname="";
     public static BluetoothSocket mBluetoothSocket = null;
     ListeningThread t = null;
+    ConnectedThread ct=null;
     public static BluetoothSocket a[];
 int a1=0;
 int b;
@@ -53,7 +59,6 @@ int b;
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice bluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                adapter.add(bluetoothDevice.getName() + "\n" +bluetoothDevice.getAddress() );
             }
         }
     };
@@ -142,7 +147,14 @@ int b;
             refreshEnabled = false;
         }
     }
+    public synchronized void connected(BluetoothSocket socket, BluetoothDevice device,int c) {
 
+        mBluetoothDevice = device;
+        mBluetoothSocket = socket;
+        ct = new ConnectedThread(socket,c);
+        ct.start();
+
+    }
     protected void discoverDevices() {
         if (bluetoothAdapter.startDiscovery()) {
             Toast.makeText(getApplicationContext(), "Discovering peers", Toast.LENGTH_SHORT).show();
@@ -209,13 +221,13 @@ int b;
 
                 }
                 if (bluetoothSocket != null) {
-                    //connected(bluetoothSocket, bluetoothSocket.getRemoteDevice());
                     runOnUiThread(new Runnable() {
                         public void run() {
                             c++;
-                            Toast.makeText(getApplicationContext(), "Connection has been accepted."+c, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Connection has been accepted." + c, Toast.LENGTH_SHORT).show();
                         }
                     });
+                    connected(bluetoothSocket, bluetoothSocket.getRemoteDevice(),c);
                 }
 
 
@@ -229,5 +241,72 @@ int b;
 
     }}
 
+    public class ConnectedThread extends Thread {
+        private final BluetoothSocket mmSocket;
+        private final InputStream mmInStream;
+        private final OutputStream mmOutStream;
+        private int cnt = 0;
+
+        public ConnectedThread(BluetoothSocket socket, int p) {
+             playnum=p;
+            mmSocket = socket;
+            InputStream tmpIn = null;
+            OutputStream tmpOut = null;
+            // Get the BluetoothSocket input and output streams
+            try {
+                tmpIn = socket.getInputStream();
+                tmpOut = socket.getOutputStream();
+            } catch (IOException e) {
+
+            }
+            mmInStream = tmpIn;
+            mmOutStream = tmpOut;
+        }
+
+        public void run() {
+            byte[] buffer = new byte[1024];
+            int bytes;
+            // Keep listening to the InputStream while connected
+            while (true) {
+                try {
+
+                    // Read from the InputStream
+                    String readMessage = "";
+                    bytes = mmInStream.read(buffer);
+                    readMessage = new String(buffer, 0, bytes);
+                        if(readMessage.contains("."))
+                        {
+                            playname=readMessage.substring(1);
+                        }
+                    if(playnum==1)
+                    {
+
+                    }
+
+                } catch (Exception e) {
+
+                    break;
+                }
+            }
+        }
+
+        public void write(byte[] buffer) {
+
+            try {
+                mmOutStream.write(buffer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        public void cancel() {
+            try {
+                mmSocket.close();
+            } catch (IOException e) {
+
+            }
+        }
+    }
 
 }

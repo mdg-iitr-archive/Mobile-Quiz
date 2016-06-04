@@ -51,7 +51,7 @@ public class Cleint extends AppCompatActivity {
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice bluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                adapter.add(bluetoothDevice.getName() + "\n" + bluetoothDevice.getAddress());
+                adapter.add(bluetoothDevice.getName());
 
             }
         }
