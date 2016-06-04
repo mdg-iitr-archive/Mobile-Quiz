@@ -46,7 +46,6 @@ public class Cleint extends AppCompatActivity {
     public static BluetoothSocket mBluetoothSocket = null;
     ConnectingThread ct = null;
 
-    private  static final UUID uuid = UUID.fromString("fc5ffc49-00e3-4c8b-9cf1-6b72aad1001a");
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();

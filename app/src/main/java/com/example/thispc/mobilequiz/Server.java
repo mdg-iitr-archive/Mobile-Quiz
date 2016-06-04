@@ -107,7 +107,7 @@ int b;
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (bluetoothAdapter.isEnabled()) {
-            bluetoothAdapter.disable();
+
             adapter.clear();
         }
     }
@@ -213,7 +213,7 @@ int b;
                     runOnUiThread(new Runnable() {
                         public void run() {
                             c++;
-                            Toast.makeText(getApplicationContext(), "A connection has been accepted."+c, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Connection has been accepted."+c, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
