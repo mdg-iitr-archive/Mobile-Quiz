@@ -17,6 +17,8 @@ import java.io.OutputStream;
 public class Category extends AppCompatActivity {
     public static ConnectedThread connectedThread = null;
    public static BluetoothSocket bluetoothSocket=null;
+    public static String OpponentName="";
+    String yourname=Twodevices.MyName;
 
 
     @Override
@@ -27,6 +29,8 @@ public class Category extends AppCompatActivity {
 
         connectedThread = new ConnectedThread(bluetoothSocket);
         connectedThread.start();
+        byte[] ByteArray = ("?"+yourname).getBytes();
+        connectedThread.write(ByteArray);
     }
     public void aptitude(View v)
     {
@@ -91,6 +95,10 @@ public class Category extends AppCompatActivity {
                         Intent i=new Intent(Category.this,Questions.class);
                         i.putExtra("type","2");
                         startActivity(i);
+                    }
+                    if(readMessage.contains("?"))
+                    {
+                        OpponentName=readMessage.substring(1);
                     }
                 } catch (Exception e) {
                     //Log.e(TAG, "disconnected", e);

@@ -33,6 +33,9 @@ public class Questions extends AppCompatActivity {
     int c=0;
     String ans;
     TextView tv;
+    String opposcore=null;
+    String OpponentName=(Category.OpponentName).toUpperCase();
+    String yourname=(Twodevices.MyName).toUpperCase();
     DataBaseHandler dbh;
     QuestionDetails qd;
     @Override
@@ -46,11 +49,9 @@ public class Questions extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, yourname+":\t\t"+c+"\n"+OpponentName+":\t\t"+opposcore, Snackbar.LENGTH_LONG)
                         .setAction("Action",null).show();
-                View snackbarView = Snackbar.getView();
-                TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
-                textView.setMaxLines(5);
+
 
             }
         });
@@ -84,7 +85,7 @@ public class Questions extends AppCompatActivity {
                             "time reached", Toast.LENGTH_SHORT).show();
                              mChronometer.stop();
                     Toast.makeText(Questions.this, "please wait for results", Toast.LENGTH_LONG).show();
-                   byte[] ByteArray = (c + ".").getBytes();
+                   byte[] ByteArray = ("."+c).getBytes();
                     connectedThread.write(ByteArray);
                     if (value > 0) {
                         if (value > c) {
@@ -116,7 +117,7 @@ public void aptitude() {
             o4.setText(qd.getOption4());
             ans = qd.getAnswer();
         } else {
-        byte[] ByteArray =(c+"").getBytes();
+        byte[] ByteArray =("."+c).getBytes();
         connectedThread.write(ByteArray);
             mChronometer.stop();
             Toast.makeText(Questions.this, "please wait for results", Toast.LENGTH_LONG).show();
@@ -142,6 +143,7 @@ public void aptitude() {
                 }
                 i++;
                 aptitude();
+                connectedThread.write(("/"+c).getBytes());
             }
         });
         o2.setOnClickListener(new View.OnClickListener() {
@@ -152,7 +154,7 @@ public void aptitude() {
                 }
                 i++;
                 aptitude();
-
+                connectedThread.write(("/" + c).getBytes());
             }
         });
         o3.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +165,7 @@ public void aptitude() {
                 }
                 i++;
                 aptitude();
-
+                connectedThread.write(("/" + c).getBytes());
             }
         });
         o4.setOnClickListener(new View.OnClickListener() {
@@ -174,7 +176,7 @@ public void aptitude() {
                 }
                 i++;
                 aptitude();
-
+                connectedThread.write(("/" + c).getBytes());
             }
         });
     }else
@@ -194,7 +196,7 @@ public void aptitude() {
             o4.setText(qd.getOption4());
             ans = qd.getAnswer();
         } else {
-            byte[] ByteArray = (c + ".").getBytes();
+            byte[] ByteArray = ("."+c).getBytes();
             connectedThread.write(ByteArray);
             if (value > 0) {
                 if (value > c) {
@@ -216,6 +218,7 @@ public void aptitude() {
                 }
                 i++;
                 reasoning();
+                connectedThread.write(("/" + c).getBytes());
             }
         });
         o2.setOnClickListener(new View.OnClickListener() {
@@ -226,7 +229,7 @@ public void aptitude() {
                 }
                 i++;
                 reasoning();
-
+                connectedThread.write(("/" + c).getBytes());
             }
         });
         o3.setOnClickListener(new View.OnClickListener() {
@@ -237,7 +240,7 @@ public void aptitude() {
                 }
                 i++;
                 reasoning();
-
+                connectedThread.write(("/" + c).getBytes());
             }
         });
         o4.setOnClickListener(new View.OnClickListener() {
@@ -248,7 +251,7 @@ public void aptitude() {
                 }
                 i++;
                 reasoning();
-
+                connectedThread.write(("/" + c).getBytes());
             }
         });
     }else
@@ -294,8 +297,8 @@ public void aptitude() {
                     readMessage = new String(buffer, 0, bytes);
                     if(readMessage.contains("."))
                     {
-                        value =Integer.valueOf(readMessage.charAt(0));
-                        if(i>2)
+                        value =Integer.valueOf(readMessage.substring(1));
+                        if(i>2||mChronometer.getText()=="00:05")
                         {
                             if(value>c)
                             {
@@ -311,12 +314,15 @@ public void aptitude() {
                             }
                         }
                     }
-
+                           if(readMessage.contains("/"))
+                            {
+                                  opposcore=readMessage.substring(1);
+                            }
 
 
                 } catch (Exception e) {
                     //Log.e(TAG, "disconnected", e);
-                    break;
+
                 }
             }
         }

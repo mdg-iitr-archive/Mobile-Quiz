@@ -29,7 +29,6 @@ public class Twodevices extends AppCompatActivity {
 
     private BluetoothAdapter bluetoothAdapter;
     public static String MyName = "";
-    public static String OpponentName;
     Button btn;
     EditText name;
     private ArrayAdapter adapter;
