@@ -20,6 +20,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_RandomQuestion = "RandomQuestions";
 
     private static final String id = "id";
+    private static final String id1 = "id1";
+    private static final String id2 = "id2";
     private static final String question = "question";
     private static final String option1 = "option1";
     private static final String option2 = "option2";
@@ -41,7 +43,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.execSQL(z1);
         String z2="Create Table if not exists RandomQuestions(id Int,question Text,option1 Text,option2 Text,option3 Text,option4 Text,answer Text)";
         db.execSQL(z2);
-        String z3="Create Table if not exists RandomQuestionsType(id Int,type Text)";
+        String z3="Create Table if not exists RandomQuestionsType(id1 Int,id2 Int,type Text)";
         db.execSQL(z3);
     }
 
@@ -51,11 +53,12 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REASONING);
         onCreate(db);
     }
-public void setRandomQuestionsType(RandomQuestionsType rqd)
+public void adRandomQuestionsType(RandomQuestionsType rqd)
 {
     SQLiteDatabase db=this.getWritableDatabase();
     ContentValues values = new ContentValues();
-    values.put(id, rqd.getId());
+    values.put(id1, rqd.getId1());
+    values.put(id2, rqd.getId2());
     values.put(type, rqd.getType());
     db.insert(TABLE_RandomQuestionType, null, values);
     db.close();
@@ -64,14 +67,13 @@ public void setRandomQuestionsType(RandomQuestionsType rqd)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(id, qd.getId());
+        values.put(id1, qd.getId());
         values.put(question, qd.getQuestion());
         values.put(option1, qd.getOption1());
         values.put(option2, qd.getOption2());
         values.put(option3, qd.getOption3());
         values.put(option4, qd.getOption4());
         values.put(answer, qd.getAnswer());
-
         db.insert(TABLE_RandomQuestion, null, values);
         db.close();
     }
@@ -126,4 +128,27 @@ public void adReasoningQ(QuestionDetails qd)
         }
         return qd;
     }
+    public RandomQuestionsType getRandomQuestionsType(int id1)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("Select * from RandomQuestionsType where id1=" + id1 + "", null);
+        RandomQuestionsType rqt=null;
+        if (c.moveToNext() == true) {
+
+            rqt =new RandomQuestionsType(Integer.parseInt(c.getString(0)),Integer.parseInt(c.getString(1)),c.getString(2));
+        }
+        return rqt;
+    }
+    public QuestionDetails getQuestions(int id)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        QuestionDetails q=null;
+        Cursor c = db.rawQuery("Select * from Questions where id=" + id + "", null);
+        if (c.moveToNext() == true) {
+
+            q =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6));
+        }
+        return q;
+    }
+
 }
