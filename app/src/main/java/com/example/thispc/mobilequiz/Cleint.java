@@ -233,9 +233,11 @@ public class Cleint extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     public void run() {
 
-                        Toast.makeText(getApplicationContext(), "A connection has been made.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Connection has been made.", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+
             }
 
         }

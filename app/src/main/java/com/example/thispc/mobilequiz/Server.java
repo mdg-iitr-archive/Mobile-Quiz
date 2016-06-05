@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -53,7 +54,18 @@ public class Server extends AppCompatActivity {
     public static BluetoothSocket a[];
 int a1=0;
 int b;
-
+TextView playerhead;
+TextView scorehead;
+    TextView p1;
+    TextView p2;
+    TextView p3;
+    TextView p4;
+    TextView p5;
+    TextView s1;
+    TextView s2;
+    TextView s3;
+    TextView s4;
+    TextView s5;
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -68,9 +80,23 @@ int b;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server);
+        playerhead=(TextView)findViewById(R.id.Playerhead);
+        scorehead=(TextView)findViewById(R.id.Scorehead);
+        p1=(TextView)findViewById(R.id.player1);
+        p2=(TextView)findViewById(R.id.player2);
+        p3=(TextView)findViewById(R.id.player3);
+        p4=(TextView)findViewById(R.id.player4);
+        p5=(TextView)findViewById(R.id.player5);
+        s1=(TextView)findViewById(R.id.score1);
+        s2=(TextView)findViewById(R.id.score2);
+        s3=(TextView)findViewById(R.id.score3);
+        s4=(TextView)findViewById(R.id.score4);
+        s5=(TextView)findViewById(R.id.score5);
         btn = (Button) findViewById(R.id.btn_find);
         name = (EditText) findViewById(R.id.myName);
         name.setText(MyName);
+        playerhead.setText("");
+        scorehead.setText("");
         mUuids = new ArrayList<UUID>();
         a=new BluetoothSocket[2];
         mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
@@ -148,7 +174,8 @@ int b;
         }
     }
     public synchronized void connected(BluetoothSocket socket, BluetoothDevice device,int c) {
-
+        playerhead.setText("PLAYER");
+        scorehead.setText("SCORE");
         mBluetoothDevice = device;
         mBluetoothSocket = socket;
         ct = new ConnectedThread(socket,c);
@@ -227,7 +254,7 @@ int b;
                             Toast.makeText(getApplicationContext(), "Connection has been accepted." + c, Toast.LENGTH_SHORT).show();
                         }
                     });
-                    connected(bluetoothSocket, bluetoothSocket.getRemoteDevice(),c);
+                    connected(bluetoothSocket, bluetoothSocket.getRemoteDevice(), c);
                 }
 
 
@@ -266,6 +293,7 @@ int b;
         public void run() {
             byte[] buffer = new byte[1024];
             int bytes;
+            String score="0";
             // Keep listening to the InputStream while connected
             while (true) {
                 try {
@@ -278,9 +306,34 @@ int b;
                         {
                             playname=readMessage.substring(1);
                         }
+                        if(readMessage.contains("?"))
+                        {
+                            score=readMessage.substring(1);
+                        }
                     if(playnum==1)
                     {
-
+                        p1.setText(playname);
+                        s1.setText(score);
+                    }
+                    if(playnum==2)
+                    {
+                        p2.setText(playname);
+                        s2.setText(score);
+                    }
+                    if(playnum==3)
+                    {
+                        p3.setText(playname);
+                        s3.setText(score);
+                    }
+                    if(playnum==4)
+                    {
+                        p4.setText(playname);
+                        s4.setText(score);
+                    }
+                    if(playnum==5)
+                    {
+                        p5.setText(playname);
+                        s5.setText(score);
                     }
 
                 } catch (Exception e) {

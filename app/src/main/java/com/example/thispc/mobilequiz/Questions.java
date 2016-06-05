@@ -42,6 +42,18 @@ public class Questions extends AppCompatActivity {
         mChronometer = (Chronometer) findViewById(R.id.chronometer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action",null).show();
+                View snackbarView = Snackbar.getView();
+                TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setMaxLines(5);
+
+            }
+        });
         bluetoothSocket = Category.bluetoothSocket;
 
         dbh = new DataBaseHandler(this);
