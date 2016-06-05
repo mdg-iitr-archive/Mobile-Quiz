@@ -8,19 +8,24 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.thispc.mobilequiz.Cleint">
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="41dp"
+        android:id="@+id/input_layout_name">
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/myName"
         android:layout_marginTop="40dp"
         android:hint="Your Name"/>
-
+</android.support.design.widget.TextInputLayout>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
         android:layout_marginTop="15dp"
-        android:layout_below="@+id/myName"
+        android:layout_below="@+id/input_layout_name"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"/>
 

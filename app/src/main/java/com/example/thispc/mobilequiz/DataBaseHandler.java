@@ -16,6 +16,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "Questions";
     private static final String TABLE_APTITUDE = "Aptitude";
     private static final String TABLE_REASONING = "Reasoning";
+    private static final String TABLE_RandomQuestionType = "RandomQuestionsType";
+    private static final String TABLE_RandomQuestion = "RandomQuestions";
 
     private static final String id = "id";
     private static final String question = "question";
@@ -24,6 +26,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     private static final String option3 = "option3";
     private static final String option4 = "option4";
     private static final String answer = "answer";
+    private static final String type = "type";
 
     public DataBaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -36,6 +39,10 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.execSQL(z);
         String z1="Create Table if not exists Aptitude(id Int,question Text,option1 Text,option2 Text,option3 Text,option4 Text,answer Text)";
         db.execSQL(z1);
+        String z2="Create Table if not exists RandomQuestions(id Int,question Text,option1 Text,option2 Text,option3 Text,option4 Text,answer Text)";
+        db.execSQL(z2);
+        String z3="Create Table if not exists RandomQuestionsType(id Int,type Text)";
+        db.execSQL(z3);
     }
 
     @Override
@@ -44,7 +51,30 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REASONING);
         onCreate(db);
     }
+public void setRandomQuestionsType(RandomQuestionsType rqd)
+{
+    SQLiteDatabase db=this.getWritableDatabase();
+    ContentValues values = new ContentValues();
+    values.put(id, rqd.getId());
+    values.put(type, rqd.getType());
+    db.insert(TABLE_RandomQuestionType, null, values);
+    db.close();
+}
+    public void adQuestions(QuestionDetails qd)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(id, qd.getId());
+        values.put(question, qd.getQuestion());
+        values.put(option1, qd.getOption1());
+        values.put(option2, qd.getOption2());
+        values.put(option3, qd.getOption3());
+        values.put(option4, qd.getOption4());
+        values.put(answer, qd.getAnswer());
 
+        db.insert(TABLE_RandomQuestion, null, values);
+        db.close();
+    }
 public void adReasoningQ(QuestionDetails qd)
 {
     SQLiteDatabase db = this.getWritableDatabase();
