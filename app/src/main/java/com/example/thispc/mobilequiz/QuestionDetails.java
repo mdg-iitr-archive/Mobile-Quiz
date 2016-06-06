@@ -11,6 +11,8 @@ public class QuestionDetails {
     private String option3;
     private String option4;
     private String answer;
+    private boolean isSelected;
+
 
     public QuestionDetails(int id, String question, String option1, String option2,String option3,String option4, String answer) {
         this.id = id;
@@ -22,6 +24,17 @@ public class QuestionDetails {
         this.answer=answer;
 
 }
+    public QuestionDetails(int id, String question, String option1, String option2,String option3,String option4, String answer,boolean isSelected) {
+        this.id = id;
+        this.question = question;
+        this.option1 = option1;
+        this.option2 = option2;
+        this.option3 = option3;
+        this.option4 = option4;
+        this.answer=answer;
+        this.isSelected=isSelected;
+    }
+
 
     public int getId() {
         return id;
@@ -78,4 +91,11 @@ public class QuestionDetails {
     public void setAnswer(String answer) {
         this.answer = answer;
     }
-}
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }}

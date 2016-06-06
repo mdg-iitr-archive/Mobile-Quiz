@@ -1,13 +1,11 @@
 package com.example.thispc.mobilequiz;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -35,9 +33,24 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
     }
 
     @Override
-    public void onBindViewHolder (QuestionListAdapter.ListViewHolder holder, int position) {
-        QuestionDetails qd =questionList.get(position);
+    public void onBindViewHolder (QuestionListAdapter.ListViewHolder holder, final int position) {
+       final QuestionDetails qd =questionList.get(position);
         holder.ques.setText(qd.getQuestion().toString());
+        holder.checkbox.setOnCheckedChangeListener(null);
+        holder.checkbox.setChecked(questionList.get(position).isSelected());
+        holder.checkbox.setTag(questionList.get(position));
+        holder.checkbox.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                CheckBox cb = (CheckBox) v;
+                QuestionDetails contact = (QuestionDetails) cb.getTag();
+
+                contact.setSelected(cb.isChecked());
+                questionList.get(position).setSelected(cb.isChecked());
+
+            }
+        });
+
+
     }
 
     @Override
@@ -62,6 +75,9 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
         public void onClick(View v) {
 
         }
+    }
+    public List<QuestionDetails> getQuestionList() {
+        return questionList;
     }
 
 }

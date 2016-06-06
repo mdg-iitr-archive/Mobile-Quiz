@@ -162,7 +162,7 @@ public void adReasoningQ(QuestionDetails qd)
             Cursor c = db.rawQuery(query, null);
             if (c.moveToFirst()) {
                 do {
-                   QuestionDetails q =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6));
+                   QuestionDetails q =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6),false);
                     questionList.add(q);
 
                 } while (c.moveToNext());
@@ -175,7 +175,7 @@ public void adReasoningQ(QuestionDetails qd)
             Cursor c = db.rawQuery(query, null);
             if (c.moveToFirst()) {
                 do {
-                    QuestionDetails q =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6));
+                    QuestionDetails q =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6),false);
                     questionList.add(q);
 
                 } while (c.moveToNext());
@@ -183,6 +183,4 @@ public void adReasoningQ(QuestionDetails qd)
         }
         return questionList;
     }
-
-
 }

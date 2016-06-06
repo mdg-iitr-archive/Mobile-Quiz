@@ -14,10 +14,13 @@ import java.util.List;
 public class QuestionList extends AppCompatActivity {
     RecyclerView recList;
     DataBaseHandler dbh;
+    public static int c=0;
+    private RecyclerView.Adapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_list);
+        dbh = new DataBaseHandler(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -25,8 +28,20 @@ public class QuestionList extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                List<QuestionDetails> stList = ((QuestionListAdapter) mAdapter).getQuestionList();
+
+
+                for (int i = 0; i < stList.size(); i++) {
+                    QuestionDetails qd = stList.get(i);
+                    if (qd.isSelected() == true) {
+                              RandomQuestionsType rqt= new RandomQuestionsType(c,qd.getId(),"Aptitude");
+                         dbh.adRandomQuestionsType(rqt);
+                           c++;
+                    }
+
+                }
+
+
             }
         });
         recList = (RecyclerView) findViewById(R.id.questionList_recycler);
