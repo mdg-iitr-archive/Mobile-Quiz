@@ -24,6 +24,8 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -34,7 +36,7 @@ public class Cleint extends AppCompatActivity {
     EditText name;
     private ArrayList<UUID> mUuids;
     boolean refreshEnabled = false;
-
+    ConnectedThread connectedThread=null;
     private BluetoothAdapter bluetoothAdapter;
     private ListView listview;
     private ArrayAdapter adapter;
@@ -45,7 +47,7 @@ public class Cleint extends AppCompatActivity {
     public static BluetoothDevice mBluetoothDevice = null;
     public static BluetoothSocket mBluetoothSocket = null;
     ConnectingThread ct = null;
-
+DataBaseHandler dbh;
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -57,6 +59,7 @@ public class Cleint extends AppCompatActivity {
         }
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +67,7 @@ public class Cleint extends AppCompatActivity {
         btn = (Button) findViewById(R.id.btn_find);
         name = (EditText) findViewById(R.id.myName);
         name.setText(MyName);
+        dbh = new DataBaseHandler(this);
         mUuids = new ArrayList<UUID>();
         mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
         mUuids.add(UUID.fromString("2d64189d-5a2c-4511-a074-77f199fd0834"));
@@ -193,6 +197,8 @@ public class Cleint extends AppCompatActivity {
         mBluetoothDevice = device;
         mBluetoothSocket = socket;
 
+        connectedThread = new ConnectedThread(socket);
+        connectedThread.start();
     }
 
 
@@ -236,6 +242,7 @@ public class Cleint extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Connection has been made.", Toast.LENGTH_SHORT).show();
                     }
                 });
+                connected(bluetoothSocket, bluetoothSocket.getRemoteDevice());
 
 
             }
@@ -248,6 +255,70 @@ public class Cleint extends AppCompatActivity {
                 bluetoothSocket.close();
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        }
+    }
+    public class ConnectedThread extends Thread {
+        private final BluetoothSocket mmSocket;
+        private final InputStream mmInStream;
+        private final OutputStream mmOutStream;
+        private int cnt = 0;
+
+        public ConnectedThread(BluetoothSocket socket) {
+            mmSocket = socket;
+            InputStream tmpIn = null;
+            OutputStream tmpOut = null;
+            // Get the BluetoothSocket input and output streams
+            try {
+                tmpIn = socket.getInputStream();
+                tmpOut = socket.getOutputStream();
+            } catch (IOException e) {
+
+            }
+            mmInStream = tmpIn;
+            mmOutStream = tmpOut;
+        }
+
+        public void run() {
+            byte[] buffer = new byte[1024];
+            int bytes;
+            String score="0";
+            // Keep listening to the InputStream while connected
+            while (true) {
+                try {
+
+                    // Read from the InputStream
+                    String readMessage = "";
+                    bytes = mmInStream.read(buffer);
+                    readMessage = new String(buffer, 0, bytes);
+                    if(readMessage.contains(";"))
+                    {
+                        RandomQuestionsType rqt=new RandomQuestionsType(Integer.parseInt(readMessage.substring(1,readMessage.indexOf('['))),Integer.parseInt(readMessage.substring(readMessage.indexOf('[')+1,readMessage.indexOf(']'))),readMessage.substring(readMessage.indexOf(']')+1));
+                        dbh.adRandomQuestionsType(rqt);
+                    }
+
+                } catch (Exception e) {
+
+
+                }
+            }
+        }
+
+        public void write(byte[] buffer) {
+
+            try {
+                mmOutStream.write(buffer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        public void cancel() {
+            try {
+                mmSocket.close();
+            } catch (IOException e) {
+
             }
         }
     }

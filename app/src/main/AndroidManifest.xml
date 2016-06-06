@@ -30,7 +30,11 @@
             android:label="@string/title_activity_questions"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Cleint" />
-        <activity android:name=".SelectQuestions"></activity>
+        <activity android:name=".SelectQuestions" />
+        <activity
+            android:name=".QuestionList"
+            android:label="@string/title_activity_question_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

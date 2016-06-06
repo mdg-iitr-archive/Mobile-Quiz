@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by this pc on 31-05-2016.
  */
@@ -150,5 +153,36 @@ public void adReasoningQ(QuestionDetails qd)
         }
         return q;
     }
+    public List<QuestionDetails> getAllQuestions( String type) {
+        List<QuestionDetails> questionList = new ArrayList<>();
+        if(type.equals("Aptitude"))
+        {
+            String query = "SELECT * FROM " + TABLE_APTITUDE;
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery(query, null);
+            if (c.moveToFirst()) {
+                do {
+                   QuestionDetails q =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6));
+                    questionList.add(q);
+
+                } while (c.moveToNext());
+            }
+        }
+        if(type.equals("Reasoning"))
+        {
+            String query = "SELECT * FROM " + TABLE_REASONING;
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery(query, null);
+            if (c.moveToFirst()) {
+                do {
+                    QuestionDetails q =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6));
+                    questionList.add(q);
+
+                } while (c.moveToNext());
+            }
+        }
+        return questionList;
+    }
+
 
 }

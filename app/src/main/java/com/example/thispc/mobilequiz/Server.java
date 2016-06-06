@@ -38,6 +38,7 @@ public class Server extends AppCompatActivity {
     EditText name;
 
     private ListView listview;
+    DataBaseHandler dbh;
     private ArrayAdapter adapter;
     private static final int ENABLE_BT_REQUEST_CODE = 1;
     private static final int DISCOVERABLE_BT_REQUEST_CODE = 2;
@@ -97,7 +98,14 @@ TextView scorehead;
         name.setText(MyName);
         playerhead.setText("");
         scorehead.setText("");
+        dbh = new DataBaseHandler(this);
         mUuids = new ArrayList<UUID>();
+        for (int i=1;i<10;i++)
+        {
+            RandomQuestionsType rqt= dbh.getRandomQuestionsType(i);
+             ct.write((";" + rqt.getId1() + "["+rqt.getId2() + "]"+rqt.getType()).getBytes());
+
+        }
         a=new BluetoothSocket[2];
         mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
         mUuids.add(UUID.fromString("2d64189d-5a2c-4511-a074-77f199fd0834"));
