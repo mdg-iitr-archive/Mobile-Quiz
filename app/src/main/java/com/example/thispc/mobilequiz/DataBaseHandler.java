@@ -54,7 +54,15 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_APTITUDE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REASONING);
+
         onCreate(db);
+    }
+    public void clear(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+TABLE_REASONING+";");
+        db.execSQL("DELETE FROM " + TABLE_APTITUDE + ";");
+        db.execSQL("DELETE FROM "+TABLE_RandomQuestion+";");
+        db.execSQL("DELETE FROM " + TABLE_RandomQuestionType + ";");
     }
 public void adRandomQuestionsType(RandomQuestionsType rqd)
 {

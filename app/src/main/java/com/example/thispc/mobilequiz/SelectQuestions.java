@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 public class SelectQuestions extends AppCompatActivity {
     DataBaseHandler dbh;
+    public static int c=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

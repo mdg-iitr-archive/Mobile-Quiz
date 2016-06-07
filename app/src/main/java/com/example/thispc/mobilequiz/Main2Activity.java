@@ -23,6 +23,7 @@ public void twodevices(View v)
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         dbh = new DataBaseHandler(this);
+        dbh.clear();
         QuestionDetails qd = new QuestionDetails(1,"name of country","india","malaysia","usa","germany","india" );
         dbh.adReasoningQ(qd);
         qd = new QuestionDetails(2,"name of country2","germany","malaysia","usa","india","india" );

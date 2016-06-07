@@ -1,5 +1,6 @@
 package com.example.thispc.mobilequiz;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,13 +9,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 
 public class QuestionList extends AppCompatActivity {
     RecyclerView recList;
     DataBaseHandler dbh;
-    public static int c=0;
+    String category=null;
     private RecyclerView.Adapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +25,8 @@ public class QuestionList extends AppCompatActivity {
         dbh = new DataBaseHandler(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        SharedPreferences prefs = getSharedPreferences("category", MODE_PRIVATE);
+       category= prefs.getString("category",null);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,13 +37,12 @@ public class QuestionList extends AppCompatActivity {
                 for (int i = 0; i < stList.size(); i++) {
                     QuestionDetails qd = stList.get(i);
                     if (qd.isSelected() == true) {
-                              RandomQuestionsType rqt= new RandomQuestionsType(c,qd.getId(),"Aptitude");
-                         dbh.adRandomQuestionsType(rqt);
-                           c++;
+                        RandomQuestionsType rqt = new RandomQuestionsType(SelectQuestions.c, qd.getId(), "Aptitude");
+                        dbh.adRandomQuestionsType(rqt);
+                        ++SelectQuestions.c;
                     }
-
                 }
-
+                finish();
 
             }
         });
@@ -51,7 +53,7 @@ public class QuestionList extends AppCompatActivity {
 
     private List<QuestionDetails> createList() {
         List<QuestionDetails> result;
-        result=dbh.getAllQuestions("Aptitude");
+        result=dbh.getAllQuestions(category);
         return result;
     }
     public void addToList(){
