@@ -46,6 +46,7 @@ public class Cleint extends AppCompatActivity {
     private static final int DISCOVERABLE_DURATION = 300;
     public static BluetoothDevice mBluetoothDevice = null;
     public static BluetoothSocket mBluetoothSocket = null;
+    public static int qnumber=0;
     ConnectingThread ct = null;
 DataBaseHandler dbh;
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -53,7 +54,7 @@ DataBaseHandler dbh;
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice bluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                adapter.add(bluetoothDevice.getName());
+                adapter.add(bluetoothDevice.getName() + "\n" + bluetoothDevice.getAddress());
 
             }
         }
@@ -101,6 +102,9 @@ DataBaseHandler dbh;
         );
 
         listview = (ListView) findViewById(R.id.listView);
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1);
+        listview.setAdapter(adapter);
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -117,19 +121,8 @@ DataBaseHandler dbh;
                     }
                 }
 
-
-
-
-
-
-
             }
         });
-
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1);
-        listview.setAdapter(adapter);
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
         if (bluetoothAdapter.isEnabled())
         {
             bluetoothAdapter.disable();
@@ -266,6 +259,7 @@ DataBaseHandler dbh;
 
         public ConnectedThread(BluetoothSocket socket) {
             mmSocket = socket;
+            mBluetoothSocket=socket;
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
             // Get the BluetoothSocket input and output streams
@@ -295,6 +289,12 @@ DataBaseHandler dbh;
                     {
                         RandomQuestionsType rqt=new RandomQuestionsType(Integer.parseInt(readMessage.substring(1,readMessage.indexOf('['))),Integer.parseInt(readMessage.substring(readMessage.indexOf('[')+1,readMessage.indexOf(']'))),readMessage.substring(readMessage.indexOf(']')+1));
                         dbh.adRandomQuestionsType(rqt);
+                    }
+                    if(readMessage.contains("..."))
+                    {
+                       qnumber=Integer.valueOf(readMessage.substring(3));
+                        Intent ic=new Intent(Cleint.this,SelectQuestions.class);
+                        startActivity(ic);
                     }
 
                 } catch (Exception e) {

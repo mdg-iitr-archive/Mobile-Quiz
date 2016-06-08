@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +17,7 @@ import java.util.List;
  */
 public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapter.ListViewHolder>{
 
-    List<QuestionDetails> questionList;
+   public static List<QuestionDetails> questionList=new ArrayList<>();
     Activity parentAct;
 
     public QuestionListAdapter(List<QuestionDetails> questionList, Activity activity){
@@ -40,13 +42,12 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
         holder.checkbox.setChecked(questionList.get(position).isSelected());
         holder.checkbox.setTag(questionList.get(position));
         holder.checkbox.setOnClickListener(new View.OnClickListener() {
+
             public void onClick(View v) {
                 CheckBox cb = (CheckBox) v;
                 QuestionDetails contact = (QuestionDetails) cb.getTag();
-
                 contact.setSelected(cb.isChecked());
                 questionList.get(position).setSelected(cb.isChecked());
-
             }
         });
 

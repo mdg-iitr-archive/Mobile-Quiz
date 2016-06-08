@@ -41,6 +41,15 @@
         android:layout_marginTop="55dp"
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ok"
+        android:id="@+id/button8"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="ok"/>
+
 
 </RelativeLayout>
 

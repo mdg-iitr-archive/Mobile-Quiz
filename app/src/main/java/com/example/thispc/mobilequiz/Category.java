@@ -18,19 +18,18 @@ public class Category extends AppCompatActivity {
     public static ConnectedThread connectedThread = null;
    public static BluetoothSocket bluetoothSocket=null;
     public static String OpponentName="";
-    String yourname=Twodevices.MyName;
+  String yourname=Twodevices.MyName;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-        bluetoothSocket = Twodevices.mBluetoothSocket;
-
+      bluetoothSocket = Twodevices.mBluetoothSocket;
         connectedThread = new ConnectedThread(bluetoothSocket);
         connectedThread.start();
-        byte[] ByteArray = ("?"+yourname).getBytes();
-        connectedThread.write(ByteArray);
+       byte[] ByteArray = ("?"+yourname).getBytes();
+       connectedThread.write(ByteArray);
     }
     public void aptitude(View v)
     {
@@ -61,7 +60,7 @@ public class Category extends AppCompatActivity {
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
             // Get the BluetoothSocket input and output streams
-            try {
+           try {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
             } catch (IOException e) {

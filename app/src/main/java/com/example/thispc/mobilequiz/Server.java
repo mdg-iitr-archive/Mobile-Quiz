@@ -12,6 +12,7 @@ import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,7 +37,6 @@ public class Server extends AppCompatActivity {
     public static String MyName = "";
     Button btn;
     EditText name;
-
     private ListView listview;
     DataBaseHandler dbh;
     private ArrayAdapter adapter;
@@ -46,17 +46,16 @@ public class Server extends AppCompatActivity {
     private static final int Finished_Activity = 3;
     private static final int DISCOVERABLE_DURATION = 300;
     public static BluetoothDevice mBluetoothDevice = null;
-    boolean check=true;
-    int playnum=0;
-    String playname="";
+    boolean check = true;
+    String playname = "";
     public static BluetoothSocket mBluetoothSocket = null;
     ListeningThread t = null;
-    ConnectedThread ct=null;
+    ConnectedThread ct = null;
     public static BluetoothSocket a[];
-int a1=0;
-int b;
-TextView playerhead;
-TextView scorehead;
+    int a1 = 0;
+    int b;
+    TextView playerhead;
+    TextView scorehead;
     TextView p1;
     TextView p2;
     TextView p3;
@@ -72,6 +71,8 @@ TextView scorehead;
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice bluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                adapter.add(bluetoothDevice.getName() + "\n" + bluetoothDevice.getAddress());
+
             }
         }
     };
@@ -81,18 +82,18 @@ TextView scorehead;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server);
-        playerhead=(TextView)findViewById(R.id.Playerhead);
-        scorehead=(TextView)findViewById(R.id.Scorehead);
-        p1=(TextView)findViewById(R.id.player1);
-        p2=(TextView)findViewById(R.id.player2);
-        p3=(TextView)findViewById(R.id.player3);
-        p4=(TextView)findViewById(R.id.player4);
-        p5=(TextView)findViewById(R.id.player5);
-        s1=(TextView)findViewById(R.id.score1);
-        s2=(TextView)findViewById(R.id.score2);
-        s3=(TextView)findViewById(R.id.score3);
-        s4=(TextView)findViewById(R.id.score4);
-        s5=(TextView)findViewById(R.id.score5);
+        playerhead = (TextView) findViewById(R.id.Playerhead);
+        scorehead = (TextView) findViewById(R.id.Scorehead);
+        p1 = (TextView) findViewById(R.id.player1);
+        p2 = (TextView) findViewById(R.id.player2);
+        p3 = (TextView) findViewById(R.id.player3);
+        p4 = (TextView) findViewById(R.id.player4);
+        p5 = (TextView) findViewById(R.id.player5);
+        s1 = (TextView) findViewById(R.id.score1);
+        s2 = (TextView) findViewById(R.id.score2);
+        s3 = (TextView) findViewById(R.id.score3);
+        s4 = (TextView) findViewById(R.id.score4);
+        s5 = (TextView) findViewById(R.id.score5);
         btn = (Button) findViewById(R.id.btn_find);
         name = (EditText) findViewById(R.id.myName);
         name.setText(MyName);
@@ -100,16 +101,10 @@ TextView scorehead;
         scorehead.setText("");
         dbh = new DataBaseHandler(this);
         mUuids = new ArrayList<UUID>();
-        for (int i=1;i<10;i++)
-        {
-            RandomQuestionsType rqt= dbh.getRandomQuestionsType(i);
-             ct.write((";" + rqt.getId1() + "["+rqt.getId2() + "]"+rqt.getType()).getBytes());
-
-        }
-        a=new BluetoothSocket[2];
+        a = new BluetoothSocket[2];
         mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
         mUuids.add(UUID.fromString("2d64189d-5a2c-4511-a074-77f199fd0834"));
-        btn.setOnClickListener(
+      btn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -117,8 +112,7 @@ TextView scorehead;
                         if (MyName.trim().equals("")) {
                             name.setError("Enter Name");
                         } else {
-                            /*Intent intent = new Intent(TwoDevice2P_names.this, BluetoothActivity.class);
-                            startActivity(intent);*/
+
                             if (bluetoothAdapter == null) {
                                 Toast.makeText(getApplicationContext(), "Oops! Your device does not support Bluetooth",
                                         Toast.LENGTH_SHORT).show();
@@ -127,7 +121,7 @@ TextView scorehead;
                                 btn.setText("STOP");
                                 Intent enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                                 startActivityForResult(enableBluetoothIntent, ENABLE_BT_REQUEST_CODE);
-                                Toast.makeText(Server.this, "Bluetooth Enabled", Toast.LENGTH_SHORT).show();
+                                Toast.makeText( Server.this, "Bluetooth Enabled", Toast.LENGTH_SHORT).show();
                             } else if (refreshEnabled) {
                                 btn.setText("Find Server");
                                 refreshEnabled = false;
@@ -138,15 +132,23 @@ TextView scorehead;
                     }
                 }
         );
-
-
         listview = (ListView) findViewById(R.id.listView);
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1);
         listview.setAdapter(adapter);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String itemValue = (String) listview.getItemAtPosition(position);
+                String MAC = itemValue.substring(itemValue.length() - 17);
+                BluetoothDevice bluetoothDevice = bluetoothAdapter.getRemoteDevice(MAC);
 
-        if (bluetoothAdapter.isEnabled()) {
 
+            }
+        });
+        if (bluetoothAdapter.isEnabled())
+        {
+            bluetoothAdapter.disable();
             adapter.clear();
         }
     }
@@ -161,12 +163,12 @@ TextView scorehead;
                 makeDiscoverable();
                 discoverDevices();
 
-                    t = new ListeningThread();
-                    t.start();
+                t = new ListeningThread();
+                t.start();
+                Toast.makeText(getApplicationContext(), "listning thread", Toast.LENGTH_SHORT).show();
 
 
-
-                 }else {
+            } else {
                 Toast.makeText(getApplicationContext(), "Bluetooth is not enabled.", Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == DISCOVERABLE_BT_REQUEST_CODE) {
@@ -181,15 +183,17 @@ TextView scorehead;
             refreshEnabled = false;
         }
     }
-    public synchronized void connected(BluetoothSocket socket, BluetoothDevice device,int c) {
+
+    public synchronized void connected(BluetoothSocket socket, BluetoothDevice device, int c) {
         playerhead.setText("PLAYER");
         scorehead.setText("SCORE");
         mBluetoothDevice = device;
         mBluetoothSocket = socket;
-        ct = new ConnectedThread(socket,c);
+        ct = new ConnectedThread(socket, c);
         ct.start();
 
     }
+
     protected void discoverDevices() {
         if (bluetoothAdapter.startDiscovery()) {
             Toast.makeText(getApplicationContext(), "Discovering peers", Toast.LENGTH_SHORT).show();
@@ -202,6 +206,7 @@ TextView scorehead;
         Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
         discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, DISCOVERABLE_DURATION);
         startActivityForResult(discoverableIntent, DISCOVERABLE_BT_REQUEST_CODE);
+
     }
 
     @Override
@@ -214,68 +219,8 @@ TextView scorehead;
     @Override
     protected void onPause() {
         super.onPause();
-        this.unregisterReceiver(broadcastReceiver);}
-
-    private class ListeningThread extends Thread {
-        BluetoothServerSocket bluetoothServerSocket;
-        BluetoothServerSocket temp = null;
-        public ListeningThread( ) {
-
-
-
-        }
-
-        public void run() {
-            BluetoothSocket bluetoothSocket=null;
-            for (int i = 0; i < mUuids.size(); i++) {
-                try {
-                    temp = bluetoothAdapter.listenUsingRfcommWithServiceRecord(getString(R.string.app_name), mUuids.get(i));
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                check=true;
-                bluetoothServerSocket = temp;
-                b=0;
-                while(check) {
-                    try {
-                        bluetoothSocket = bluetoothServerSocket.accept();
-                    } catch (IOException e) {
-                    }
-                    for(i=0;i<a1;i++)
-                    {
-                        if(bluetoothSocket.equals(a[i]))
-                        b++;
-                    }
-                    if(b==0)
-                    {
-                        a[a1]=bluetoothSocket;
-                        check=false;
-                        a1++;
-                    }
-
-                }
-                if (bluetoothSocket != null) {
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            c++;
-                            Toast.makeText(getApplicationContext(), "Connection has been accepted." + c, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    connected(bluetoothSocket, bluetoothSocket.getRemoteDevice(), c);
-                }
-
-
-               /* try {
-                    bluetoothServerSocket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }*/
-            }
-
-
-    }}
-
+        this.unregisterReceiver(broadcastReceiver);
+    }
     public class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
@@ -283,7 +228,7 @@ TextView scorehead;
         private int cnt = 0;
 
         public ConnectedThread(BluetoothSocket socket, int p) {
-             playnum=p;
+        //   int playnum = p;
             mmSocket = socket;
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
@@ -301,7 +246,16 @@ TextView scorehead;
         public void run() {
             byte[] buffer = new byte[1024];
             int bytes;
-            String score="0";
+            for (int i = 1; i < MainActivity.c; i++) {
+                RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
+                ct.write((";" + rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()).getBytes());
+                if (i == (MainActivity.c) - 1) {
+                    ct.write(("..." + MainActivity.c).getBytes());
+                }
+
+            }
+            String score = "0";
+
             // Keep listening to the InputStream while connected
             while (true) {
                 try {
@@ -310,39 +264,32 @@ TextView scorehead;
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
-                        if(readMessage.contains("."))
-                        {
-                            playname=readMessage.substring(1);
-                        }
-                        if(readMessage.contains("?"))
-                        {
-                            score=readMessage.substring(1);
-                        }
-                    if(playnum==1)
-                    {
+                    if (readMessage.contains(".")) {
+                        playname = readMessage.substring(1);
+                    }
+                    if (readMessage.contains("?")) {
+                        score = readMessage.substring(1);
+                    }
+               /*     if (playnum == 1) {
                         p1.setText(playname);
                         s1.setText(score);
                     }
-                    if(playnum==2)
-                    {
+                    if (playnum == 2) {
                         p2.setText(playname);
                         s2.setText(score);
                     }
-                    if(playnum==3)
-                    {
+                    if (playnum == 3) {
                         p3.setText(playname);
                         s3.setText(score);
                     }
-                    if(playnum==4)
-                    {
+                    if (playnum == 4) {
                         p4.setText(playname);
                         s4.setText(score);
                     }
-                    if(playnum==5)
-                    {
+                    if (playnum == 5) {
                         p5.setText(playname);
                         s5.setText(score);
-                    }
+                    }*/
 
                 } catch (Exception e) {
 
@@ -369,5 +316,64 @@ TextView scorehead;
             }
         }
     }
+    private class ListeningThread extends Thread {
+        BluetoothServerSocket bluetoothServerSocket;
+        BluetoothServerSocket temp = null;
+
+        public ListeningThread() {
+
+
+        }
+
+        public void run() {
+            BluetoothSocket bluetoothSocket = null;
+            for (int i = 0; i < mUuids.size(); i++) {
+                try {
+                    temp = bluetoothAdapter.listenUsingRfcommWithServiceRecord(getString(R.string.app_name), mUuids.get(i));
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                check = true;
+                bluetoothServerSocket = temp;
+                b = 0;
+                while (check) {
+                    try {
+                        bluetoothSocket = bluetoothServerSocket.accept();
+                    } catch (IOException e) {
+                    }
+                    for (i = 0; i < a1; i++) {
+                        if (bluetoothSocket.equals(a[i]))
+                            b++;
+                    }
+                    if (b == 0) {
+                        a[a1] = bluetoothSocket;
+                        check = false;
+                        a1++;
+                    }
+
+                }
+                if (bluetoothSocket != null) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            c++;
+                            Toast.makeText(getApplicationContext(), "Connection has been made." + c, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    connected(bluetoothSocket, bluetoothSocket.getRemoteDevice(), c);
+                }
+
+
+               /* try {
+                    bluetoothServerSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+            }
+
+
+        }
+    }
+
 
 }

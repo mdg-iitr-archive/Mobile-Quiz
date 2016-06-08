@@ -44,8 +44,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.execSQL(z);
         String z1="Create Table if not exists Aptitude(id Int,question Text,option1 Text,option2 Text,option3 Text,option4 Text,answer Text)";
         db.execSQL(z1);
-        String z2="Create Table if not exists RandomQuestions(id Int,question Text,option1 Text,option2 Text,option3 Text,option4 Text,answer Text)";
-        db.execSQL(z2);
+       /* String z2="Create Table if not exists RandomQuestions(id Int,question Text,option1 Text,option2 Text,option3 Text,option4 Text,answer Text)";
+        db.execSQL(z2);*/
         String z3="Create Table if not exists RandomQuestionsType(id1 Int,id2 Int,type Text)";
         db.execSQL(z3);
     }
@@ -61,7 +61,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM "+TABLE_REASONING+";");
         db.execSQL("DELETE FROM " + TABLE_APTITUDE + ";");
-        db.execSQL("DELETE FROM "+TABLE_RandomQuestion+";");
+      //  db.execSQL("DELETE FROM "+TABLE_RandomQuestion+";");
         db.execSQL("DELETE FROM " + TABLE_RandomQuestionType + ";");
     }
 public void adRandomQuestionsType(RandomQuestionsType rqd)
@@ -74,7 +74,7 @@ public void adRandomQuestionsType(RandomQuestionsType rqd)
     db.insert(TABLE_RandomQuestionType, null, values);
     db.close();
 }
-    public void adQuestions(QuestionDetails qd)
+  /*  public void adQuestions(QuestionDetails qd)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -87,7 +87,7 @@ public void adRandomQuestionsType(RandomQuestionsType rqd)
         values.put(answer, qd.getAnswer());
         db.insert(TABLE_RandomQuestion, null, values);
         db.close();
-    }
+    }*/
 public void adReasoningQ(QuestionDetails qd)
 {
     SQLiteDatabase db = this.getWritableDatabase();
@@ -150,7 +150,7 @@ public void adReasoningQ(QuestionDetails qd)
         }
         return rqt;
     }
-    public QuestionDetails getQuestions(int id)
+  /*  public QuestionDetails getQuestions(int id)
     {
         SQLiteDatabase db = this.getReadableDatabase();
         QuestionDetails q=null;
@@ -160,7 +160,7 @@ public void adReasoningQ(QuestionDetails qd)
             q =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6));
         }
         return q;
-    }
+    }*/
     public List<QuestionDetails> getAllQuestions( String type) {
         List<QuestionDetails> questionList = new ArrayList<>();
         if(type.equals("Aptitude"))

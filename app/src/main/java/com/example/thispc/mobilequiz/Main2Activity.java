@@ -15,7 +15,7 @@ public void twodevices(View v)
 }
     public void multipledevices(View v)
     {
-        Intent i=new Intent(Main2Activity.this,QuestionList.class);
+        Intent i=new Intent(Main2Activity.this,MainActivity.class);
         startActivity(i);
     }
     @Override

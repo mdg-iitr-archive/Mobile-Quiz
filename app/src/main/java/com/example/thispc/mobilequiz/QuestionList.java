@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionList extends AppCompatActivity {
@@ -27,22 +28,10 @@ public class QuestionList extends AppCompatActivity {
         setSupportActionBar(toolbar);
         SharedPreferences prefs = getSharedPreferences("category", MODE_PRIVATE);
        category= prefs.getString("category",null);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<QuestionDetails> stList = ((QuestionListAdapter) mAdapter).getQuestionList();
-
-
-                for (int i = 0; i < stList.size(); i++) {
-                    QuestionDetails qd = stList.get(i);
-                    if (qd.isSelected() == true) {
-                        RandomQuestionsType rqt = new RandomQuestionsType(SelectQuestions.c, qd.getId(), "Aptitude");
-                        dbh.adRandomQuestionsType(rqt);
-                        ++SelectQuestions.c;
-                    }
-                }
-                finish();
 
             }
         });
@@ -50,6 +39,21 @@ public class QuestionList extends AppCompatActivity {
         dbh = new DataBaseHandler(this);
         addToList();
     }
+    public void ok(View v) {
+
+        List<QuestionDetails> stList = QuestionListAdapter.questionList;
+        Toast.makeText(getApplicationContext(), stList.size()+" ", Toast.LENGTH_SHORT).show();
+      for (int i = 0; i <stList.size(); i++) {
+            QuestionDetails qd = stList.get(i);
+               if (qd.isSelected()) {
+                RandomQuestionsType rqt = new RandomQuestionsType(MainActivity.c, qd.getId(), category);
+                dbh.adRandomQuestionsType(rqt);
+                Toast.makeText(getApplicationContext(), "saved in database" + MainActivity.c, Toast.LENGTH_SHORT).show();
+                ++MainActivity.c;
+            }
+        }
+    }
+
 
     private List<QuestionDetails> createList() {
         List<QuestionDetails> result;
