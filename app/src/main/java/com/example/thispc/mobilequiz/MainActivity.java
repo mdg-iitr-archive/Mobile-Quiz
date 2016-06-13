@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
   public void server(View v)
   {
 
-      Intent i =new Intent(MainActivity.this,Server.class);
+      Intent i =new Intent(MainActivity.this,CategoryForServer.class);
       startActivity(i);
   }
     public void client(View v)

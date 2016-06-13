@@ -11,6 +11,7 @@ public class RandomQuestionsType {
 
     public RandomQuestionsType(int id1, int id2, String type) {
         this.id1 = id1;
+        this.id2=id2;
         this.type = type;
     }
 

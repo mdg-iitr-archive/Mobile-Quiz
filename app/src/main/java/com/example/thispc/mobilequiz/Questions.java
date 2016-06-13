@@ -287,11 +287,8 @@ public void aptitude() {
 
             byte[] buffer = new byte[1024];
             int bytes;
-            // Keep listening to the InputStream while connected
             while (true) {
                 try {
-
-                    // Read from the InputStream
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
@@ -321,7 +318,7 @@ public void aptitude() {
 
 
                 } catch (Exception e) {
-                    //Log.e(TAG, "disconnected", e);
+
 
                 }
             }

@@ -1,5 +1,7 @@
 package com.example.thispc.mobilequiz;
 
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -28,8 +30,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 public class Cleint extends AppCompatActivity {
+
 
     public static String MyName = "";
     Button btn;
@@ -46,8 +51,15 @@ public class Cleint extends AppCompatActivity {
     private static final int DISCOVERABLE_DURATION = 300;
     public static BluetoothDevice mBluetoothDevice = null;
     public static BluetoothSocket mBluetoothSocket = null;
-    public static int qnumber=0;
+    public static BluetoothSocket mbluetoothSocket=null;
+    public static char qnumber='a';
+    public static int a=0;
+    public static int b=0;
+    public static int d=0;
+    public static int blue1=0;
     ConnectingThread ct = null;
+    BluetoothSocket blue[];
+
 DataBaseHandler dbh;
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -59,12 +71,11 @@ DataBaseHandler dbh;
             }
         }
     };
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cleint);
+        blue=new BluetoothSocket[2];
         btn = (Button) findViewById(R.id.btn_find);
         name = (EditText) findViewById(R.id.myName);
         name.setText(MyName);
@@ -113,9 +124,9 @@ DataBaseHandler dbh;
                 BluetoothDevice bluetoothDevice = bluetoothAdapter.getRemoteDevice(MAC);
 
 
-                for (int i = 0; i < 2; i++) {
+              for (int i = 0; i < 2; i++) {
                     try {
-                        ct = new ConnectingThread(bluetoothDevice, mUuids.get(i));
+                            ct = new ConnectingThread(bluetoothDevice, mUuids.get(i));
                         ct.start();
                     } catch (Exception e) {
                     }
@@ -189,10 +200,38 @@ DataBaseHandler dbh;
 
         mBluetoothDevice = device;
         mBluetoothSocket = socket;
+        blue[blue1]=socket;
+        blue1++;
+        if(blue1==2)
+        {
+            if(blue[0]==blue[1])
+            {
+                runOnUiThread(new Runnable() {
+                    public void run() {
 
+                        Toast.makeText(getApplicationContext(), "sockets equal", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            else
+            {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+
+                        Toast.makeText(getApplicationContext(), "sockets not equal.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
+     // Intent ic=new Intent(Cleint.this,SelectQuestions.class);
+      // startActivity(ic);
         connectedThread = new ConnectedThread(socket);
         connectedThread.start();
     }
+
+
+
+
 
 
 
@@ -229,6 +268,7 @@ DataBaseHandler dbh;
             }
 
             if (bluetoothSocket!= null && bluetoothDevice != null) {
+
                 runOnUiThread(new Runnable() {
                     public void run() {
 
@@ -269,6 +309,11 @@ DataBaseHandler dbh;
             } catch (IOException e) {
 
             }
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "in connected thread" , Toast.LENGTH_SHORT).show();
+                }
+            });
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
         }
@@ -276,6 +321,11 @@ DataBaseHandler dbh;
         public void run() {
             byte[] buffer = new byte[1024];
             int bytes;
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "in run" , Toast.LENGTH_SHORT).show();
+                }
+            });
             String score="0";
             // Keep listening to the InputStream while connected
             while (true) {
@@ -287,14 +337,30 @@ DataBaseHandler dbh;
                     readMessage = new String(buffer, 0, bytes);
                     if(readMessage.contains(";"))
                     {
+                        mbluetoothSocket=mBluetoothSocket;
                         RandomQuestionsType rqt=new RandomQuestionsType(Integer.parseInt(readMessage.substring(1,readMessage.indexOf('['))),Integer.parseInt(readMessage.substring(readMessage.indexOf('[')+1,readMessage.indexOf(']'))),readMessage.substring(readMessage.indexOf(']')+1));
                         dbh.adRandomQuestionsType(rqt);
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                a++;
+                                Toast.makeText(getApplicationContext(), "in ;" + a +dbh.getRandomQuestionsType(a).getType(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                     if(readMessage.contains("..."))
                     {
-                       qnumber=Integer.valueOf(readMessage.substring(3));
-                        Intent ic=new Intent(Cleint.this,SelectQuestions.class);
+                      qnumber=(readMessage.charAt(3));
+                       runOnUiThread(new Runnable() {
+                            public void run() {
+                                b++;
+                                Toast.makeText(getApplicationContext(), "in ............."+qnumber, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                     Intent ic=new Intent(Cleint.this,SelectQuestions.class);
                         startActivity(ic);
+
+
+
                     }
 
                 } catch (Exception e) {

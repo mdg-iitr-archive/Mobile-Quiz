@@ -123,7 +123,7 @@ public class Server extends AppCompatActivity {
                                 startActivityForResult(enableBluetoothIntent, ENABLE_BT_REQUEST_CODE);
                                 Toast.makeText( Server.this, "Bluetooth Enabled", Toast.LENGTH_SHORT).show();
                             } else if (refreshEnabled) {
-                                btn.setText("Find Server");
+                                btn.setText("Find Client");
                                 refreshEnabled = false;
                                 adapter.clear();
                                 bluetoothAdapter.disable();
@@ -185,12 +185,12 @@ public class Server extends AppCompatActivity {
     }
 
     public synchronized void connected(BluetoothSocket socket, BluetoothDevice device, int c) {
-        playerhead.setText("PLAYER");
+      /*  playerhead.setText("PLAYER");
         scorehead.setText("SCORE");
         mBluetoothDevice = device;
         mBluetoothSocket = socket;
         ct = new ConnectedThread(socket, c);
-        ct.start();
+        ct.start();*/
 
     }
 
@@ -228,7 +228,7 @@ public class Server extends AppCompatActivity {
         private int cnt = 0;
 
         public ConnectedThread(BluetoothSocket socket, int p) {
-        //   int playnum = p;
+          int playnum = p;
             mmSocket = socket;
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
@@ -248,9 +248,21 @@ public class Server extends AppCompatActivity {
             int bytes;
             for (int i = 1; i < MainActivity.c; i++) {
                 RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
+            //    Toast.makeText(getApplicationContext(),"writing questions",Toast.LENGTH_SHORT).show();
+                final int finalI = i;
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "in loop" + finalI, Toast.LENGTH_SHORT).show();
+                    }
+                });
                 ct.write((";" + rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()).getBytes());
                 if (i == (MainActivity.c) - 1) {
-                    ct.write(("..." + MainActivity.c).getBytes());
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "in if" , Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    ct.write(("..." +( MainActivity.c-1)).getBytes());
                 }
 
             }
@@ -269,6 +281,24 @@ public class Server extends AppCompatActivity {
                     }
                     if (readMessage.contains("?")) {
                         score = readMessage.substring(1);
+                    }
+                    if(readMessage.contains("lodu"))
+                    {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "lodu" , Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    if(readMessage.contains("/"))
+                    {
+                        final String finalReadMessage = readMessage;
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "score"+ finalReadMessage.charAt(1), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                     }
                /*     if (playnum == 1) {
                         p1.setText(playname);
@@ -322,13 +352,14 @@ public class Server extends AppCompatActivity {
 
         public ListeningThread() {
 
-
         }
 
         public void run() {
             BluetoothSocket bluetoothSocket = null;
             for (int i = 0; i < mUuids.size(); i++) {
                 try {
+
+
                     temp = bluetoothAdapter.listenUsingRfcommWithServiceRecord(getString(R.string.app_name), mUuids.get(i));
 
                 } catch (IOException e) {
@@ -340,31 +371,34 @@ public class Server extends AppCompatActivity {
                 while (check) {
                     try {
                         bluetoothSocket = bluetoothServerSocket.accept();
+
                     } catch (IOException e) {
+                        break;
                     }
                     for (i = 0; i < a1; i++) {
                         if (bluetoothSocket.equals(a[i]))
                             b++;
                     }
                     if (b == 0) {
+
                         a[a1] = bluetoothSocket;
                         check = false;
                         a1++;
+                     /*   playerhead.setText("PLAYER");
+                        scorehead.setText("SCORE");*/
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                       c++;
+                                Toast.makeText(getApplicationContext(), "A connection has been accepted." + c, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        ct = new ConnectedThread(bluetoothSocket,a1);
+                        ct.start();
                     }
 
                 }
-                if (bluetoothSocket != null) {
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            c++;
-                            Toast.makeText(getApplicationContext(), "Connection has been made." + c, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    connected(bluetoothSocket, bluetoothSocket.getRemoteDevice(), c);
-                }
 
-
-               /* try {
+         /*  try {
                     bluetoothServerSocket.close();
                 } catch (IOException e) {
                     e.printStackTrace();
