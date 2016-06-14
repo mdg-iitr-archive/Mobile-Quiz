@@ -10,7 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.thispc.mobilequiz.QuestionList"
-    tools:showIn="@layout/activity_question_list">
+    tools:showIn="@layout/activity_question_list"
+    android:background="#DEFED8">
 
 
         <android.support.v7.widget.RecyclerView

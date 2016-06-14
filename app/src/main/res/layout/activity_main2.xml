@@ -7,25 +7,32 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.thispc.mobilequiz.Main2Activity">
+    tools:context="com.example.thispc.mobilequiz.Main2Activity"
+    android:background="#DEFED8">
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Two Player"
+        android:text="Two Players"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
         android:id="@+id/button3"
+        android:layout_marginTop="125dp"
+        android:onClick="twodevices"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="99dp"
-        android:onClick="twodevices"/>
+        android:background="#07A611"/>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="Multiple Players"
         android:id="@+id/button4"
         android:layout_below="@+id/button3"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="106dp"
-        android:onClick="multipledevices"/>
+        android:onClick="multipledevices"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:background="#07A611"/>
 </RelativeLayout>

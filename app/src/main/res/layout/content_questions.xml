@@ -10,7 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.thispc.mobilequiz.Questions"
-    tools:showIn="@layout/activity_questions">
+    tools:showIn="@layout/activity_questions"
+    android:background="#DEFED8">
 
 
     <TextView
