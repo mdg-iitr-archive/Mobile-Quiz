@@ -97,8 +97,6 @@ public class Server extends AppCompatActivity {
         btn = (Button) findViewById(R.id.btn_find);
         name = (EditText) findViewById(R.id.myName);
         name.setText(MyName);
-        playerhead.setText("");
-        scorehead.setText("");
         dbh = new DataBaseHandler(this);
         mUuids = new ArrayList<UUID>();
         a = new BluetoothSocket[2];
@@ -226,9 +224,10 @@ public class Server extends AppCompatActivity {
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
         private int cnt = 0;
+        int playnum;
 
         public ConnectedThread(BluetoothSocket socket, int p) {
-          int playnum = p;
+          playnum = p;
             mmSocket = socket;
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
@@ -246,6 +245,7 @@ public class Server extends AppCompatActivity {
         public void run() {
             byte[] buffer = new byte[1024];
             int bytes;
+            ct.write(("/"+playnum).getBytes());
             for (int i = 1; i < MainActivity.c; i++) {
                 RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
             //    Toast.makeText(getApplicationContext(),"writing questions",Toast.LENGTH_SHORT).show();
@@ -266,8 +266,6 @@ public class Server extends AppCompatActivity {
                 }
 
             }
-            String score = "0";
-
             // Keep listening to the InputStream while connected
             while (true) {
                 try {
@@ -277,10 +275,49 @@ public class Server extends AppCompatActivity {
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
                     if (readMessage.contains(".")) {
-                        playname = readMessage.substring(1);
+
+                        if(readMessage.charAt(1)==1)
+                        {
+                            p1.setText(readMessage.substring(2));
+                        }
+                        if(readMessage.charAt(1)==2)
+                        {
+                            p2.setText(readMessage.substring(2));
+                        }
+                        if(readMessage.charAt(1)==3)
+                        {
+                            p3.setText(readMessage.substring(2));
+                        }
+                        if(readMessage.charAt(1)==4)
+                        {
+                            p4.setText(readMessage.substring(2));
+                        }
+                        if(readMessage.charAt(1)==5)
+                        {
+                            p5.setText(readMessage.substring(2));
+                        }
                     }
                     if (readMessage.contains("?")) {
-                        score = readMessage.substring(1);
+                        if(readMessage.charAt(1)==1)
+                        {
+                            s1.setText(readMessage.substring(2));
+                        }
+                        if(readMessage.charAt(1)==2)
+                        {
+                            s2.setText(readMessage.substring(2));
+                        }
+                        if(readMessage.charAt(1)==3)
+                        {
+                            s3.setText(readMessage.substring(2));
+                        }
+                        if(readMessage.charAt(1)==4)
+                        {
+                            s4.setText(readMessage.substring(2));
+                        }
+                        if(readMessage.charAt(1)==5)
+                        {
+                            s5.setText(readMessage.substring(2));
+                        }
                     }
                     if(readMessage.contains("lodu"))
                     {

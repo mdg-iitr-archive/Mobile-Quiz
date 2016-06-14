@@ -57,6 +57,7 @@ public class Cleint extends AppCompatActivity {
     public static int b=0;
     public static int d=0;
     public static int blue1=0;
+    public static int playnum;
     ConnectingThread ct = null;
     BluetoothSocket blue[];
 
@@ -323,7 +324,7 @@ DataBaseHandler dbh;
             int bytes;
             runOnUiThread(new Runnable() {
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "in run" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "in run", Toast.LENGTH_SHORT).show();
                 }
             });
             String score="0";
@@ -335,6 +336,16 @@ DataBaseHandler dbh;
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
+                    if(readMessage.contains("/"))
+                    {
+                        playnum=readMessage.charAt(1);
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "playnum" + playnum, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        connectedThread.write(("."+playnum+MyName).getBytes());
+                    }
                     if(readMessage.contains(";"))
                     {
                         mbluetoothSocket=mBluetoothSocket;
@@ -358,9 +369,6 @@ DataBaseHandler dbh;
                         });
                      Intent ic=new Intent(Cleint.this,SelectQuestions.class);
                         startActivity(ic);
-
-
-
                     }
 
                 } catch (Exception e) {

@@ -22,19 +22,23 @@ public class SelectQuestions extends AppCompatActivity {
     Button o4;
     TextView t;
     int j=1;
+    public static int playnum1;
     RandomQuestionsType rqt2=null;
     QuestionDetails qd=null;
+    public static String name;
     String ans=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_questions);
+        name=Cleint.MyName;
         bluetoothSocket1=Cleint.mbluetoothSocket;
         o1=(Button)findViewById(R.id.button14);
         o2=(Button)findViewById(R.id.button15);
         o3=(Button)findViewById(R.id.button16);
         o4=(Button)findViewById(R.id.button17);
         t=(TextView)findViewById(R.id.textView3);
+        playnum1=Cleint.playnum;
         dbh = new DataBaseHandler(this);
        runOnUiThread(new Runnable() {
            public void run() {
@@ -43,21 +47,22 @@ public class SelectQuestions extends AppCompatActivity {
            }
 
        });
-        connectedThread = new ConnectedThread(bluetoothSocket1);
-       connectedThread.start();
+      connectedThread = new ConnectedThread(bluetoothSocket1);
+   connectedThread.start();
+        display(null);
         }
 
     public void display(View v)
     {
 
-connectedThread.write("lodu".getBytes());
+     connectedThread.write("lodu".getBytes());
         runOnUiThread(new Runnable() {
             public void run() {
                 Toast.makeText(getApplicationContext(), "pohonchgya", Toast.LENGTH_SHORT).show();
 
             }
         });
-        for (int i=1;i<=1;i++)//i<=Integer.parseInt(Character.valueOf(Cleint.qnumber).toString());i++)
+        for (int i=1;i<=Integer.parseInt(Character.valueOf(Cleint.qnumber).toString());i++)
         {
           runOnUiThread(new Runnable() {
                 public void run() {
@@ -81,7 +86,7 @@ connectedThread.write("lodu".getBytes());
 }
 
 
-     questions();
+   questions();
     }
 public void questions() {
     runOnUiThread(new Runnable() {
@@ -119,8 +124,8 @@ public void questions() {
                     c++;
                 }
                 j++;
+                connectedThread.write(("?" +playnum1+c).getBytes());
                 questions();
-                connectedThread.write(("/" + c).getBytes());
             }
         });
         o2.setOnClickListener(new View.OnClickListener() {
@@ -130,8 +135,8 @@ public void questions() {
                     c++;
                 }
                 j++;
+                connectedThread.write(("?" +playnum1+c).getBytes());
                 questions();
-                connectedThread.write(("/" + c).getBytes());
             }
         });
         o3.setOnClickListener(new View.OnClickListener() {
@@ -141,8 +146,8 @@ public void questions() {
                     c++;
                 }
                 j++;
+                connectedThread.write(("?" +playnum1+c).getBytes());
                 questions();
-                connectedThread.write(("/" + c).getBytes());
             }
         });
         o4.setOnClickListener(new View.OnClickListener() {
@@ -152,8 +157,8 @@ public void questions() {
                     c++;
                 }
                 j++;
+                connectedThread.write(("?" +playnum1+c).getBytes());
                 questions();
-                connectedThread.write(("/" + c).getBytes());
             }
         });
     }else

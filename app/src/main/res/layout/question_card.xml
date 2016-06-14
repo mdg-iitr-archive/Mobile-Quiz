@@ -3,12 +3,12 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/hospital_card"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="60dp"
     android:layout_marginLeft="3dp"
     android:layout_marginRight="3dp"
     android:layout_marginTop="8dp"
     android:clickable="true"
-    android:elevation="18dp"
+    android:elevation="13dp"
     android:foreground="?android:attr/selectableItemBackground"
     android:padding="0dp"
     android:transitionName="qwerty2"
@@ -19,16 +19,17 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="horizontal"
-        android:padding="4dp">
+        android:padding="12dp">
 
         <TextView
             android:layout_width="0dip"
-            android:layout_height="60dp"
+            android:layout_height="40dp"
             android:layout_weight="0.8"
             android:id="@+id/qtag"
             android:textSize="15dp"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp" />
+            android:paddingRight="5dp"
+            android:textColor="#07A611"/>
         <CheckBox
             android:id="@+id/checkbox"
             android:layout_width="0dip"
