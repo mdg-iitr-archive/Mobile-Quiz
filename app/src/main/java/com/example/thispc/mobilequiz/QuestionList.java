@@ -46,10 +46,10 @@ public class QuestionList extends AppCompatActivity {
       for (int i = 0; i <stList.size(); i++) {
             QuestionDetails qd = stList.get(i);
                if (qd.isSelected()) {
-                RandomQuestionsType rqt = new RandomQuestionsType(MainActivity.c, qd.getId(), category);
+                RandomQuestionsType rqt = new RandomQuestionsType(Main2Activity.c, qd.getId(), category);
                 dbh.adRandomQuestionsType(rqt);
-                Toast.makeText(getApplicationContext(), "saved in database" + MainActivity.c, Toast.LENGTH_SHORT).show();
-                ++MainActivity.c;
+                Toast.makeText(getApplicationContext(), "saved in database" + Main2Activity.c, Toast.LENGTH_SHORT).show();
+                ++Main2Activity.c;
             }
         }
     }

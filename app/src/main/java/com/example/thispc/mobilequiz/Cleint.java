@@ -57,7 +57,7 @@ public class Cleint extends AppCompatActivity {
     public static int b=0;
     public static int d=0;
     public static int blue1=0;
-    public static int playnum;
+    public static char playnum;
     ConnectingThread ct = null;
     BluetoothSocket blue[];
 

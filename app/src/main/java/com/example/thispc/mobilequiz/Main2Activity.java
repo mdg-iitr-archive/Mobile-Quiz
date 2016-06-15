@@ -1,5 +1,7 @@
 package com.example.thispc.mobilequiz;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.view.View;
 
 public class Main2Activity extends AppCompatActivity {
     DataBaseHandler dbh;
+    public static int c=1;
 public void twodevices(View v)
 {
     Intent i=new Intent(Main2Activity.this,Twodevices.class);
@@ -15,8 +18,28 @@ public void twodevices(View v)
 }
     public void multipledevices(View v)
     {
-        Intent i=new Intent(Main2Activity.this,MainActivity.class);
-        startActivity(i);
+        AlertDialog.Builder aa=new AlertDialog.Builder(Main2Activity.this);
+        aa.setTitle("Join As?");
+        aa.setMessage("Joining As Server Would Allow You To Select Questions");
+        aa.setPositiveButton("Server", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent i = new Intent(Main2Activity.this, CategoryForServer.class);
+                startActivity(i);
+            }
+        });
+        aa.setNegativeButton("Client", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent i = new Intent(Main2Activity.this,Cleint.class);
+                startActivity(i);
+            }
+        });
+
+                aa.show();
+
+
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

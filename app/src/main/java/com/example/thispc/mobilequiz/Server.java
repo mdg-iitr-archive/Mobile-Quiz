@@ -103,37 +103,38 @@ public class Server extends AppCompatActivity {
         mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
         mUuids.add(UUID.fromString("2d64189d-5a2c-4511-a074-77f199fd0834"));
       btn.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        MyName = name.getText().toString();
-                        if (MyName.trim().equals("")) {
-                            name.setError("Enter Name");
-                        } else {
+              new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                      MyName = name.getText().toString();
+                      if (MyName.trim().equals("")) {
+                          name.setError("Enter Name");
+                      } else {
 
-                            if (bluetoothAdapter == null) {
-                                Toast.makeText(getApplicationContext(), "Oops! Your device does not support Bluetooth",
-                                        Toast.LENGTH_SHORT).show();
-                            } else if (!refreshEnabled) {
-                                refreshEnabled = true;
-                                btn.setText("STOP");
-                                Intent enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                                startActivityForResult(enableBluetoothIntent, ENABLE_BT_REQUEST_CODE);
-                                Toast.makeText( Server.this, "Bluetooth Enabled", Toast.LENGTH_SHORT).show();
-                            } else if (refreshEnabled) {
-                                btn.setText("Find Client");
-                                refreshEnabled = false;
-                                adapter.clear();
-                                bluetoothAdapter.disable();
-                            }
-                        }
-                    }
-                }
-        );
+                          if (bluetoothAdapter == null) {
+                              Toast.makeText(getApplicationContext(), "Oops! Your device does not support Bluetooth",
+                                      Toast.LENGTH_SHORT).show();
+                          } else if (!refreshEnabled) {
+                              refreshEnabled = true;
+                              btn.setText("STOP");
+                              Intent enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                              startActivityForResult(enableBluetoothIntent, ENABLE_BT_REQUEST_CODE);
+                              Toast.makeText(Server.this, "Bluetooth Enabled", Toast.LENGTH_SHORT).show();
+                          } else if (refreshEnabled) {
+                              btn.setText("Find Client");
+                              refreshEnabled = false;
+                              adapter.clear();
+                              bluetoothAdapter.disable();
+                          }
+                      }
+                  }
+              }
+      );
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         listview = (ListView) findViewById(R.id.listView);
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1);
         listview.setAdapter(adapter);
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -246,7 +247,7 @@ public class Server extends AppCompatActivity {
             byte[] buffer = new byte[1024];
             int bytes;
             ct.write(("/"+playnum).getBytes());
-            for (int i = 1; i < MainActivity.c; i++) {
+            for (int i = 1; i < Main2Activity.c; i++) {
                 RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
             //    Toast.makeText(getApplicationContext(),"writing questions",Toast.LENGTH_SHORT).show();
                 final int finalI = i;
@@ -256,13 +257,13 @@ public class Server extends AppCompatActivity {
                     }
                 });
                 ct.write((";" + rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()).getBytes());
-                if (i == (MainActivity.c) - 1) {
+                if (i == (Main2Activity.c) - 1) {
                     runOnUiThread(new Runnable() {
                         public void run() {
                             Toast.makeText(getApplicationContext(), "in if" , Toast.LENGTH_SHORT).show();
                         }
                     });
-                    ct.write(("..." +( MainActivity.c-1)).getBytes());
+                    ct.write(("..." +( Main2Activity.c-1)).getBytes());
                 }
 
             }
@@ -275,46 +276,52 @@ public class Server extends AppCompatActivity {
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
                     if (readMessage.contains(".")) {
-
-                        if(readMessage.charAt(1)==1)
+                        final String finalReadMessage = readMessage;
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "player name" + finalReadMessage.substring(2), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        p1.setText(readMessage.substring(2));
+                        if(readMessage.charAt(1)=='1')
                         {
                             p1.setText(readMessage.substring(2));
                         }
-                        if(readMessage.charAt(1)==2)
+                        if(readMessage.charAt(1)=='2')
                         {
                             p2.setText(readMessage.substring(2));
                         }
-                        if(readMessage.charAt(1)==3)
+                        if(readMessage.charAt(1)=='3')
                         {
                             p3.setText(readMessage.substring(2));
                         }
-                        if(readMessage.charAt(1)==4)
+                        if(readMessage.charAt(1)=='4')
                         {
                             p4.setText(readMessage.substring(2));
                         }
-                        if(readMessage.charAt(1)==5)
+                        if(readMessage.charAt(1)=='5')
                         {
                             p5.setText(readMessage.substring(2));
                         }
                     }
                     if (readMessage.contains("?")) {
-                        if(readMessage.charAt(1)==1)
+                        if(readMessage.charAt(1)=='1')
                         {
                             s1.setText(readMessage.substring(2));
                         }
-                        if(readMessage.charAt(1)==2)
+                        if(readMessage.charAt(1)=='2')
                         {
                             s2.setText(readMessage.substring(2));
                         }
-                        if(readMessage.charAt(1)==3)
+                        if(readMessage.charAt(1)=='3')
                         {
                             s3.setText(readMessage.substring(2));
                         }
-                        if(readMessage.charAt(1)==4)
+                        if(readMessage.charAt(1)=='4')
                         {
                             s4.setText(readMessage.substring(2));
                         }
-                        if(readMessage.charAt(1)==5)
+                        if(readMessage.charAt(1)=='5')
                         {
                             s5.setText(readMessage.substring(2));
                         }
@@ -326,16 +333,6 @@ public class Server extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "lodu" , Toast.LENGTH_SHORT).show();
                             }
                         });
-                    }
-                    if(readMessage.contains("/"))
-                    {
-                        final String finalReadMessage = readMessage;
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "score"+ finalReadMessage.charAt(1), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
                     }
                /*     if (playnum == 1) {
                         p1.setText(playname);

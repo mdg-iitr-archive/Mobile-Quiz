@@ -22,7 +22,7 @@ public class SelectQuestions extends AppCompatActivity {
     Button o4;
     TextView t;
     int j=1;
-    public static int playnum1;
+    public static char playnum1;
     RandomQuestionsType rqt2=null;
     QuestionDetails qd=null;
     public static String name;
@@ -49,7 +49,7 @@ public class SelectQuestions extends AppCompatActivity {
        });
       connectedThread = new ConnectedThread(bluetoothSocket1);
    connectedThread.start();
-        display(null);
+      //  display(null);
         }
 
     public void display(View v)

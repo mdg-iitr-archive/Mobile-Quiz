@@ -7,8 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.thispc.mobilequiz.Server"
-    android:background="#DEFED8">
+    android:background="#DEFED8"
+    tools:context="com.example.thispc.mobilequiz.Server">
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
