@@ -15,64 +15,89 @@
 
 
     <TextView
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:textColor="#07A611"
         android:id="@+id/TextView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="63dp"
-        />
+        android:layout_below="@+id/chronometer"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="New Button"
+        android:background="#07A611"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
         android:id="@+id/button7"
-        android:layout_below="@+id/TextView"
-        android:layout_alignLeft="@+id/TextView"
-        android:layout_alignStart="@+id/TextView"
-        android:layout_marginTop="79dp" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button9"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/button7"
-        android:layout_alignStart="@+id/button7" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button10"
-        android:layout_marginTop="37dp"
-        android:layout_below="@+id/button9"
+        android:layout_marginBottom="9dp"
+        android:layout_above="@+id/button9"
         android:layout_alignLeft="@+id/button9"
         android:layout_alignStart="@+id/button9" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="New Button"
-        android:id="@+id/button11"
-        android:layout_marginTop="36dp"
-        android:layout_below="@+id/button10"
+        android:id="@+id/button9"
+        android:background="#07A611"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"
+        android:layout_above="@+id/button10"
         android:layout_alignLeft="@+id/button10"
         android:layout_alignStart="@+id/button10" />
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:background="#07A611"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:id="@+id/button10"
+        android:layout_marginBottom="9dp"
+        android:layout_above="@+id/button11"
+        android:layout_alignLeft="@+id/button11"
+        android:layout_alignStart="@+id/button11" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/button11"
+        android:background="#07A611"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:layout_above="@+id/textView4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp" />
+
     <Chronometer
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40dp"
         android:id="@+id/chronometer"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CHECK SCORES >>>"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="#07A611"
+        android:id="@+id/textView4"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

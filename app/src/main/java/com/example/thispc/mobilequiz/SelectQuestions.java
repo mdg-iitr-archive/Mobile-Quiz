@@ -32,13 +32,13 @@ public class SelectQuestions extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_questions);
         name=Cleint.MyName;
+        playnum1=Cleint.playnum;
         bluetoothSocket1=Cleint.mbluetoothSocket;
         o1=(Button)findViewById(R.id.button14);
         o2=(Button)findViewById(R.id.button15);
         o3=(Button)findViewById(R.id.button16);
         o4=(Button)findViewById(R.id.button17);
         t=(TextView)findViewById(R.id.textView3);
-        playnum1=Cleint.playnum;
         dbh = new DataBaseHandler(this);
        runOnUiThread(new Runnable() {
            public void run() {
@@ -49,13 +49,31 @@ public class SelectQuestions extends AppCompatActivity {
        });
       connectedThread = new ConnectedThread(bluetoothSocket1);
    connectedThread.start();
-      //  display(null);
+    display(null);
         }
 
     public void display(View v)
     {
+if(connectedThread!=null) {
+    connectedThread.write("lodu".getBytes());
+    runOnUiThread(new Runnable() {
+        public void run() {
+            Toast.makeText(getApplicationContext(), "connected Thread sending lodu", Toast.LENGTH_SHORT).show();
 
-     connectedThread.write("lodu".getBytes());
+        }
+    });
+  //  connectedThread.write(("." + playnum1 + name).getBytes());
+
+}else
+{
+
+    runOnUiThread(new Runnable() {
+        public void run() {
+            Toast.makeText(getApplicationContext(), "connected Thread is null", Toast.LENGTH_SHORT).show();
+
+        }
+    });
+}
         runOnUiThread(new Runnable() {
             public void run() {
                 Toast.makeText(getApplicationContext(), "pohonchgya", Toast.LENGTH_SHORT).show();
@@ -86,7 +104,7 @@ public class SelectQuestions extends AppCompatActivity {
 }
 
 
-   questions();
+questions();
     }
 public void questions() {
     runOnUiThread(new Runnable() {
@@ -117,6 +135,15 @@ public void questions() {
         o3.setText(qd.getOption3());
         o4.setText(qd.getOption4());
         ans = qd.getAnswer();
+      if(Cleint.reach>0)
+      {
+          runOnUiThread(new Runnable() {
+              public void run() {
+                  Toast.makeText(getApplicationContext(), "reach is greater than zero", Toast.LENGTH_SHORT).show();
+
+              }
+          });
+      }
         o1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,7 +151,7 @@ public void questions() {
                     c++;
                 }
                 j++;
-                connectedThread.write(("?" +playnum1+c).getBytes());
+                connectedThread.write(("?" +playnum1+c+">"+name).getBytes());
                 questions();
             }
         });
@@ -135,7 +162,7 @@ public void questions() {
                     c++;
                 }
                 j++;
-                connectedThread.write(("?" +playnum1+c).getBytes());
+                connectedThread.write(("?" +playnum1+c+">"+name).getBytes());
                 questions();
             }
         });
@@ -146,7 +173,7 @@ public void questions() {
                     c++;
                 }
                 j++;
-                connectedThread.write(("?" +playnum1+c).getBytes());
+                connectedThread.write(("?" +playnum1+c+">"+name).getBytes());
                 questions();
             }
         });
@@ -157,7 +184,8 @@ public void questions() {
                     c++;
                 }
                 j++;
-                connectedThread.write(("?" +playnum1+c).getBytes());
+                connectedThread.write(("?" +playnum1+c+">"+name).getBytes());
+
                 questions();
             }
         });
@@ -165,10 +193,7 @@ public void questions() {
     {
         Toast.makeText(SelectQuestions.this, "Quiz is over", Toast.LENGTH_LONG).show();
     }
-
-
-    }
-
+}
     public class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
@@ -195,13 +220,21 @@ public void questions() {
 
             byte[] buffer = new byte[1024];
             int bytes;
+
             // Keep listening to the InputStream while connected
             while (true) {
                 try {
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
-
+                 /*  if(readMessage.contains("reached"))
+                    {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "reached", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }*/
 
 
                 } catch (Exception e) {

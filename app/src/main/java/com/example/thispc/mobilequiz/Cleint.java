@@ -35,7 +35,6 @@ import java.util.logging.LogRecord;
 
 public class Cleint extends AppCompatActivity {
 
-
     public static String MyName = "";
     Button btn;
     EditText name;
@@ -57,7 +56,8 @@ public class Cleint extends AppCompatActivity {
     public static int b=0;
     public static int d=0;
     public static int blue1=0;
-    public static char playnum;
+   public static char playnum;
+    public static int reach=0;
     ConnectingThread ct = null;
     BluetoothSocket blue[];
 
@@ -336,7 +336,7 @@ DataBaseHandler dbh;
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
-                    if(readMessage.contains("/"))
+                  if(readMessage.contains("/"))
                     {
                         playnum=readMessage.charAt(1);
                         runOnUiThread(new Runnable() {
@@ -344,7 +344,7 @@ DataBaseHandler dbh;
                                 Toast.makeText(getApplicationContext(), "playnum" + playnum, Toast.LENGTH_SHORT).show();
                             }
                         });
-                        connectedThread.write(("."+playnum+MyName).getBytes());
+                       // connectedThread.write(("."+playnum+MyName).getBytes());
                     }
                     if(readMessage.contains(";"))
                     {
@@ -355,6 +355,15 @@ DataBaseHandler dbh;
                             public void run() {
                                 a++;
                                 Toast.makeText(getApplicationContext(), "in ;" + a +dbh.getRandomQuestionsType(a).getType(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    if(readMessage.contains("reached"))
+                    {
+                        reach=1;
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "reached", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

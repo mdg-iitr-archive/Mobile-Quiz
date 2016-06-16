@@ -131,7 +131,7 @@ public class Server extends AppCompatActivity {
               }
       );
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        listview = (ListView) findViewById(R.id.listView);
+     /*   listview = (ListView) findViewById(R.id.listView);
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1);
         listview.setAdapter(adapter);
 
@@ -144,7 +144,7 @@ public class Server extends AppCompatActivity {
 
 
             }
-        });
+        });*/
         if (bluetoothAdapter.isEnabled())
         {
             bluetoothAdapter.disable();
@@ -275,14 +275,21 @@ public class Server extends AppCompatActivity {
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
-                    if (readMessage.contains(".")) {
+                    ct.write("reached".getBytes());
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), " sending reached" , Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                  //  ct.write("reached".getBytes());
+                    /*if (readMessage.contains(".")) {
                         final String finalReadMessage = readMessage;
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 Toast.makeText(getApplicationContext(), "player name" + finalReadMessage.substring(2), Toast.LENGTH_SHORT).show();
                             }
                         });
-                        p1.setText(readMessage.substring(2));
+                       // p1.setText(readMessage.substring(2));
                         if(readMessage.charAt(1)=='1')
                         {
                             p1.setText(readMessage.substring(2));
@@ -303,37 +310,60 @@ public class Server extends AppCompatActivity {
                         {
                             p5.setText(readMessage.substring(2));
                         }
-                    }
-                    if (readMessage.contains("?")) {
-                        if(readMessage.charAt(1)=='1')
-                        {
-                            s1.setText(readMessage.substring(2));
-                        }
-                        if(readMessage.charAt(1)=='2')
-                        {
-                            s2.setText(readMessage.substring(2));
-                        }
-                        if(readMessage.charAt(1)=='3')
-                        {
-                            s3.setText(readMessage.substring(2));
-                        }
-                        if(readMessage.charAt(1)=='4')
-                        {
-                            s4.setText(readMessage.substring(2));
-                        }
-                        if(readMessage.charAt(1)=='5')
-                        {
-                            s5.setText(readMessage.substring(2));
-                        }
-                    }
-                    if(readMessage.contains("lodu"))
+                    }*/
+               if(readMessage.contains("lodu"))
                     {
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(getApplicationContext(), "lodu" , Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "lodu", Toast.LENGTH_LONG).show();
                             }
                         });
                     }
+                if (readMessage.contains("?")) {
+                    final String finalReadMessage1 = readMessage;
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "score" + finalReadMessage1.substring(2,finalReadMessage1.indexOf(">")), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "playername" + finalReadMessage1.substring(finalReadMessage1.indexOf(">")+1), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                  //  s1.setText(readMessage.substring(2));
+                    if (readMessage.charAt(1) == '1') {
+                        ct.write("reached".getBytes());
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), " sending reached" , Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                       // s1.setText(readMessage.substring(2,readMessage.indexOf(">")));
+                       // p1.setText(readMessage.substring(readMessage.indexOf(">")+1));
+                    }
+                    if (readMessage.charAt(1) == '2') {
+                        s2.setText(readMessage.substring(2));
+                        p1.setText(readMessage.substring(readMessage.indexOf(">")+1));
+
+                    }
+                    if (readMessage.charAt(1) == '3') {
+                        s3.setText(readMessage.substring(2));
+                        p1.setText(readMessage.substring(readMessage.indexOf(">")+1));
+
+                    }
+                    if (readMessage.charAt(1) == '4') {
+                        s4.setText(readMessage.substring(2));
+                        p1.setText(readMessage.substring(readMessage.indexOf(">")+1));
+
+                    }
+                    if (readMessage.charAt(1) == '5') {
+                        s5.setText(readMessage.substring(2));
+                        p1.setText(readMessage.substring(readMessage.indexOf(">")+1));
+
+                    }
+                }
+
                /*     if (playnum == 1) {
                         p1.setText(playname);
                         s1.setText(score);

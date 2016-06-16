@@ -34,8 +34,8 @@ public class Questions extends AppCompatActivity {
     String ans;
     TextView tv;
     String opposcore=null;
-    String OpponentName=(Category.OpponentName).toUpperCase();
-    String yourname=(Twodevices.MyName).toUpperCase();
+  String OpponentName=(Category.OpponentName).toUpperCase();
+  String yourname=(Twodevices.MyName).toUpperCase();
     DataBaseHandler dbh;
     QuestionDetails qd;
     @Override
@@ -49,13 +49,13 @@ public class Questions extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, yourname+":\t\t"+c+"\n"+OpponentName+":\t\t"+opposcore, Snackbar.LENGTH_LONG)
+                Snackbar.make(view,/* yourname+":\t\t"+c+"\n"+OpponentName+":\t\t"+opposcore*/ "pulkit", Snackbar.LENGTH_LONG)
                         .setAction("Action",null).show();
 
 
             }
         });
-        bluetoothSocket = Category.bluetoothSocket;
+      bluetoothSocket = Category.bluetoothSocket;
 
         dbh = new DataBaseHandler(this);
         o1=(Button)findViewById(R.id.button7);
@@ -64,7 +64,8 @@ public class Questions extends AppCompatActivity {
         o4=(Button)findViewById(R.id.button11);
         tv=(TextView)findViewById(R.id.TextView);
 
-       j= getIntent().getExtras().getString("type");
+      j= getIntent().getExtras().getString("type");
+        j="1";
         if(j.equals("1"))
         {
             mChronometer.start();
@@ -75,8 +76,8 @@ public class Questions extends AppCompatActivity {
             mChronometer.start();
            reasoning();
         }
-        connectedThread = new ConnectedThread(bluetoothSocket);
-        connectedThread.start();
+      connectedThread = new ConnectedThread(bluetoothSocket);
+      connectedThread.start();
         mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
@@ -86,7 +87,7 @@ public class Questions extends AppCompatActivity {
                              mChronometer.stop();
                     Toast.makeText(Questions.this, "please wait for results", Toast.LENGTH_LONG).show();
                    byte[] ByteArray = ("."+c).getBytes();
-                    connectedThread.write(ByteArray);
+                   // connectedThread.write(ByteArray);
                     if (value > 0) {
                         if (value > c) {
                             Toast.makeText(Questions.this, "You Loose", Toast.LENGTH_LONG).show();
@@ -118,7 +119,7 @@ public void aptitude() {
             ans = qd.getAnswer();
         } else {
         byte[] ByteArray =("."+c).getBytes();
-        connectedThread.write(ByteArray);
+      connectedThread.write(ByteArray);
             mChronometer.stop();
             Toast.makeText(Questions.this, "please wait for results", Toast.LENGTH_LONG).show();
 
@@ -143,7 +144,7 @@ public void aptitude() {
                 }
                 i++;
                 aptitude();
-                connectedThread.write(("/"+c).getBytes());
+             connectedThread.write(("/"+c).getBytes());
             }
         });
         o2.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +155,7 @@ public void aptitude() {
                 }
                 i++;
                 aptitude();
-                connectedThread.write(("/" + c).getBytes());
+              connectedThread.write(("/" + c).getBytes());
             }
         });
         o3.setOnClickListener(new View.OnClickListener() {
@@ -165,7 +166,7 @@ public void aptitude() {
                 }
                 i++;
                 aptitude();
-                connectedThread.write(("/" + c).getBytes());
+               connectedThread.write(("/" + c).getBytes());
             }
         });
         o4.setOnClickListener(new View.OnClickListener() {
@@ -176,7 +177,7 @@ public void aptitude() {
                 }
                 i++;
                 aptitude();
-                connectedThread.write(("/" + c).getBytes());
+             connectedThread.write(("/" + c).getBytes());
             }
         });
     }else
@@ -197,7 +198,7 @@ public void aptitude() {
             ans = qd.getAnswer();
         } else {
             byte[] ByteArray = ("."+c).getBytes();
-            connectedThread.write(ByteArray);
+       connectedThread.write(ByteArray);
             if (value > 0) {
                 if (value > c) {
                     Toast.makeText(Questions.this, "You Loose", Toast.LENGTH_LONG).show();
@@ -218,7 +219,7 @@ public void aptitude() {
                 }
                 i++;
                 reasoning();
-                connectedThread.write(("/" + c).getBytes());
+              connectedThread.write(("/" + c).getBytes());
             }
         });
         o2.setOnClickListener(new View.OnClickListener() {
@@ -229,7 +230,7 @@ public void aptitude() {
                 }
                 i++;
                 reasoning();
-                connectedThread.write(("/" + c).getBytes());
+              connectedThread.write(("/" + c).getBytes());
             }
         });
         o3.setOnClickListener(new View.OnClickListener() {
@@ -251,7 +252,7 @@ public void aptitude() {
                 }
                 i++;
                 reasoning();
-                connectedThread.write(("/" + c).getBytes());
+              connectedThread.write(("/" + c).getBytes());
             }
         });
     }else
