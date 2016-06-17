@@ -1,9 +1,14 @@
 package com.example.thispc.mobilequiz;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothSocket;
+import android.content.DialogInterface;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +20,7 @@ public class SelectQuestions extends AppCompatActivity {
     DataBaseHandler dbh;
     int c=0;
    public ConnectedThread connectedThread = null;
+    public Chronometer mChronometer;
     BluetoothSocket bluetoothSocket1=null;
     Button o1;
     Button o2;
@@ -26,11 +32,43 @@ public class SelectQuestions extends AppCompatActivity {
     RandomQuestionsType rqt2=null;
     QuestionDetails qd=null;
     public static String name;
+    public static String duration;
     String ans=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_questions);
+        duration=CategoryForServer.Duration;
+        mChronometer = (Chronometer) findViewById(R.id.chronometer1);
+        mChronometer.start();
+        mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                if (chronometer.getText().toString().equalsIgnoreCase(duration+":"+"00"))
+                {
+                    mChronometer.stop();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SelectQuestions.this);
+                    builder.setMessage("Please Wait For Results");
+                    builder.setTitle("Time Limit Reached");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+                    builder.show();
+                }
+            }
+        });
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab1);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, name + ":\t\t" + c , Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+
+
+            }
+        });
         name=Cleint.MyName;
         playnum1=Cleint.playnum;
         bluetoothSocket1=Cleint.mbluetoothSocket;
@@ -54,7 +92,8 @@ public class SelectQuestions extends AppCompatActivity {
 
     public void display(View v)
     {
-if(connectedThread!=null) {
+       mChronometer.start();
+        if(connectedThread!=null) {
     connectedThread.write("lodu".getBytes());
     runOnUiThread(new Runnable() {
         public void run() {

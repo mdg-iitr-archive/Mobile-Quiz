@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
@@ -42,6 +43,7 @@ public class Category extends AppCompatActivity {
      final EditText edittext = new EditText(Category.this);
         alert.setMessage("Duration Should Be In Minutes");
         alert.setTitle("Enter Duration");
+        edittext.setInputType(InputType.TYPE_NUMBER_VARIATION_NORMAL);
 
     alert.setView(edittext);
 
@@ -81,9 +83,8 @@ public class Category extends AppCompatActivity {
         edittext.setWidth(30);
         alert.setMessage("Duration Should Be In Minutes");
         alert.setTitle("Enter Duration");
-
+        edittext.setInputType(InputType.TYPE_NUMBER_VARIATION_NORMAL);
         alert.setView(edittext);
-
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 

@@ -12,7 +12,7 @@ public class Main2Activity extends AppCompatActivity {
     public static int c=1;
 public void twodevices(View v)
 {
-    Intent i=new Intent(Main2Activity.this,Category.class);
+    Intent i=new Intent(Main2Activity.this,Twodevices.class);
    // i.putExtra("type","1");
     startActivity(i);
 }

@@ -34,23 +34,23 @@
         android:textStyle="bold"
         android:id="@+id/button7"
         android:layout_marginBottom="9dp"
-        android:layout_above="@+id/button9"
-        android:layout_alignLeft="@+id/button9"
-        android:layout_alignStart="@+id/button9" />
+        android:layout_above="@+id/button15"
+        android:layout_alignLeft="@+id/button15"
+        android:layout_alignStart="@+id/button15" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="New Button"
-        android:id="@+id/button9"
+        android:id="@+id/button15"
         android:background="#07A611"
         android:textColor="#ffffff"
         android:textStyle="bold"
         android:layout_marginBottom="8dp"
-        android:layout_above="@+id/button10"
-        android:layout_alignLeft="@+id/button10"
-        android:layout_alignStart="@+id/button10" />
+        android:layout_above="@+id/button16"
+        android:layout_alignLeft="@+id/button16"
+        android:layout_alignStart="@+id/button16" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -60,18 +60,18 @@
         android:background="#07A611"
         android:textColor="#ffffff"
         android:textStyle="bold"
-        android:id="@+id/button10"
+        android:id="@+id/button16"
         android:layout_marginBottom="9dp"
-        android:layout_above="@+id/button11"
-        android:layout_alignLeft="@+id/button11"
-        android:layout_alignStart="@+id/button11" />
+        android:layout_above="@+id/button17"
+        android:layout_alignLeft="@+id/button17"
+        android:layout_alignStart="@+id/button17" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="New Button"
-        android:id="@+id/button11"
+        android:id="@+id/button17"
         android:background="#07A611"
         android:textColor="#ffffff"
         android:textStyle="bold"

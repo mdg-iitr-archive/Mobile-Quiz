@@ -1,7 +1,8 @@
 package com.example.thispc.mobilequiz;
 
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothSocket;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,8 +13,6 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,9 +60,9 @@ public class Questions extends AppCompatActivity {
 
         dbh = new DataBaseHandler(this);
         o1=(Button)findViewById(R.id.button7);
-        o2=(Button)findViewById(R.id.button9);
-        o3=(Button)findViewById(R.id.button10);
-        o4=(Button)findViewById(R.id.button11);
+        o2=(Button)findViewById(R.id.button15);
+        o3=(Button)findViewById(R.id.button16);
+        o4=(Button)findViewById(R.id.button17);
         tv=(TextView)findViewById(R.id.TextView);
 
       j= getIntent().getExtras().getString("type");
@@ -83,10 +82,18 @@ public class Questions extends AppCompatActivity {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
                 if (chronometer.getText().toString().equalsIgnoreCase(duration+":"+"00"))
-                {  Toast.makeText(Questions.this,
-                            "time reached", Toast.LENGTH_SHORT).show();
-                             mChronometer.stop();
-                    Toast.makeText(Questions.this, "please wait for results", Toast.LENGTH_LONG).show();
+                {
+                    mChronometer.stop();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Questions.this);
+                   builder.setMessage("Please Wait For Results");
+                           builder.setTitle("Time Limit Reached");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                        }
+                    });
+                    builder.show();
+
                    byte[] ByteArray = ("."+c).getBytes();
                    connectedThread.write(ByteArray);
                     if (value > 0) {
