@@ -1,13 +1,17 @@
 package com.example.thispc.mobilequiz;
 
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothSocket;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -18,34 +22,96 @@ public class Category extends AppCompatActivity {
     public static ConnectedThread connectedThread = null;
    public static BluetoothSocket bluetoothSocket=null;
     public static String OpponentName="";
-  String yourname=Twodevices.MyName;
+    public static String Duration;
+ // String yourname=Twodevices.MyName;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-      bluetoothSocket = Twodevices.mBluetoothSocket;
-        connectedThread = new ConnectedThread(bluetoothSocket);
-        connectedThread.start();
-       byte[] ByteArray = ("?"+yourname).getBytes();
-       connectedThread.write(ByteArray);
+     // bluetoothSocket = Twodevices.mBluetoothSocket;
+       // connectedThread = new ConnectedThread(bluetoothSocket);
+       // connectedThread.start();
+     //  byte[] ByteArray = ("?"+yourname).getBytes();
+      // connectedThread.write(ByteArray);
     }
     public void aptitude(View v)
     {
-        Intent i=new Intent(Category.this,Questions.class);
-        i.putExtra("type","1");
-        startActivity(i);
-        byte[] ByteArray = "1".getBytes();
-        connectedThread.write(ByteArray);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+     final EditText edittext = new EditText(Category.this);
+        alert.setMessage("Duration Should Be In Minutes");
+        alert.setTitle("Enter Duration");
+
+    alert.setView(edittext);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+            Duration = edittext.getText().toString();
+                if(Duration!=null)
+                {
+                    Intent i=new Intent(Category.this,Questions.class);
+                i.putExtra("type","1");
+                startActivity(i);
+                byte[] ByteArray = "1".getBytes();
+                    connectedThread.write(ByteArray);
+            }
+                if(Duration==null)
+                {
+                    Toast.makeText(getApplicationContext(), "Please Enter Duration", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+            }
+        });
+
+        alert.show();
+
     }
     public void reasoning(View v)
     {
-        Intent i=new Intent(Category.this,Questions.class);
-        i.putExtra("type", "2");
-        startActivity(i);
-        byte[] ByteArray = "2".getBytes();
-        connectedThread.write(ByteArray);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        final EditText edittext = new EditText(Category.this);
+        edittext.setWidth(30);
+        alert.setMessage("Duration Should Be In Minutes");
+        alert.setTitle("Enter Duration");
+
+        alert.setView(edittext);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+                Duration = edittext.getText().toString();
+                if(Duration!=null)
+                {
+                    Intent i=new Intent(Category.this,Questions.class);
+                    i.putExtra("type","2");
+                    startActivity(i);
+                    byte[] ByteArray = "2".getBytes();
+                    connectedThread.write(ByteArray);
+                }
+                if(Duration==null)
+                {
+                    Toast.makeText(getApplicationContext(), "Please Enter Duration", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+            }
+        });
+
+        alert.show();
+        
     }
         public class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
@@ -60,12 +126,12 @@ public class Category extends AppCompatActivity {
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
             // Get the BluetoothSocket input and output streams
-           try {
+       /*    try {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
             } catch (IOException e) {
 
-            }
+            }*/
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
         }

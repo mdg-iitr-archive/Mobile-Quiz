@@ -32,6 +32,7 @@ public class Questions extends AppCompatActivity {
     int value=0;
     int c=0;
     String ans;
+    String duration;
     TextView tv;
     String opposcore=null;
   String OpponentName=(Category.OpponentName).toUpperCase();
@@ -42,6 +43,7 @@ public class Questions extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
+        duration=Category.Duration;
         mChronometer = (Chronometer) findViewById(R.id.chronometer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -49,7 +51,7 @@ public class Questions extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view,/* yourname+":\t\t"+c+"\n"+OpponentName+":\t\t"+opposcore*/ "pulkit", Snackbar.LENGTH_LONG)
+                Snackbar.make(view,yourname+":\t\t"+c+"\n"+OpponentName+":\t\t"+opposcore, Snackbar.LENGTH_LONG)
                         .setAction("Action",null).show();
 
 
@@ -65,7 +67,6 @@ public class Questions extends AppCompatActivity {
         tv=(TextView)findViewById(R.id.TextView);
 
       j= getIntent().getExtras().getString("type");
-        j="1";
         if(j.equals("1"))
         {
             mChronometer.start();
@@ -81,13 +82,13 @@ public class Questions extends AppCompatActivity {
         mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
-                if (chronometer.getText().toString().equalsIgnoreCase("00:05"))
+                if (chronometer.getText().toString().equalsIgnoreCase(duration+":"+"00"))
                 {  Toast.makeText(Questions.this,
                             "time reached", Toast.LENGTH_SHORT).show();
                              mChronometer.stop();
                     Toast.makeText(Questions.this, "please wait for results", Toast.LENGTH_LONG).show();
                    byte[] ByteArray = ("."+c).getBytes();
-                   // connectedThread.write(ByteArray);
+                   connectedThread.write(ByteArray);
                     if (value > 0) {
                         if (value > c) {
                             Toast.makeText(Questions.this, "You Loose", Toast.LENGTH_LONG).show();
@@ -107,7 +108,7 @@ public class Questions extends AppCompatActivity {
 
 public void aptitude() {
 
-    if (Integer.parseInt(mChronometer.getText().toString().substring(3, 5)) < 05 && Integer.parseInt(mChronometer.getText().toString().substring(0, 2)) == 0)
+    if (Integer.parseInt(mChronometer.getText().toString().substring(0,mChronometer.getText().toString().indexOf(":")+1)) < Integer.parseInt(duration))
     {
         if (i <= 2) {
             qd = dbh.getAptitudeQ(i);
@@ -186,7 +187,7 @@ public void aptitude() {
     }
 }
     public void reasoning() {
-        if(Integer.valueOf(mChronometer.getText().toString().substring(3,5))<05&&Integer.valueOf(mChronometer.getText().toString().substring(0,2))==0)
+        if (Integer.parseInt(mChronometer.getText().toString().substring(0,mChronometer.getText().toString().indexOf(":")+1)) < Integer.parseInt(duration))
         {
         if (i <= 2) {
             qd = dbh.getReasoningQ(i);
@@ -296,7 +297,7 @@ public void aptitude() {
                     if(readMessage.contains("."))
                     {
                         value =Integer.valueOf(readMessage.substring(1));
-                        if(i>2||mChronometer.getText()=="00:05")
+                        if(i>2||mChronometer.getText()==(duration+":"+"00"))
                         {
                             if(value>c)
                             {

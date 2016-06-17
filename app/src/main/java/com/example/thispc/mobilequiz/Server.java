@@ -131,7 +131,7 @@ public class Server extends AppCompatActivity {
               }
       );
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-     /*   listview = (ListView) findViewById(R.id.listView);
+      listview = (ListView) findViewById(R.id.listView);
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1);
         listview.setAdapter(adapter);
 
@@ -144,7 +144,7 @@ public class Server extends AppCompatActivity {
 
 
             }
-        });*/
+        });
         if (bluetoothAdapter.isEnabled())
         {
             bluetoothAdapter.disable();
@@ -275,12 +275,6 @@ public class Server extends AppCompatActivity {
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
-                    ct.write("reached".getBytes());
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), " sending reached" , Toast.LENGTH_SHORT).show();
-                        }
-                    });
                   //  ct.write("reached".getBytes());
                     /*if (readMessage.contains(".")) {
                         final String finalReadMessage = readMessage;
