@@ -54,6 +54,7 @@ public class Cleint extends AppCompatActivity {
     public static char qnumber='a';
     public static int a=0;
     public static int b=0;
+    public  static String Duration;
     public static int d=0;
     public static int blue1=0;
    public static char playnum;
@@ -336,6 +337,15 @@ DataBaseHandler dbh;
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
+                    if(readMessage.contains("+"))
+                    {
+                       Duration=readMessage.substring(1);
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "duration" + Duration, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                   if(readMessage.contains("/"))
                     {
                         playnum=readMessage.charAt(1);
@@ -364,6 +374,15 @@ DataBaseHandler dbh;
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 Toast.makeText(getApplicationContext(), "reached", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    if(readMessage.contains("()"))
+                    {
+                        final String finalReadMessage = readMessage;
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "Your position is"+ finalReadMessage.charAt(2), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

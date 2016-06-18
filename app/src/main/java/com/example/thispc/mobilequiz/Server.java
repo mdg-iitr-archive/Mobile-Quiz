@@ -49,6 +49,8 @@ public class Server extends AppCompatActivity {
     boolean check = true;
     String playname = "";
     public static BluetoothSocket mBluetoothSocket = null;
+    public static int finalscore[];
+    public static int arraylength=0;
     ListeningThread t = null;
     ConnectedThread ct = null;
     public static BluetoothSocket a[];
@@ -246,6 +248,7 @@ public class Server extends AppCompatActivity {
         public void run() {
             byte[] buffer = new byte[1024];
             int bytes;
+            ct.write(("+"+CategoryForServer.Duration).getBytes());
             ct.write(("/"+playnum).getBytes());
             for (int i = 1; i < Main2Activity.c; i++) {
                 RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
@@ -330,33 +333,66 @@ public class Server extends AppCompatActivity {
                         ct.write("reached".getBytes());
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(getApplicationContext(), " sending reached" , Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), " sending reached", Toast.LENGTH_SHORT).show();
                             }
                         });
-                       // s1.setText(readMessage.substring(2,readMessage.indexOf(">")));
-                       // p1.setText(readMessage.substring(readMessage.indexOf(">")+1));
+                       s1.setText(readMessage.substring(2, readMessage.indexOf(">")));
+                       p1.setText(readMessage.substring(readMessage.indexOf(">") + 1));
                     }
                     if (readMessage.charAt(1) == '2') {
-                        s2.setText(readMessage.substring(2));
-                        p1.setText(readMessage.substring(readMessage.indexOf(">")+1));
+                        s2.setText(readMessage.substring(2,readMessage.indexOf(">")));
+                        p2.setText(readMessage.substring(readMessage.indexOf(">")+1));
 
                     }
                     if (readMessage.charAt(1) == '3') {
-                        s3.setText(readMessage.substring(2));
-                        p1.setText(readMessage.substring(readMessage.indexOf(">")+1));
+                        s3.setText(readMessage.substring(2,readMessage.indexOf(">")));
+                        p3.setText(readMessage.substring(readMessage.indexOf(">")+1));
 
                     }
                     if (readMessage.charAt(1) == '4') {
-                        s4.setText(readMessage.substring(2));
-                        p1.setText(readMessage.substring(readMessage.indexOf(">")+1));
+                        s4.setText(readMessage.substring(2,readMessage.indexOf(">")));
+                        p4.setText(readMessage.substring(readMessage.indexOf(">")+1));
 
                     }
                     if (readMessage.charAt(1) == '5') {
-                        s5.setText(readMessage.substring(2));
-                        p1.setText(readMessage.substring(readMessage.indexOf(">")+1));
+                        s5.setText(readMessage.substring(2,readMessage.indexOf(">")));
+                        p5.setText(readMessage.substring(readMessage.indexOf(">")+1));
 
                     }
                 }
+                    if (readMessage.contains("=")) {
+                         arraylength++;
+                        if (readMessage.charAt(1) == '1') {
+                            s1.setText(readMessage.substring(2, readMessage.indexOf(">")));
+                            p1.setText(readMessage.substring(readMessage.indexOf(">") + 1));
+                            finalscore[0]=Integer.parseInt(readMessage.substring(2,readMessage.indexOf(">")));
+                        }
+                        if (readMessage.charAt(1) == '2') {
+                            s2.setText(readMessage.substring(2, readMessage.indexOf(">")));
+                            p2.setText(readMessage.substring(readMessage.indexOf(">") + 1));
+                            finalscore[1]=Integer.parseInt(readMessage.substring(2,readMessage.indexOf(">")));
+
+                        }
+                        if (readMessage.charAt(1) == '3') {
+                            s3.setText(readMessage.substring(2, readMessage.indexOf(">")));
+                            p3.setText(readMessage.substring(readMessage.indexOf(">") + 1));
+                            finalscore[2]=Integer.parseInt(readMessage.substring(2,readMessage.indexOf(">")));
+
+                        }
+                        if (readMessage.charAt(1) == '4') {
+                            s4.setText(readMessage.substring(2, readMessage.indexOf(">")));
+                            p4.setText(readMessage.substring(readMessage.indexOf(">") + 1));
+                            finalscore[3]=Integer.parseInt(readMessage.substring(2,readMessage.indexOf(">")));
+
+                        }
+                        if (readMessage.charAt(1) == '5') {
+                            s5.setText(readMessage.substring(2, readMessage.indexOf(">")));
+                            p5.setText(readMessage.substring(readMessage.indexOf(">") + 1));
+                            finalscore[4]=Integer.parseInt(readMessage.substring(2,readMessage.indexOf(">")));
+
+                        }
+                              waitingforresult();
+                    }
 
                /*     if (playnum == 1) {
                         p1.setText(playname);
@@ -385,7 +421,40 @@ public class Server extends AppCompatActivity {
                 }
             }
         }
-
+      public void waitingforresult()
+        {
+            int b[]=new int[a1];
+            int d;
+            boolean c=true;
+            while(c)
+            {
+                if(arraylength==a1)
+                {
+                    b=finalscore;
+                    c=false;
+                    for (int i=0;i<a1;i++)
+                    {
+                        for (int j=0;j<a1-1;j++)
+                        {
+                            if(b[j]>b[j+1])
+                            {
+                                d=b[j];
+                                b[j]=b[j+1];
+                                b[j+1]=d;
+                            }
+                        }
+                    }
+                    for (int i=0;i<a1;i++)
+                    {
+                        if(finalscore[playnum]==b[i])
+                        {
+                            ct.write(("()"+i).getBytes());
+                            break;
+                        }
+                    }
+                }
+            }
+        }
         public void write(byte[] buffer) {
 
             try {
@@ -450,6 +519,7 @@ public class Server extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "A connection has been accepted." + c, Toast.LENGTH_SHORT).show();
                             }
                         });
+                        finalscore=new int[a1];
                         ct = new ConnectedThread(bluetoothSocket,a1);
                         ct.start();
                     }

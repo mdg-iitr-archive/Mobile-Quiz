@@ -46,6 +46,7 @@ public class SelectQuestions extends AppCompatActivity {
             public void onChronometerTick(Chronometer chronometer) {
                 if (chronometer.getText().toString().equalsIgnoreCase(duration+":"+"00"))
                 {
+                    connectedThread.write(("=" +playnum1+c+">"+name).getBytes());
                     mChronometer.stop();
                     AlertDialog.Builder builder = new AlertDialog.Builder(SelectQuestions.this);
                     builder.setMessage("Please Wait For Results");
@@ -103,16 +104,15 @@ public class SelectQuestions extends AppCompatActivity {
     });
   //  connectedThread.write(("." + playnum1 + name).getBytes());
 
-}else
-{
-
+        }else
+    {
     runOnUiThread(new Runnable() {
         public void run() {
             Toast.makeText(getApplicationContext(), "connected Thread is null", Toast.LENGTH_SHORT).show();
 
         }
     });
-}
+    }
         runOnUiThread(new Runnable() {
             public void run() {
                 Toast.makeText(getApplicationContext(), "pohonchgya", Toast.LENGTH_SHORT).show();
@@ -146,6 +146,10 @@ public class SelectQuestions extends AppCompatActivity {
 questions();
     }
 public void questions() {
+
+
+    if (Integer.parseInt(mChronometer.getText().toString().substring(0,mChronometer.getText().toString().indexOf(":"))) < Integer.parseInt(duration))
+    {
     runOnUiThread(new Runnable() {
         public void run() {
             Toast.makeText(getApplicationContext(), "in questions", Toast.LENGTH_SHORT).show();
@@ -190,8 +194,11 @@ public void questions() {
                     c++;
                 }
                 j++;
+                if(j < Integer.parseInt(Character.valueOf(Cleint.qnumber).toString())+1)
                 connectedThread.write(("?" +playnum1+c+">"+name).getBytes());
-                questions();
+                if(j == Integer.parseInt(Character.valueOf(Cleint.qnumber).toString())+1)
+                    connectedThread.write(("=" +playnum1+c+">"+name).getBytes());
+                    questions();
             }
         });
         o2.setOnClickListener(new View.OnClickListener() {
@@ -201,7 +208,10 @@ public void questions() {
                     c++;
                 }
                 j++;
-                connectedThread.write(("?" +playnum1+c+">"+name).getBytes());
+                if(j < Integer.parseInt(Character.valueOf(Cleint.qnumber).toString())+1)
+                    connectedThread.write(("?" +playnum1+c+">"+name).getBytes());
+                if(j == Integer.parseInt(Character.valueOf(Cleint.qnumber).toString())+1)
+                    connectedThread.write(("=" +playnum1+c+">"+name).getBytes());
                 questions();
             }
         });
@@ -212,7 +222,10 @@ public void questions() {
                     c++;
                 }
                 j++;
-                connectedThread.write(("?" +playnum1+c+">"+name).getBytes());
+                if(j < Integer.parseInt(Character.valueOf(Cleint.qnumber).toString())+1)
+                    connectedThread.write(("?" +playnum1+c+">"+name).getBytes());
+                if(j == Integer.parseInt(Character.valueOf(Cleint.qnumber).toString())+1)
+                    connectedThread.write(("=" +playnum1+c+">"+name).getBytes());
                 questions();
             }
         });
@@ -223,16 +236,22 @@ public void questions() {
                     c++;
                 }
                 j++;
-                connectedThread.write(("?" +playnum1+c+">"+name).getBytes());
-
+                if(j < Integer.parseInt(Character.valueOf(Cleint.qnumber).toString())+1)
+                    connectedThread.write(("?" +playnum1+c+">"+name).getBytes());
+                if(j == Integer.parseInt(Character.valueOf(Cleint.qnumber).toString())+1)
+                    connectedThread.write(("=" +playnum1+c+">"+name).getBytes());
                 questions();
             }
         });
     }else
     {
-        Toast.makeText(SelectQuestions.this, "Quiz is over", Toast.LENGTH_LONG).show();
+        Toast.makeText(SelectQuestions.this, "You finished Quiz Before Time......Please Wait For Results", Toast.LENGTH_LONG).show();
+        o1.setEnabled(false);
+        o2.setEnabled(false);
+        o3.setEnabled(false);
+        o4.setEnabled(false);
     }
-}
+}}
     public class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;

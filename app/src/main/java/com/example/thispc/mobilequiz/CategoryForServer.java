@@ -40,7 +40,7 @@ public class CategoryForServer extends AppCompatActivity {
     {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         final EditText edittext = new EditText(CategoryForServer.this);
-        edittext.setInputType(InputType.TYPE_NUMBER_VARIATION_NORMAL);
+        edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
         alert.setMessage("Duration Should Be In Minutes");
         alert.setTitle("Enter Duration");
 
@@ -49,9 +49,13 @@ public class CategoryForServer extends AppCompatActivity {
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
-                Duration = edittext.getText().toString();
+                Duration = edittext.getText().toString() ;
                 if(Duration!=null)
                 {
+                    if(Duration.length()==1)
+                    {
+                        Duration="0"+Duration;
+                    }
                     Intent i=new Intent(CategoryForServer.this,Server.class);
                     startActivity(i);
 
