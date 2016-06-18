@@ -148,8 +148,8 @@ questions();
 public void questions() {
 
 
-    if (Integer.parseInt(mChronometer.getText().toString().substring(0,mChronometer.getText().toString().indexOf(":"))) < Integer.parseInt(duration))
-    {
+  /*  if (Integer.parseInt(mChronometer.getText().toString().substring(0,mChronometer.getText().toString().indexOf(":"))) < Integer.parseInt(duration))
+    {*/
     runOnUiThread(new Runnable() {
         public void run() {
             Toast.makeText(getApplicationContext(), "in questions", Toast.LENGTH_SHORT).show();
@@ -250,7 +250,7 @@ public void questions() {
         o2.setEnabled(false);
         o3.setEnabled(false);
         o4.setEnabled(false);
-    }
+   // }
 }}
     public class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;

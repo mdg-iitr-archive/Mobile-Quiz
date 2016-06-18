@@ -45,7 +45,7 @@ public class Questions extends AppCompatActivity {
         mChronometer = (Chronometer) findViewById(R.id.chronometer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,7 +55,7 @@ public class Questions extends AppCompatActivity {
 
             }
         });
-        bluetoothSocket = Category.bluetoothSocket;
+       bluetoothSocket = Category.bluetoothSocket;
         dbh = new DataBaseHandler(this);
         o1=(Button)findViewById(R.id.button7);
         o2=(Button)findViewById(R.id.button15);
@@ -74,8 +74,8 @@ public class Questions extends AppCompatActivity {
             mChronometer.start();
            reasoning();
         }
-      connectedThread = new ConnectedThread(bluetoothSocket);
-      connectedThread.start();
+     connectedThread = new ConnectedThread(bluetoothSocket);
+     connectedThread.start();
         mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {

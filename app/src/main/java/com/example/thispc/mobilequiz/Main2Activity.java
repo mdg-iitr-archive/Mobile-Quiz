@@ -3,12 +3,15 @@ package com.example.thispc.mobilequiz;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 public class Main2Activity extends AppCompatActivity {
     DataBaseHandler dbh;
+    Button b1;
     public static int c=1;
 public void twodevices(View v)
 {
@@ -45,6 +48,9 @@ public void twodevices(View v)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+        b1=(Button)findViewById(R.id.button3);
+        Typeface m=Typeface.createFromAsset(getAssets(),"MING____.ttf");
+        b1.setTypeface(m);
         dbh = new DataBaseHandler(this);
         dbh.clear();
         QuestionDetails qd = new QuestionDetails(1,"name of country","india","malaysia","usa","germany","india" );

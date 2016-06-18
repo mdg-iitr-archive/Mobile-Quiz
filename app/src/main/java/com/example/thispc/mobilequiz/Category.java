@@ -177,7 +177,7 @@ public class Category extends AppCompatActivity {
                     }
                     if(readMessage.contains("/"))
                     {
-                        opposcore=readMessage.substring(1);
+                        opposcore=String.valueOf(readMessage.charAt(1));
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 Toast.makeText(Category.this, "opposcore" + opposcore, Toast.LENGTH_LONG).show();
@@ -188,7 +188,14 @@ public class Category extends AppCompatActivity {
                     }
                     if(readMessage.contains("."))
                     {
-                        value =Integer.valueOf(readMessage.substring(1));
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(Category.this, "last question of opponent", Toast.LENGTH_LONG).show();
+
+                            }
+
+                        });
+                        value =Integer.valueOf(String.valueOf(readMessage.charAt(1)));
                         if(Questions.i>2||Questions.mChronometer.getText()==(Duration+":"+"00"))
                         {
                             if(value>Questions.c)
