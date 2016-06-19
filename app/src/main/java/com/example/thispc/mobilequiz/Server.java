@@ -248,7 +248,7 @@ public class Server extends AppCompatActivity {
         public void run() {
             byte[] buffer = new byte[1024];
             int bytes;
-           ct.write(("+"+CategoryForServer.Duration).getBytes());
+          ct.write(("+"+CategoryForServer.Duration+"/"+playnum).getBytes());
             ct.write(("/"+playnum).getBytes());
             for (int i = 1; i < Main2Activity.c; i++) {
                 RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
@@ -308,14 +308,14 @@ public class Server extends AppCompatActivity {
                             p5.setText(readMessage.substring(2));
                         }
                     }*/
-               /*if(readMessage.contains("lodu"))
+               if(readMessage.contains("lodu"))
                     {
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 Toast.makeText(getApplicationContext(), "lodu", Toast.LENGTH_LONG).show();
                             }
                         });
-                    }*/
+                    }
                 if (readMessage.contains("?")) {
                     final String finalReadMessage1 = readMessage;
                     runOnUiThread(new Runnable() {
@@ -346,24 +346,44 @@ public class Server extends AppCompatActivity {
 
                     }
                     if (readMessage.charAt(1) == '2') {
-                        s2.setText(readMessage.substring(2,readMessage.indexOf(">")));
-                        p2.setText(readMessage.substring(readMessage.indexOf(">")+1));
+
+                        final String finalReadMessage = readMessage;
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                s2.setText(finalReadMessage.substring(2, finalReadMessage.indexOf(">")));
+                                p2.setText(finalReadMessage.substring(finalReadMessage.indexOf(">") + 1));
+                            }
+                        });
 
                     }
                     if (readMessage.charAt(1) == '3') {
-                        s3.setText(readMessage.substring(2,readMessage.indexOf(">")));
-                        p3.setText(readMessage.substring(readMessage.indexOf(">")+1));
+                        final String finalReadMessage = readMessage;
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                s3.setText(finalReadMessage.substring(2, finalReadMessage.indexOf(">")));
+                                p3.setText(finalReadMessage.substring(finalReadMessage.indexOf(">") + 1));
+                            }
+                        });
 
                     }
                     if (readMessage.charAt(1) == '4') {
-                        s4.setText(readMessage.substring(2,readMessage.indexOf(">")));
-                        p4.setText(readMessage.substring(readMessage.indexOf(">")+1));
+                        final String finalReadMessage = readMessage;
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                s4.setText(finalReadMessage.substring(2, finalReadMessage.indexOf(">")));
+                                p4.setText(finalReadMessage.substring(finalReadMessage.indexOf(">") + 1));
+                            }
+                        });
 
                     }
                     if (readMessage.charAt(1) == '5') {
-                        s5.setText(readMessage.substring(2,readMessage.indexOf(">")));
-                        p5.setText(readMessage.substring(readMessage.indexOf(">")+1));
-
+                        final String finalReadMessage = readMessage;
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                s5.setText(finalReadMessage.substring(2, finalReadMessage.indexOf(">")));
+                                p5.setText(finalReadMessage.substring(finalReadMessage.indexOf(">") + 1));
+                            }
+                        });
                     }
                 }
                     if (readMessage.contains("=")) {

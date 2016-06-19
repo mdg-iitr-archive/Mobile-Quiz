@@ -175,61 +175,67 @@ public class Category extends AppCompatActivity {
                     {
                         OpponentName=readMessage.substring(1);
                     }
-                    if(readMessage.contains("/"))
-                    {
-                        opposcore=String.valueOf(readMessage.charAt(1));
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(Category.this, "opposcore" + opposcore, Toast.LENGTH_LONG).show();
+                    if(readMessage.contains("/")) {
+                        if (readMessage.contains(".")) {
+                            opposcore = readMessage.substring(2);
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(Category.this, "opposcore" + opposcore, Toast.LENGTH_LONG).show();
+
+                                }
+
+                            });
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(Category.this, "last question of opponent", Toast.LENGTH_LONG).show();
+
+                                }
+
+                            });
+                            value = Integer.valueOf(String.valueOf(readMessage.charAt(1)));
+                            if (Questions.i > 2 || Questions.mChronometer.getText() == (Duration + ":" + "00")) {
+                                if (value > Questions.c) {
+                                    runOnUiThread(new Runnable() {
+                                        public void run() {
+                                            Toast.makeText(Category.this, "You Loose", Toast.LENGTH_LONG).show();
+
+                                        }
+
+                                    });
+                                }
+                                if (value < Questions.c) {
+                                    runOnUiThread(new Runnable() {
+                                        public void run() {
+                                            Toast.makeText(Category.this, "You Win", Toast.LENGTH_LONG).show();
+
+                                        }
+
+                                    });
+                                }
+                                if (value == Questions.c) {
+                                    runOnUiThread(new Runnable() {
+                                        public void run() {
+                                            Toast.makeText(Category.this, "Draw", Toast.LENGTH_LONG).show();
+
+                                        }
+
+                                    });
+                                }
 
                             }
-
-                        });
-                    }
-                    if(readMessage.contains("."))
-                    {
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(Category.this, "last question of opponent", Toast.LENGTH_LONG).show();
-
-                            }
-
-                        });
-                        value =Integer.valueOf(String.valueOf(readMessage.charAt(1)));
-                        if(Questions.i>2||Questions.mChronometer.getText()==(Duration+":"+"00"))
-                        {
-                            if(value>Questions.c)
+                        }
+                        else
                             {
+                                opposcore = readMessage.substring(1);
                                 runOnUiThread(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(Category.this, "You Loose", Toast.LENGTH_LONG).show();
-
-                                    }
-
-                                });
-                            }
-                            if(value<Questions.c)
-                            {
-                                runOnUiThread(new Runnable() {
-                                    public void run() {
-                                        Toast.makeText(Category.this, "You Win", Toast.LENGTH_LONG).show();
-
-                                    }
-
-                                });
-                            }
-                            if(value==Questions.c)
-                            {
-                                runOnUiThread(new Runnable() {
-                                    public void run() {
-                                        Toast.makeText(Category.this, "Draw", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(Category.this, "opposcore" + opposcore, Toast.LENGTH_LONG).show();
 
                                     }
 
                                 });
                             }
                         }
-                    }
 
                 } catch (Exception e) {
                     //Log.e(TAG, "disconnected", e);
@@ -237,7 +243,6 @@ public class Category extends AppCompatActivity {
                 }
             }
         }
-
         public void write(byte[] buffer) {
 
             try {

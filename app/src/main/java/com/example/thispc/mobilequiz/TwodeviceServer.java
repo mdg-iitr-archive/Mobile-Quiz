@@ -1,10 +1,5 @@
 package com.example.thispc.mobilequiz;
 
-import android.os.Looper;
-import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -23,24 +18,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
-public class Cleint extends AppCompatActivity {
+public class TwodeviceServer extends AppCompatActivity {
+
 
     public static String MyName = "";
+    public static String OpponentName;
+    DataBaseHandler dbh;
     Button btn;
     EditText name;
     private ArrayList<UUID> mUuids;
     boolean refreshEnabled = false;
     ConnectedThread connectedThread=null;
+
     private BluetoothAdapter bluetoothAdapter;
     private ListView listview;
     private ArrayAdapter adapter;
@@ -50,19 +46,9 @@ public class Cleint extends AppCompatActivity {
     private static final int DISCOVERABLE_DURATION = 300;
     public static BluetoothDevice mBluetoothDevice = null;
     public static BluetoothSocket mBluetoothSocket = null;
-    public static BluetoothSocket mbluetoothSocket=null;
-    public static char qnumber='a';
-    public static int a=0;
-    public static int b=0;
-    public  static String Duration;
-    public static int d=0;
-    public static int blue1=0;
-   public static char playnum;
-    public static int reach=0;
+    ListeningThread t = null;
     ConnectingThread ct = null;
-    BluetoothSocket blue[];
-
-DataBaseHandler dbh;
+    private  static final UUID uuid = UUID.fromString("fc5ffc49-00e3-4c8b-9cf1-6b72aad1001a");
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -73,18 +59,15 @@ DataBaseHandler dbh;
             }
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cleint);
-        blue=new BluetoothSocket[2];
+        dbh = new DataBaseHandler(this);
+        setContentView(R.layout.activity_twodevices);
         btn = (Button) findViewById(R.id.btn_find);
         name = (EditText) findViewById(R.id.myName);
         name.setText(MyName);
-        dbh = new DataBaseHandler(this);
-        mUuids = new ArrayList<UUID>();
-        mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
-        mUuids.add(UUID.fromString("2d64189d-5a2c-4511-a074-77f199fd0834"));
         btn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -93,7 +76,6 @@ DataBaseHandler dbh;
                         if (MyName.trim().equals("")) {
                             name.setError("Enter Name");
                         } else {
-
                             if (bluetoothAdapter == null) {
                                 Toast.makeText(getApplicationContext(), "Oops! Your device does not support Bluetooth",
                                         Toast.LENGTH_SHORT).show();
@@ -102,40 +84,38 @@ DataBaseHandler dbh;
                                 btn.setText("STOP");
                                 Intent enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                                 startActivityForResult(enableBluetoothIntent, ENABLE_BT_REQUEST_CODE);
-                                Toast.makeText( Cleint.this, "Bluetooth Enabled", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(TwodeviceServer.this, "Bluetooth Enabled", Toast.LENGTH_SHORT).show();
                             } else if (refreshEnabled) {
-                                btn.setText("Find Server");
+                                btn.setText("Find Opponent");
                                 refreshEnabled = false;
                                 adapter.clear();
                                 bluetoothAdapter.disable();
                             }
                         }
                     }
-}
+                }
         );
 
         listview = (ListView) findViewById(R.id.listView);
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1);
-        listview.setAdapter(adapter);
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String itemValue = (String) listview.getItemAtPosition(position);
                 String MAC = itemValue.substring(itemValue.length() - 17);
                 BluetoothDevice bluetoothDevice = bluetoothAdapter.getRemoteDevice(MAC);
+                try {
+                    ct = new ConnectingThread(bluetoothDevice);
+                    ct.start();
 
-
-              for (int i = 0; i < 2; i++) {
-                    try {
-                            ct = new ConnectingThread(bluetoothDevice, mUuids.get(i));
-                        ct.start();
-                    } catch (Exception e) {
-                    }
+                } catch (Exception e) {
                 }
-
             }
         });
+
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1);
+        listview.setAdapter(adapter);
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
         if (bluetoothAdapter.isEnabled())
         {
             bluetoothAdapter.disable();
@@ -152,7 +132,8 @@ DataBaseHandler dbh;
 
                 makeDiscoverable();
                 discoverDevices();
-
+                t = new ListeningThread();
+                t.start();
 
             } else {
                 Toast.makeText(getApplicationContext(), "Bluetooth is not enabled.", Toast.LENGTH_SHORT).show();
@@ -167,7 +148,7 @@ DataBaseHandler dbh;
             bluetoothAdapter.disable();
             adapter.clear();
             refreshEnabled = false;
-            btn.setText("Find Server");
+            btn.setText("Find Opponent");
         }
     }
 
@@ -202,46 +183,67 @@ DataBaseHandler dbh;
 
         mBluetoothDevice = device;
         mBluetoothSocket = socket;
-        blue[blue1]=socket;
-        blue1++;
-        if(blue1==2)
-        {
-            if(blue[0]==blue[1])
-            {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-
-                        Toast.makeText(getApplicationContext(), "sockets equal", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-            else
-            {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-
-                        Toast.makeText(getApplicationContext(), "sockets not equal.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        }
-     // Intent ic=new Intent(Cleint.this,SelectQuestions.class);
-      // startActivity(ic);
         connectedThread = new ConnectedThread(socket);
         connectedThread.start();
+
     }
 
+    private class ListeningThread extends Thread {
+        private final BluetoothServerSocket bluetoothServerSocket;
 
+        public ListeningThread() {
+            BluetoothServerSocket temp = null;
+            try {
+                temp = bluetoothAdapter.listenUsingRfcommWithServiceRecord(getString(R.string.app_name), uuid);
 
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            bluetoothServerSocket = temp;
+        }
 
+        public void run() {
+            BluetoothSocket bluetoothSocket;
+            while (true) {
+                try {
+                    bluetoothSocket = bluetoothServerSocket.accept();
+                } catch (IOException e) {
+                    break;
+                }
+                if (bluetoothSocket != null) {
 
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "A connection has been accepted.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
+                    connected(bluetoothSocket, bluetoothSocket.getRemoteDevice());
+
+                    try {
+                        bluetoothServerSocket.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+            }
+        }
+
+        public void cancel() {
+            try {
+                bluetoothServerSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     private class ConnectingThread extends Thread {
         private final BluetoothDevice bluetoothDevice;
         private final BluetoothSocket bluetoothSocket;
 
-        public ConnectingThread(BluetoothDevice device, UUID uuid) {
+        public ConnectingThread(BluetoothDevice device) {
 
             BluetoothSocket temp = null;
             bluetoothDevice = device;
@@ -270,15 +272,7 @@ DataBaseHandler dbh;
             }
 
             if (bluetoothSocket!= null && bluetoothDevice != null) {
-
-                runOnUiThread(new Runnable() {
-                    public void run() {
-
-                        Toast.makeText(getApplicationContext(), "Connection has been made.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                connected(bluetoothSocket, bluetoothSocket.getRemoteDevice());
-
+                connected(bluetoothSocket, bluetoothDevice);
             }
 
         }
@@ -322,6 +316,28 @@ DataBaseHandler dbh;
         public void run() {
             byte[] buffer = new byte[1024];
             int bytes;
+            connectedThread.write(("+"+CategoryForServer.Duration+"/"+playnum).getBytes());
+            connectedThread.write(("/"+playnum).getBytes());
+            for (int i = 1; i < Main2Activity.c; i++) {
+                RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
+                //    Toast.makeText(getApplicationContext(),"writing questions",Toast.LENGTH_SHORT).show();
+                final int finalI = i;
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "in loop" + finalI, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                ct.write((";" + rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()).getBytes());
+                if (i == (Main2Activity.c) - 1) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "in if" , Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    ct.write(("..." +( Main2Activity.c-1)).getBytes());
+                }
+
+            }
             runOnUiThread(new Runnable() {
                 public void run() {
                     Toast.makeText(getApplicationContext(), "in run", Toast.LENGTH_SHORT).show();
@@ -383,14 +399,14 @@ DataBaseHandler dbh;
                     }
                     if(readMessage.contains("..."))
                     {
-                      qnumber=(readMessage.charAt(3));
-                       runOnUiThread(new Runnable() {
+                        qnumber=(readMessage.charAt(3));
+                        runOnUiThread(new Runnable() {
                             public void run() {
                                 b++;
                                 Toast.makeText(getApplicationContext(), "in ............."+qnumber, Toast.LENGTH_SHORT).show();
                             }
                         });
-                     Intent ic=new Intent(Cleint.this,SelectQuestions.class);
+                        Intent ic=new Intent(TwodeviceServer.this,SelectQuestions.class);
                         startActivity(ic);
                     }
 
@@ -421,4 +437,5 @@ DataBaseHandler dbh;
     }
 
 }
+
 

@@ -16,10 +16,11 @@
         android:layout_height="wrap_content"
         android:text="Reasoning"
         android:id="@+id/button5"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="143dp"
-        android:onClick="reasoning"/>
+        android:layout_marginTop="64dp"
+        android:onClick="reasoning"
+        android:layout_below="@+id/textView2"
+        android:layout_alignLeft="@+id/button6"
+        android:layout_alignStart="@+id/button6" />
 
     <Button
         android:layout_width="wrap_content"

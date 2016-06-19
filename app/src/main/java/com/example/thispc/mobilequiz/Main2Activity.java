@@ -13,14 +13,40 @@ public class Main2Activity extends AppCompatActivity {
     DataBaseHandler dbh;
     Button b1;
     public static int c=1;
+    public static String type;
+    public static String joined_as;
 public void twodevices(View v)
 {
-    Intent i=new Intent(Main2Activity.this,Twodevices.class);
+    type ="twodevices";
+    AlertDialog.Builder aa=new AlertDialog.Builder(Main2Activity.this);
+    aa.setTitle("Join As?");
+    aa.setMessage("Joining As Server Would Allow You To Select Questions and you would also be a part of quiz");
+    aa.setPositiveButton("Server", new DialogInterface.OnClickListener() {
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            joined_as="server";
+            Intent i = new Intent(Main2Activity.this, CategoryForServer.class);
+            startActivity(i);
+        }
+    });
+    aa.setNegativeButton("Client", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            joined_as="client";
+            Intent i = new Intent(Main2Activity.this,Twodevices.class);
+            startActivity(i);
+        }
+    });
+
+    aa.show();
+    //Intent i=new Intent(Main2Activity.this,Twodevices.class);
    // i.putExtra("type","1");
-    startActivity(i);
+   // startActivity(i);
 }
     public void multipledevices(View v)
     {
+        type="multidevices";
         AlertDialog.Builder aa=new AlertDialog.Builder(Main2Activity.this);
         aa.setTitle("Join As?");
         aa.setMessage("Joining As Server Would Allow You To Select Questions");

@@ -155,7 +155,11 @@ public void aptitude() {
                 }
                 i++;
                 aptitude();
+                if(i<2)
              connectedThread.write(("/"+c).getBytes());
+                if(i==2)
+                    connectedThread.write(("/" + "." + c).getBytes());
+
             }
         });
         o2.setOnClickListener(new View.OnClickListener() {
@@ -166,7 +170,10 @@ public void aptitude() {
                 }
                 i++;
                 aptitude();
-              connectedThread.write(("/" + c).getBytes());
+                if(i<2)
+                    connectedThread.write(("/"+c).getBytes());
+                if(i==2)
+                    connectedThread.write(("/"+"."+c).getBytes());
             }
         });
         o3.setOnClickListener(new View.OnClickListener() {
@@ -177,7 +184,10 @@ public void aptitude() {
                 }
                 i++;
                 aptitude();
-               connectedThread.write(("/" + c).getBytes());
+                if(i<2)
+                    connectedThread.write(("/"+c).getBytes());
+                if(i==2)
+                    connectedThread.write(("/"+"."+c).getBytes());
             }
         });
         o4.setOnClickListener(new View.OnClickListener() {
@@ -188,7 +198,10 @@ public void aptitude() {
                 }
                 i++;
                 aptitude();
-             connectedThread.write(("/" + c).getBytes());
+                if(i<2)
+                    connectedThread.write(("/"+c).getBytes());
+                if(i==2)
+                    connectedThread.write(("/"+"."+c).getBytes());
             }
         });
     }else
@@ -213,7 +226,7 @@ public void aptitude() {
             o2.setEnabled(false);
             o3.setEnabled(false);
             o4.setEnabled(false);
-            byte[] ByteArray = ("."+c).getBytes();
+            byte[] ByteArray = ("/"+"."+c).getBytes();
        connectedThread.write(ByteArray);
             mChronometer.stop();
             if (Category.value > -1) {
@@ -236,7 +249,10 @@ public void aptitude() {
                 }
                 i++;
                 reasoning();
-              connectedThread.write(("/" + c).getBytes());
+                if(i<2)
+                    connectedThread.write(("/"+c).getBytes());
+                if(i==2)
+                    connectedThread.write(("/"+"."+c).getBytes());
             }
         });
         o2.setOnClickListener(new View.OnClickListener() {
@@ -247,7 +263,10 @@ public void aptitude() {
                 }
                 i++;
                 reasoning();
-              connectedThread.write(("/" + c).getBytes());
+                if(i<2)
+                    connectedThread.write(("/"+c).getBytes());
+                if(i==2)
+                    connectedThread.write(("/"+"."+c).getBytes());
             }
         });
         o3.setOnClickListener(new View.OnClickListener() {
@@ -258,7 +277,10 @@ public void aptitude() {
                 }
                 i++;
                 reasoning();
-                connectedThread.write(("/" + c).getBytes());
+                if(i<2)
+                    connectedThread.write(("/"+c).getBytes());
+                if(i==2)
+                    connectedThread.write(("/"+"."+c).getBytes());
             }
         });
         o4.setOnClickListener(new View.OnClickListener() {
@@ -269,7 +291,10 @@ public void aptitude() {
                 }
                 i++;
                 reasoning();
-              connectedThread.write(("/" + c).getBytes());
+                if(i<2)
+                    connectedThread.write(("/"+c).getBytes());
+                if(i==2)
+                    connectedThread.write(("/"+"."+c).getBytes());
             }
         });
     }else

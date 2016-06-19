@@ -20,6 +20,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -32,7 +34,7 @@ public class Twodevices extends AppCompatActivity {
     EditText name;
     private ArrayList<UUID> mUuids;
     boolean refreshEnabled = false;
-
+    ConnectedThread connectedThread=null;
     private BluetoothAdapter bluetoothAdapter;
     private ListView listview;
     private ArrayAdapter adapter;
@@ -186,8 +188,8 @@ public class Twodevices extends AppCompatActivity {
 
         mBluetoothDevice = device;
         mBluetoothSocket = socket;
-        Intent intent = new Intent(Twodevices.this,Category.class);
-        startActivity(intent);
+        connectedThread = new ConnectedThread(socket);
+        connectedThread.start();
 
     }
 
@@ -289,6 +291,134 @@ public class Twodevices extends AppCompatActivity {
             }
         }
     }
+    public class ConnectedThread extends Thread {
+        private final BluetoothSocket mmSocket;
+        private final InputStream mmInStream;
+        private final OutputStream mmOutStream;
+        private int cnt = 0;
+
+        public ConnectedThread(BluetoothSocket socket) {
+            mmSocket = socket;
+            mBluetoothSocket=socket;
+            InputStream tmpIn = null;
+            OutputStream tmpOut = null;
+            // Get the BluetoothSocket input and output streams
+            try {
+                tmpIn = socket.getInputStream();
+                tmpOut = socket.getOutputStream();
+            } catch (IOException e) {
+
+            }
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "in connected thread" , Toast.LENGTH_SHORT).show();
+                }
+            });
+            mmInStream = tmpIn;
+            mmOutStream = tmpOut;
+        }
+
+        public void run() {
+            byte[] buffer = new byte[1024];
+            int bytes;
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "in run", Toast.LENGTH_SHORT).show();
+                }
+            });
+            String score="0";
+            // Keep listening to the InputStream while connected
+            while (true) {
+                try {
+
+                    // Read from the InputStream
+                    String readMessage = "";
+                    bytes = mmInStream.read(buffer);
+                    readMessage = new String(buffer, 0, bytes);
+                    if(readMessage.contains("+")) {
+                        Duration = readMessage.substring(1, readMessage.indexOf("/"));
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "duration" + Duration, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        playnum = readMessage.charAt(readMessage.indexOf("/") + 1);
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "playnum" + playnum, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    if(readMessage.contains(";"))
+                    {
+                        mbluetoothSocket=mBluetoothSocket;
+                        RandomQuestionsType rqt=new RandomQuestionsType(Integer.parseInt(readMessage.substring(1,readMessage.indexOf('['))),Integer.parseInt(readMessage.substring(readMessage.indexOf('[')+1,readMessage.indexOf(']'))),readMessage.substring(readMessage.indexOf(']')+1));
+                        dbh.adRandomQuestionsType(rqt);
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                a++;
+                                Toast.makeText(getApplicationContext(), "in ;" + a +dbh.getRandomQuestionsType(a).getType(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    if(readMessage.contains("reached"))
+                    {
+                        reach=1;
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "reached", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    if(readMessage.contains("()"))
+                    {
+                        final String finalReadMessage = readMessage;
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "Your position is"+ finalReadMessage.charAt(2), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    if(readMessage.contains("..."))
+                    {
+                        qnumber=(readMessage.charAt(3));
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                b++;
+                                Toast.makeText(getApplicationContext(), "in ............."+qnumber, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        Intent ic=new Intent(Cleint.this,SelectQuestions.class);
+                        startActivity(ic);
+                    }
+
+                } catch (Exception e) {
+
+
+                }
+            }
+        }
+
+        public void write(byte[] buffer) {
+
+            try {
+                mmOutStream.write(buffer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        public void cancel() {
+            try {
+                mmSocket.close();
+            } catch (IOException e) {
+
+            }
+        }
+    }
+
 
 }
 

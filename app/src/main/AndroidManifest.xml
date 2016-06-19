@@ -35,7 +35,8 @@
             android:name=".QuestionList"
             android:label="@string/title_activity_question_list"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CategoryForServer"></activity>
+        <activity android:name=".CategoryForServer" />
+        <activity android:name=".TwodeviceServer"></activity>
     </application>
 
 </manifest>
