@@ -249,7 +249,6 @@ public class Server extends AppCompatActivity {
             byte[] buffer = new byte[1024];
             int bytes;
           ct.write(("+"+CategoryForServer.Duration+"/"+playnum).getBytes());
-            ct.write(("/"+playnum).getBytes());
             for (int i = 1; i < Main2Activity.c; i++) {
                 RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
             //    Toast.makeText(getApplicationContext(),"writing questions",Toast.LENGTH_SHORT).show();
@@ -308,7 +307,7 @@ public class Server extends AppCompatActivity {
                             p5.setText(readMessage.substring(2));
                         }
                     }*/
-               if(readMessage.contains("lodu"))
+             /*  if(readMessage.contains("lodu"))
                     {
                         runOnUiThread(new Runnable() {
                             public void run() {
@@ -316,7 +315,7 @@ public class Server extends AppCompatActivity {
                             }
                         });
                     }
-                if (readMessage.contains("?")) {
+              if (readMessage.contains("?")) {
                     final String finalReadMessage1 = readMessage;
                     runOnUiThread(new Runnable() {
                         public void run() {
@@ -385,7 +384,7 @@ public class Server extends AppCompatActivity {
                             }
                         });
                     }
-                }
+                }*/
                     if (readMessage.contains("=")) {
                         final String finalReadMessage1 = readMessage;
                         runOnUiThread(new Runnable() {
@@ -461,7 +460,7 @@ public class Server extends AppCompatActivity {
                             finalscore[4]=Integer.parseInt(readMessage.substring(2,readMessage.indexOf(">")));
 
                         }
-                             waitingforresult();
+                          //   waitingforresult();
                     }
 
                /*     if (playnum == 1) {

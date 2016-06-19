@@ -26,6 +26,8 @@ public class Questions extends AppCompatActivity {
     Button o2;
     Button o3;
     Button o4;
+    RandomQuestionsType rqt2=null;
+    int qnumber;
    public static int i=1;
     String j;
    public static int c=0;
@@ -33,15 +35,30 @@ public class Questions extends AppCompatActivity {
     String duration;
     TextView tv;
    // String opposcore=null;
-    String OpponentName=(Category.OpponentName).toUpperCase();
-    String yourname=(Twodevices.MyName).toUpperCase();
+    String OpponentName;
+    String yourname;
     DataBaseHandler dbh;
     QuestionDetails qd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
-        duration=Category.Duration;
+        if(Main2Activity.joined_as.equals("server")) {
+            bluetoothSocket = TwodeviceServer.mBluetoothSocket;
+            duration = CategoryForServer.Duration;
+            qnumber = Main2Activity.c - 1;
+            OpponentName = TwodeviceServer.OpponentName;
+            yourname=TwodeviceServer.MyName;
+        }
+        if(Main2Activity.joined_as.equals("client"))
+        {
+            bluetoothSocket=Twodevices.mbluetoothSocket;
+            duration=Twodevices.Duration;
+            qnumber=Integer.valueOf(Twodevices.qnumber);
+            OpponentName=Twodevices.OpponentName;
+            yourname=Twodevices.MyName;
+        }
+
         mChronometer = (Chronometer) findViewById(R.id.chronometer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -49,13 +66,22 @@ public class Questions extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view,yourname+":\t\t"+c+"\n"+OpponentName+":\t\t"+Category.opposcore, Snackbar.LENGTH_LONG)
-                        .setAction("Action",null).show();
+                if(Main2Activity.joined_as.equals("server"))
+                {
+                    Snackbar.make(view,yourname+":\t\t"+c+"\n"+OpponentName+":\t\t"+TwodeviceServer.opposcore, Snackbar.LENGTH_LONG)
+                            .setAction("Action",null).show();
+                }
+                if(Main2Activity.joined_as.equals("client"))
+                {
+                    Snackbar.make(view,yourname+":\t\t"+c+"\n"+OpponentName+":\t\t"+Twodevices.opposcore, Snackbar.LENGTH_LONG)
+                            .setAction("Action",null).show();
+                }
+
 
 
             }
         });
-       bluetoothSocket = Category.bluetoothSocket;
+       //bluetoothSocket = Category.bluetoothSocket;
         dbh = new DataBaseHandler(this);
         o1=(Button)findViewById(R.id.button7);
         o2=(Button)findViewById(R.id.button15);
@@ -63,7 +89,7 @@ public class Questions extends AppCompatActivity {
         o4=(Button)findViewById(R.id.button17);
         tv=(TextView)findViewById(R.id.TextView);
 
-      j= getIntent().getExtras().getString("type");
+    /*  j= getIntent().getExtras().getString("type");
         if(j.equals("1"))
         {
             mChronometer.start();
@@ -73,7 +99,9 @@ public class Questions extends AppCompatActivity {
         {
             mChronometer.start();
            reasoning();
-        }
+        }*/
+        mChronometer.start();
+        questions();
      connectedThread = new ConnectedThread(bluetoothSocket);
      connectedThread.start();
         mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
@@ -92,18 +120,34 @@ public class Questions extends AppCompatActivity {
                     });
                     builder.show();
 
-                   byte[] ByteArray = ("."+c).getBytes();
+                   byte[] ByteArray = ("/" + "." + c).getBytes();
                    connectedThread.write(ByteArray);
-
-                        if (Integer.parseInt(Category.opposcore) > c) {
+                    if(Main2Activity.joined_as.equals("server"))
+                    {
+                        if (Integer.parseInt(TwodeviceServer.opposcore) > c) {
                             Toast.makeText(Questions.this, "You Loose", Toast.LENGTH_LONG).show();
                         }
-                        if (Integer.parseInt(Category.opposcore) < c) {
+                        if (Integer.parseInt(TwodeviceServer.opposcore) < c) {
                             Toast.makeText(Questions.this, "You Win", Toast.LENGTH_LONG).show();
                         }
-                        if (Integer.parseInt(Category.opposcore) == c) {
+                        if (Integer.parseInt(TwodeviceServer.opposcore) == c) {
                             Toast.makeText(Questions.this, "Draw", Toast.LENGTH_LONG).show();
                         }
+                    }
+                    if(Main2Activity.joined_as.equals("client"))
+                    {
+                        if (Integer.parseInt(Twodevices.opposcore) > c) {
+                            Toast.makeText(Questions.this, "You Loose", Toast.LENGTH_LONG).show();
+                        }
+                        if (Integer.parseInt(Twodevices.opposcore) < c) {
+                            Toast.makeText(Questions.this, "You Win", Toast.LENGTH_LONG).show();
+                        }
+                        if (Integer.parseInt(Twodevices.opposcore) == c) {
+                            Toast.makeText(Questions.this, "Draw", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+
 
 
 
@@ -111,41 +155,31 @@ public class Questions extends AppCompatActivity {
         });
     }
 
-public void aptitude() {
+public void questions() {
 
     if (Integer.parseInt(mChronometer.getText().toString().substring(0,mChronometer.getText().toString().indexOf(":"))) < Integer.parseInt(duration))
     {
-        if (i <= 2) {
-            qd = dbh.getAptitudeQ(i);
+        if (i <= qnumber) {
+            rqt2=dbh.getRandomQuestionsType(i);
+            if(rqt2.getType().toString().equals("Aptitude"))
+            {
+                qd= dbh.getAptitudeQ(rqt2.getId2());
+                if(qd==null)
+                {
+                    Toast.makeText(getApplicationContext(), "null", Toast.LENGTH_SHORT).show();
+                }
+            }
+            if(rqt2.getType().toString().equals("Reasoning"))
+            {
+                qd= dbh.getReasoningQ(rqt2.getId2());
+            }
             tv.setText(qd.getQuestion());
             o1.setText(qd.getOption1());
             o2.setText(qd.getOption2());
             o3.setText(qd.getOption3());
             o4.setText(qd.getOption4());
             ans = qd.getAnswer();
-        } else {
-            Toast.makeText(Questions.this, "Quiz completed before time ....please wait for results", Toast.LENGTH_LONG).show();
-            o1.setEnabled(false);
-            o2.setEnabled(false);
-            o3.setEnabled(false);
-            o4.setEnabled(false);
-        byte[] ByteArray =("."+c).getBytes();
-      connectedThread.write(ByteArray);
-            mChronometer.stop();
-            Toast.makeText(Questions.this, "please wait for results", Toast.LENGTH_LONG).show();
 
-            if (Category.value > -1) {
-                if (Category.value > c) {
-                    Toast.makeText(Questions.this, "You Loose", Toast.LENGTH_LONG).show();
-                }
-                if (Category.value < c) {
-                    Toast.makeText(Questions.this, "You Win", Toast.LENGTH_LONG).show();
-                }
-                if (Category.value == c) {
-                    Toast.makeText(Questions.this, "Draw", Toast.LENGTH_LONG).show();
-                }
-            }
-        }
 
         o1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,10 +188,10 @@ public void aptitude() {
                     c++;
                 }
                 i++;
-                aptitude();
-                if(i<2)
+                questions();
+                if(i<qnumber)
              connectedThread.write(("/"+c).getBytes());
-                if(i==2)
+                if(i==qnumber)
                     connectedThread.write(("/" + "." + c).getBytes());
 
             }
@@ -169,10 +203,10 @@ public void aptitude() {
                     c++;
                 }
                 i++;
-                aptitude();
-                if(i<2)
+                questions();
+                if(i<qnumber)
                     connectedThread.write(("/"+c).getBytes());
-                if(i==2)
+                if(i==qnumber)
                     connectedThread.write(("/"+"."+c).getBytes());
             }
         });
@@ -183,10 +217,10 @@ public void aptitude() {
                     c++;
                 }
                 i++;
-                aptitude();
-                if(i<2)
+                questions();
+                if(i<qnumber)
                     connectedThread.write(("/"+c).getBytes());
-                if(i==2)
+                if(i==qnumber)
                     connectedThread.write(("/"+"."+c).getBytes());
             }
         });
@@ -197,13 +231,54 @@ public void aptitude() {
                     c++;
                 }
                 i++;
-                aptitude();
-                if(i<2)
+                questions();
+                if(i<qnumber)
                     connectedThread.write(("/"+c).getBytes());
-                if(i==2)
+                if(i==qnumber)
                     connectedThread.write(("/"+"."+c).getBytes());
             }
         });
+    }else {
+            Toast.makeText(Questions.this, "Quiz completed before time ....please wait for results", Toast.LENGTH_LONG).show();
+            o1.setEnabled(false);
+            o2.setEnabled(false);
+            o3.setEnabled(false);
+            o4.setEnabled(false);
+            byte[] ByteArray =("."+c).getBytes();
+            connectedThread.write(ByteArray);
+            mChronometer.stop();
+            Toast.makeText(Questions.this, "please wait for results", Toast.LENGTH_LONG).show();
+
+            if(Main2Activity.joined_as=="server")
+            {
+                if (TwodeviceServer.value > -1) {
+                    if (TwodeviceServer.value > c) {
+                        Toast.makeText(Questions.this, "You Loose", Toast.LENGTH_LONG).show();
+                    }
+                    if (TwodeviceServer.value < c) {
+                        Toast.makeText(Questions.this, "You Win", Toast.LENGTH_LONG).show();
+                    }
+                    if (TwodeviceServer.value == c) {
+                        Toast.makeText(Questions.this, "Draw", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+            if(Main2Activity.joined_as=="client")
+            {
+                if (Twodevices.value > -1) {
+                    if (Twodevices.value > c) {
+                        Toast.makeText(Questions.this, "You Loose", Toast.LENGTH_LONG).show();
+                    }
+                    if (Twodevices.value < c) {
+                        Toast.makeText(Questions.this, "You Win", Toast.LENGTH_LONG).show();
+                    }
+                    if (Twodevices.value == c) {
+                        Toast.makeText(Questions.this, "Draw", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+        }
     }else
     {
         Toast.makeText(Questions.this, "Quiz is over", Toast.LENGTH_LONG).show();

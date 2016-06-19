@@ -50,18 +50,23 @@ public class CategoryForServer extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
 
                 Duration = edittext.getText().toString();
-                if(Duration!=null)
-                {
-                    if(Duration.length()==1)
-                    {
-                        Duration="0"+Duration;
+                if (Duration != null) {
+                    if (Duration.length() == 1) {
+                        Duration = "0" + Duration;
                     }
-                    Intent i=new Intent(CategoryForServer.this,Server.class);
-                    startActivity(i);
+                    if (Main2Activity.type =="multidevices") {
+                        Intent i = new Intent(CategoryForServer.this, Server.class);
+                        startActivity(i);
+                    }
+                    if (Main2Activity.type == "twodevices") {
+                        Intent i = new Intent(CategoryForServer.this,TwodeviceServer.class);
+                        startActivity(i);
+
+                    }
+
 
                 }
-                if(Duration==null)
-                {
+                if (Duration == null) {
                     Toast.makeText(getApplicationContext(), "Please Enter Duration", Toast.LENGTH_SHORT).show();
 
                 }

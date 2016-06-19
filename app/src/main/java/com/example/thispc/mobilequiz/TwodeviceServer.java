@@ -31,10 +31,12 @@ public class TwodeviceServer extends AppCompatActivity {
     public static String MyName = "";
     public static String OpponentName;
     DataBaseHandler dbh;
+    public static String opposcore;
     Button btn;
     EditText name;
     private ArrayList<UUID> mUuids;
     boolean refreshEnabled = false;
+    public static  int value=-1;
     ConnectedThread connectedThread=null;
 
     private BluetoothAdapter bluetoothAdapter;
@@ -46,6 +48,8 @@ public class TwodeviceServer extends AppCompatActivity {
     private static final int DISCOVERABLE_DURATION = 300;
     public static BluetoothDevice mBluetoothDevice = null;
     public static BluetoothSocket mBluetoothSocket = null;
+    public static BluetoothSocket mbluetoothSocket = null;
+
     ListeningThread t = null;
     ConnectingThread ct = null;
     private  static final UUID uuid = UUID.fromString("fc5ffc49-00e3-4c8b-9cf1-6b72aad1001a");
@@ -316,8 +320,7 @@ public class TwodeviceServer extends AppCompatActivity {
         public void run() {
             byte[] buffer = new byte[1024];
             int bytes;
-            connectedThread.write(("+"+CategoryForServer.Duration+"/"+playnum).getBytes());
-            connectedThread.write(("/"+playnum).getBytes());
+            connectedThread.write(("+" + CategoryForServer.Duration+"/"+MyName).getBytes());
             for (int i = 1; i < Main2Activity.c; i++) {
                 RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
                 //    Toast.makeText(getApplicationContext(),"writing questions",Toast.LENGTH_SHORT).show();
@@ -327,14 +330,15 @@ public class TwodeviceServer extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "in loop" + finalI, Toast.LENGTH_SHORT).show();
                     }
                 });
-                ct.write((";" + rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()).getBytes());
+                connectedThread.write((";" + rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()).getBytes());
                 if (i == (Main2Activity.c) - 1) {
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(getApplicationContext(), "in if" , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "in if", Toast.LENGTH_SHORT).show();
                         }
                     });
-                    ct.write(("..." +( Main2Activity.c-1)).getBytes());
+                    connectedThread.write(("..." + (Main2Activity.c - 1)).getBytes());
+                    Intent ic =new Intent(TwodeviceServer.this,Questions.class);
                 }
 
             }
@@ -352,66 +356,69 @@ public class TwodeviceServer extends AppCompatActivity {
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
-                    if(readMessage.contains("+")) {
-                        Duration = readMessage.substring(1, readMessage.indexOf("/"));
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "duration" + Duration, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        playnum = readMessage.charAt(readMessage.indexOf("/") + 1);
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "playnum" + playnum, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+                  if(readMessage.contains("?"))
+                   {
+                           OpponentName=readMessage.substring(1);
+                      }
+                    if(readMessage.contains("/")) {
+                        if (readMessage.contains(".")) {
+                            opposcore = readMessage.substring(2);
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(TwodeviceServer.this, "opposcore" + opposcore, Toast.LENGTH_LONG).show();
 
-                    if(readMessage.contains(";"))
-                    {
-                        mbluetoothSocket=mBluetoothSocket;
-                        RandomQuestionsType rqt=new RandomQuestionsType(Integer.parseInt(readMessage.substring(1,readMessage.indexOf('['))),Integer.parseInt(readMessage.substring(readMessage.indexOf('[')+1,readMessage.indexOf(']'))),readMessage.substring(readMessage.indexOf(']')+1));
-                        dbh.adRandomQuestionsType(rqt);
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                a++;
-                                Toast.makeText(getApplicationContext(), "in ;" + a +dbh.getRandomQuestionsType(a).getType(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                    if(readMessage.contains("reached"))
-                    {
-                        reach=1;
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "reached", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                    if(readMessage.contains("()"))
-                    {
-                        final String finalReadMessage = readMessage;
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "Your position is"+ finalReadMessage.charAt(2), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                    if(readMessage.contains("..."))
-                    {
-                        qnumber=(readMessage.charAt(3));
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                b++;
-                                Toast.makeText(getApplicationContext(), "in ............."+qnumber, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        Intent ic=new Intent(TwodeviceServer.this,SelectQuestions.class);
-                        startActivity(ic);
-                    }
+                                }
 
+                            });
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(TwodeviceServer.this, "last question of opponent", Toast.LENGTH_LONG).show();
+
+                                }
+
+                            });
+                            value = Integer.valueOf(String.valueOf(readMessage.charAt(1)));
+                            if (Questions.i > Main2Activity.c-1 || Questions.mChronometer.getText() == (CategoryForServer.Duration + ":" + "00")) {
+                                if (value > Questions.c) {
+                                    runOnUiThread(new Runnable() {
+                                        public void run() {
+                                            Toast.makeText(TwodeviceServer.this, "You Loose", Toast.LENGTH_LONG).show();
+
+                                        }
+
+                                    });
+                                }
+                                if (value < Questions.c) {
+                                    runOnUiThread(new Runnable() {
+                                        public void run() {
+                                            Toast.makeText(TwodeviceServer.this, "You Win", Toast.LENGTH_LONG).show();
+
+                                        }
+
+                                    });
+                                }
+                                if (value == Questions.c) {
+                                    runOnUiThread(new Runnable() {
+                                        public void run() {
+                                            Toast.makeText(TwodeviceServer.this, "Draw", Toast.LENGTH_LONG).show();
+
+                                        }
+
+                                    });
+                                }
+
+                            }
+                        } else {
+                            opposcore = readMessage.substring(1);
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(TwodeviceServer.this, "opposcore" + opposcore, Toast.LENGTH_LONG).show();
+
+                                }
+
+                            });
+                        }}
                 } catch (Exception e) {
-
 
                 }
             }

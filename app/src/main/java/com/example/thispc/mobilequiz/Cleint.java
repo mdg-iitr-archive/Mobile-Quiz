@@ -363,7 +363,7 @@ DataBaseHandler dbh;
                             }
                         });
                     }
-                    if(readMessage.contains("reached"))
+                   if(readMessage.contains("reached"))
                     {
                         reach=1;
                         runOnUiThread(new Runnable() {
