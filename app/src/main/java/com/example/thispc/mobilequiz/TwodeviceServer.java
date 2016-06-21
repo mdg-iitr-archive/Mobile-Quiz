@@ -320,7 +320,7 @@ public class TwodeviceServer extends AppCompatActivity {
         public void run() {
             byte[] buffer = new byte[1024];
             int bytes;
-            connectedThread.write(("+" + CategoryForServer.Duration+"/"+MyName).getBytes());
+            connectedThread.write(("+" + CategoryForServer.Duration+"%"+MyName).getBytes());
             for (int i = 1; i < Main2Activity.c; i++) {
                 RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
                 //    Toast.makeText(getApplicationContext(),"writing questions",Toast.LENGTH_SHORT).show();
@@ -330,15 +330,17 @@ public class TwodeviceServer extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "in loop" + finalI, Toast.LENGTH_SHORT).show();
                     }
                 });
-                connectedThread.write((";" + rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()).getBytes());
+                if(i<Main2Activity.c - 1)
+                {
+                    connectedThread.write((";" + rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()).getBytes());
+                }
                 if (i == (Main2Activity.c) - 1) {
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "in if", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+
+                    connectedThread.write((";" + rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()+"*"+(MainActivity.c-1)).getBytes());
+
                     connectedThread.write(("..." + (Main2Activity.c - 1)).getBytes());
                     Intent ic =new Intent(TwodeviceServer.this,Questions.class);
+                    startActivity(ic);
                 }
 
             }
@@ -359,6 +361,13 @@ public class TwodeviceServer extends AppCompatActivity {
                   if(readMessage.contains("?"))
                    {
                            OpponentName=readMessage.substring(1);
+                       runOnUiThread(new Runnable() {
+                           public void run() {
+                               Toast.makeText(TwodeviceServer.this, "opponent name" + OpponentName, Toast.LENGTH_LONG).show();
+
+                           }
+
+                       });
                       }
                     if(readMessage.contains("/")) {
                         if (readMessage.contains(".")) {
@@ -409,9 +418,10 @@ public class TwodeviceServer extends AppCompatActivity {
 
                             }
                         } else {
-                            opposcore = readMessage.substring(1);
-                            runOnUiThread(new Runnable() {
+                                  opposcore = readMessage.substring(1);
+                                  runOnUiThread(new Runnable() {
                                 public void run() {
+
                                     Toast.makeText(TwodeviceServer.this, "opposcore" + opposcore, Toast.LENGTH_LONG).show();
 
                                 }

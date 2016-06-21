@@ -346,40 +346,55 @@ public class Twodevices extends AppCompatActivity {
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
-                    if(readMessage.contains("+")) {
-                        Duration = readMessage.substring(1, readMessage.indexOf("/"));
-                        OpponentName=readMessage.substring(readMessage.indexOf("/")+1);
+                    if (readMessage.contains("+")) {
+                        Duration = readMessage.substring(1, readMessage.indexOf("%"));
+                        OpponentName = readMessage.substring(readMessage.indexOf("%") + 1);
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 Toast.makeText(getApplicationContext(), "duration" + Duration, Toast.LENGTH_SHORT).show();
                             }
                         });
-                    }
-
-                    if(readMessage.contains(";"))
-                    {
-                        mbluetoothSocket=mBluetoothSocket;
-                        RandomQuestionsType rqt=new RandomQuestionsType(Integer.parseInt(readMessage.substring(1,readMessage.indexOf('['))),Integer.parseInt(readMessage.substring(readMessage.indexOf('[')+1,readMessage.indexOf(']'))),readMessage.substring(readMessage.indexOf(']')+1));
-                        dbh.adRandomQuestionsType(rqt);
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                a++;
-                                Toast.makeText(getApplicationContext(), "in ;" + a +dbh.getRandomQuestionsType(a).getType(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "opponenet name" + OpponentName, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
-                    if(readMessage.contains("..."))
-                    {
-                      qnumber=(readMessage.charAt(3));
-                        runOnUiThread(new Runnable() {
-                            public void run() {
 
-                               Toast.makeText(getApplicationContext(), "in ............."+qnumber, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        Intent ic=new Intent(Twodevices.this,Questions.class);
-                        startActivity(ic);
-                    }
+                    if (readMessage.contains(";")) {
+                              if(readMessage.contains("*"))
+                              {
+                                  mbluetoothSocket = mBluetoothSocket;
+                                  RandomQuestionsType rqt = new RandomQuestionsType(Integer.parseInt(readMessage.substring(1, readMessage.indexOf('['))), Integer.parseInt(readMessage.substring(readMessage.indexOf('[') + 1, readMessage.indexOf(']'))), readMessage.substring(readMessage.indexOf(']') + 1,readMessage.indexOf("*")));
+                                  dbh.adRandomQuestionsType(rqt);
+                                  runOnUiThread(new Runnable() {
+                                      public void run() {
+                                          a++;
+                                          Toast.makeText(getApplicationContext(), "in ;" + a + dbh.getRandomQuestionsType(a).getType(), Toast.LENGTH_SHORT).show();
+                                      }
+                                  });
+                                  qnumber = (readMessage.charAt(readMessage.indexOf("*")+1));
+                                  runOnUiThread(new Runnable() {
+                                      public void run() {
+
+                                          Toast.makeText(getApplicationContext(), "in *" + qnumber, Toast.LENGTH_SHORT).show();
+                                      }
+                                  });
+                                  Intent ic = new Intent(Twodevices.this, Questions.class);
+                                  startActivity(ic);
+                              }
+                       else
+                              {
+                                  RandomQuestionsType rqt = new RandomQuestionsType(Integer.parseInt(readMessage.substring(1, readMessage.indexOf('['))), Integer.parseInt(readMessage.substring(readMessage.indexOf('[') + 1, readMessage.indexOf(']'))), readMessage.substring(readMessage.indexOf(']') + 1));
+                                  dbh.adRandomQuestionsType(rqt);
+                                  runOnUiThread(new Runnable() {
+                                      public void run() {
+                                          a++;
+                                          Toast.makeText(getApplicationContext(), "in ;" + a + dbh.getRandomQuestionsType(a).getType(), Toast.LENGTH_SHORT).show();
+                                      }
+                                  });
+                              }
+                }
                     if(readMessage.contains("/")) {
                         if (readMessage.contains(".")) {
                             opposcore = readMessage.substring(2);
@@ -403,7 +418,6 @@ public class Twodevices extends AppCompatActivity {
                                     runOnUiThread(new Runnable() {
                                         public void run() {
                                             Toast.makeText(Twodevices.this, "You Loose", Toast.LENGTH_LONG).show();
-
                                         }
 
                                     });

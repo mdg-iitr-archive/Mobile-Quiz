@@ -143,7 +143,7 @@ public class SelectQuestions extends AppCompatActivity {
 }
 
 
-//questions();
+questions();
     }
 public void questions() {
 

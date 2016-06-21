@@ -54,7 +54,7 @@ public class Questions extends AppCompatActivity {
         {
             bluetoothSocket=Twodevices.mbluetoothSocket;
             duration=Twodevices.Duration;
-            qnumber=Integer.valueOf(Twodevices.qnumber);
+            qnumber=Integer.parseInt(Character.valueOf(Twodevices.qnumber).toString());
             OpponentName=Twodevices.OpponentName;
             yourname=Twodevices.MyName;
         }
@@ -157,7 +157,7 @@ public class Questions extends AppCompatActivity {
 
 public void questions() {
 
-    if (Integer.parseInt(mChronometer.getText().toString().substring(0,mChronometer.getText().toString().indexOf(":"))) < Integer.parseInt(duration))
+   if (Integer.parseInt(mChronometer.getText().toString().substring(0,mChronometer.getText().toString().indexOf(":"))) < Integer.parseInt(duration))
     {
         if (i <= qnumber) {
             rqt2=dbh.getRandomQuestionsType(i);
@@ -169,15 +169,15 @@ public void questions() {
                     Toast.makeText(getApplicationContext(), "null", Toast.LENGTH_SHORT).show();
                 }
             }
-            if(rqt2.getType().toString().equals("Reasoning"))
-            {
+              if(rqt2.getType().toString().equals("Reasoning"))
+                {
                 qd= dbh.getReasoningQ(rqt2.getId2());
-            }
-            tv.setText(qd.getQuestion());
-            o1.setText(qd.getOption1());
-            o2.setText(qd.getOption2());
-            o3.setText(qd.getOption3());
-            o4.setText(qd.getOption4());
+               }
+               tv.setText(qd.getQuestion());
+               o1.setText(qd.getOption1());
+               o2.setText(qd.getOption2());
+               o3.setText(qd.getOption3());
+               o4.setText(qd.getOption4());
             ans = qd.getAnswer();
 
 
@@ -187,13 +187,14 @@ public void questions() {
                 if (o1.getText().equals(ans)) {
                     c++;
                 }
+                if(i<qnumber) {
+                    connectedThread.write(("/" + c).getBytes());
+                }else
+                {
+                if(i==qnumber)
+                    connectedThread.write(("/" + "." + c).getBytes());}
                 i++;
                 questions();
-                if(i<qnumber)
-             connectedThread.write(("/"+c).getBytes());
-                if(i==qnumber)
-                    connectedThread.write(("/" + "." + c).getBytes());
-
             }
         });
         o2.setOnClickListener(new View.OnClickListener() {
@@ -202,12 +203,14 @@ public void questions() {
                 if (o2.getText().equals(ans)) {
                     c++;
                 }
+                if(i<qnumber) {
+                    connectedThread.write(("/" + c).getBytes());
+                }else
+                {
+                    if(i==qnumber)
+                        connectedThread.write(("/" + "." + c).getBytes());}
                 i++;
                 questions();
-                if(i<qnumber)
-                    connectedThread.write(("/"+c).getBytes());
-                if(i==qnumber)
-                    connectedThread.write(("/"+"."+c).getBytes());
             }
         });
         o3.setOnClickListener(new View.OnClickListener() {
@@ -216,12 +219,14 @@ public void questions() {
                 if (o3.getText().equals(ans)) {
                     c++;
                 }
+                if(i<qnumber) {
+                    connectedThread.write(("/" + c).getBytes());
+                }else
+                {
+                    if(i==qnumber)
+                        connectedThread.write(("/" + "." + c).getBytes());}
                 i++;
                 questions();
-                if(i<qnumber)
-                    connectedThread.write(("/"+c).getBytes());
-                if(i==qnumber)
-                    connectedThread.write(("/"+"."+c).getBytes());
             }
         });
         o4.setOnClickListener(new View.OnClickListener() {
@@ -230,26 +235,31 @@ public void questions() {
                 if (o4.getText().equals(ans)) {
                     c++;
                 }
-                i++;
-                questions();
-                if(i<qnumber)
-                    connectedThread.write(("/"+c).getBytes());
-                if(i==qnumber)
-                    connectedThread.write(("/"+"."+c).getBytes());
+               if(i<qnumber) {
+                    connectedThread.write(("/" + c).getBytes());
+                }else
+                {
+                    if(i==qnumber)
+                    {
+                        connectedThread.write(("/" + "." + c).getBytes());
+                    }
+                }
+              i++;
+               questions();
             }
         });
     }else {
-            Toast.makeText(Questions.this, "Quiz completed before time ....please wait for results", Toast.LENGTH_LONG).show();
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(Questions.this, "Quiz completed before time ....please wait for results", Toast.LENGTH_LONG).show();
+                }
+            });
             o1.setEnabled(false);
             o2.setEnabled(false);
             o3.setEnabled(false);
             o4.setEnabled(false);
-            byte[] ByteArray =("."+c).getBytes();
-            connectedThread.write(ByteArray);
             mChronometer.stop();
-            Toast.makeText(Questions.this, "please wait for results", Toast.LENGTH_LONG).show();
-
-            if(Main2Activity.joined_as=="server")
+           if(Main2Activity.joined_as.equals("server"))
             {
                 if (TwodeviceServer.value > -1) {
                     if (TwodeviceServer.value > c) {
@@ -263,7 +273,7 @@ public void questions() {
                     }
                 }
             }
-            if(Main2Activity.joined_as=="client")
+            if(Main2Activity.joined_as.equals("client"))
             {
                 if (Twodevices.value > -1) {
                     if (Twodevices.value > c) {

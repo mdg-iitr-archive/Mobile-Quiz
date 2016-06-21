@@ -278,7 +278,7 @@ public class Server extends AppCompatActivity {
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
                   //  ct.write("reached".getBytes());
-                    /*if (readMessage.contains(".")) {
+                    if (readMessage.contains(".")) {
                         final String finalReadMessage = readMessage;
                         runOnUiThread(new Runnable() {
                             public void run() {
@@ -306,8 +306,8 @@ public class Server extends AppCompatActivity {
                         {
                             p5.setText(readMessage.substring(2));
                         }
-                    }*/
-             /*  if(readMessage.contains("lodu"))
+                    }
+               if(readMessage.contains("lodu"))
                     {
                         runOnUiThread(new Runnable() {
                             public void run() {
@@ -384,7 +384,7 @@ public class Server extends AppCompatActivity {
                             }
                         });
                     }
-                }*/
+                }
                     if (readMessage.contains("=")) {
                         final String finalReadMessage1 = readMessage;
                         runOnUiThread(new Runnable() {
@@ -460,7 +460,7 @@ public class Server extends AppCompatActivity {
                             finalscore[4]=Integer.parseInt(readMessage.substring(2,readMessage.indexOf(">")));
 
                         }
-                          //   waitingforresult();
+                            waitingforresult();
                     }
 
                /*     if (playnum == 1) {
