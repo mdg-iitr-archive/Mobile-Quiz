@@ -54,7 +54,7 @@ public class Questions extends AppCompatActivity {
         {
             bluetoothSocket=Twodevices.mbluetoothSocket;
             duration=Twodevices.Duration;
-            qnumber=Integer.parseInt(Character.valueOf(Twodevices.qnumber).toString());
+            qnumber=Twodevices.a;//Integer.parseInt(Character.valueOf(Twodevices.qnumber).toString());
             OpponentName=Twodevices.OpponentName;
             yourname=Twodevices.MyName;
         }

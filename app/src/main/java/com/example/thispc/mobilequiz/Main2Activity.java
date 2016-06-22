@@ -8,10 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class Main2Activity extends AppCompatActivity {
     DataBaseHandler dbh;
     Button b1;
+    TextView t1;
     public static int c=1;
     public static String type;
     public static String joined_as;
@@ -77,6 +79,12 @@ public void twodevices(View v)
         b1=(Button)findViewById(R.id.button3);
         Typeface m=Typeface.createFromAsset(getAssets(),"MING____.ttf");
         b1.setTypeface(m);
+        b1=(Button)findViewById(R.id.button4);
+        Typeface m1=Typeface.createFromAsset(getAssets(),"MING____.ttf");
+        b1.setTypeface(m1);
+        t1=(TextView)findViewById(R.id.textView5);
+        Typeface m2=Typeface.createFromAsset(getAssets(),"MING____.ttf");
+        t1.setTypeface(m2);
         dbh = new DataBaseHandler(this);
         dbh.clear();
         QuestionDetails qd = new QuestionDetails(1,"name of country","india","malaysia","usa","germany","india" );

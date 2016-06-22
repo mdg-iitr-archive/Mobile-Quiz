@@ -8,32 +8,54 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.thispc.mobilequiz.Main2Activity"
-    android:background="#DEFED8">
+    android:background="#1A7E00">
 
     <Button
-        android:layout_width="150dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Two Players"
-        android:textColor="#ffffff"
+        android:textColor="#1A7E00"
         android:textStyle="bold"
         android:textSize="20dp"
         android:id="@+id/button3"
-        android:layout_marginTop="125dp"
         android:onClick="twodevices"
-        android:layout_alignParentTop="true"
+        android:background="#ffffff"
+        android:layout_above="@+id/button4"
         android:layout_centerHorizontal="true"
-        android:background="#07A611"/>
+        android:layout_marginBottom="29dp" />
 
     <Button
-        android:layout_width="150dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Multiple Players"
         android:id="@+id/button4"
-        android:layout_below="@+id/button3"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="106dp"
+        android:textSize="20dp"
         android:onClick="multipledevices"
+        android:textColor="#1A7E00"
+        android:textStyle="bold"
+        android:background="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/down2"
+        android:layout_below="@+id/textView5"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="26dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ffffff"
         android:textStyle="bold"
-        android:background="#07A611"/>
+        android:textSize="35dp"
+        android:text="MOBILE QUIZ"
+        android:paddingTop="5dp"
+        android:id="@+id/textView5"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

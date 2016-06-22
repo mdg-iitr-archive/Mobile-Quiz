@@ -320,6 +320,7 @@ public class TwodeviceServer extends AppCompatActivity {
         public void run() {
             byte[] buffer = new byte[1024];
             int bytes;
+            String s="";
             connectedThread.write(("+" + CategoryForServer.Duration+"%"+MyName).getBytes());
             for (int i = 1; i < Main2Activity.c; i++) {
                 RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
@@ -330,20 +331,30 @@ public class TwodeviceServer extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "in loop" + finalI, Toast.LENGTH_SHORT).show();
                     }
                 });
-                if(i<Main2Activity.c - 1)
+
+              //  s+=rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()+";";
+
+               if(i<Main2Activity.c - 1)
                 {
                     connectedThread.write((";" + rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()).getBytes());
                 }
                 if (i == (Main2Activity.c) - 1) {
 
                     connectedThread.write((";" + rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()+"*"+(MainActivity.c-1)).getBytes());
-
-                    connectedThread.write(("..." + (Main2Activity.c - 1)).getBytes());
+                    final int finalI1 = Main2Activity.c-1;
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "value of c" + finalI1, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     Intent ic =new Intent(TwodeviceServer.this,Questions.class);
                     startActivity(ic);
                 }
 
             }
+          /*  connectedThread.write((s).getBytes());
+            Intent ic =new Intent(TwodeviceServer.this,Questions.class);
+            startActivity(ic);*/
             runOnUiThread(new Runnable() {
                 public void run() {
                     Toast.makeText(getApplicationContext(), "in run", Toast.LENGTH_SHORT).show();
