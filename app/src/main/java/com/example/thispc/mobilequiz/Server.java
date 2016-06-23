@@ -248,7 +248,8 @@ public class Server extends AppCompatActivity {
         public void run() {
             byte[] buffer = new byte[1024];
             int bytes;
-          ct.write(("+"+CategoryForServer.Duration+"/"+playnum).getBytes());
+            String s="";
+        //   ct.write(("+"+CategoryForServer.Duration+"/"+playnum).getBytes());
             for (int i = 1; i < Main2Activity.c; i++) {
                 RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
             //    Toast.makeText(getApplicationContext(),"writing questions",Toast.LENGTH_SHORT).show();
@@ -267,8 +268,31 @@ public class Server extends AppCompatActivity {
                     });
                     ct.write(("..." +( Main2Activity.c-1)).getBytes());
                 }
-
             }
+          /*  for (int i = 1; i < Main2Activity.c; i++) {
+                RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
+                //    Toast.makeText(getApplicationContext(),"writing questions",Toast.LENGTH_SHORT).show();
+                final int finalI = i;
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "in loop" + finalI, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                s+=rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()+";";
+            }
+            ct.write((s).getBytes());*/
+
+
+
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "in run", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+
             // Keep listening to the InputStream while connected
             while (true) {
                 try {

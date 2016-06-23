@@ -68,7 +68,7 @@ public class TwodeviceServer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbh = new DataBaseHandler(this);
-        setContentView(R.layout.activity_twodevices);
+        setContentView(R.layout.activity_twodevice_server);
         btn = (Button) findViewById(R.id.btn_find);
         name = (EditText) findViewById(R.id.myName);
         name.setText(MyName);
@@ -90,7 +90,7 @@ public class TwodeviceServer extends AppCompatActivity {
                                 startActivityForResult(enableBluetoothIntent, ENABLE_BT_REQUEST_CODE);
                                 Toast.makeText(TwodeviceServer.this, "Bluetooth Enabled", Toast.LENGTH_SHORT).show();
                             } else if (refreshEnabled) {
-                                btn.setText("Find Opponent");
+                                btn.setText("Find Client");
                                 refreshEnabled = false;
                                 adapter.clear();
                                 bluetoothAdapter.disable();
@@ -332,9 +332,9 @@ public class TwodeviceServer extends AppCompatActivity {
                     }
                 });
 
-              //  s+=rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()+";";
+               s+=rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()+";";
 
-               if(i<Main2Activity.c - 1)
+              /* if(i<Main2Activity.c - 1)
                 {
                     connectedThread.write((";" + rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()).getBytes());
                 }
@@ -349,12 +349,12 @@ public class TwodeviceServer extends AppCompatActivity {
                     });
                     Intent ic =new Intent(TwodeviceServer.this,Questions.class);
                     startActivity(ic);
-                }
+                }*/
 
             }
-          /*  connectedThread.write((s).getBytes());
+           connectedThread.write((s).getBytes());
             Intent ic =new Intent(TwodeviceServer.this,Questions.class);
-            startActivity(ic);*/
+            startActivity(ic);
             runOnUiThread(new Runnable() {
                 public void run() {
                     Toast.makeText(getApplicationContext(), "in run", Toast.LENGTH_SHORT).show();

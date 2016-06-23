@@ -92,7 +92,7 @@ public class Twodevices extends AppCompatActivity {
                                 startActivityForResult(enableBluetoothIntent, ENABLE_BT_REQUEST_CODE);
                                 Toast.makeText(Twodevices.this, "Bluetooth Enabled", Toast.LENGTH_SHORT).show();
                             } else if (refreshEnabled) {
-                                btn.setText("Find Opponent");
+                                btn.setText("Find Server");
                                 refreshEnabled = false;
                                 adapter.clear();
                                 bluetoothAdapter.disable();
@@ -162,7 +162,7 @@ public class Twodevices extends AppCompatActivity {
             bluetoothAdapter.disable();
             adapter.clear();
             refreshEnabled = false;
-            btn.setText("Find Opponent");
+            btn.setText("Find Server");
         }
     }
 
@@ -362,9 +362,9 @@ public class Twodevices extends AppCompatActivity {
                     }
 
                     if (readMessage.contains(";")) {
-                       // String s=null;
-                       // mbluetoothSocket = mBluetoothSocket;
-                           /* int b=0;
+                        String s=null;
+                       mbluetoothSocket = mBluetoothSocket;
+                            int b=0;
                         int c=readMessage.indexOf(";");
                         while(c!=-1)
                         {
@@ -381,9 +381,9 @@ public class Twodevices extends AppCompatActivity {
                             c=readMessage.indexOf(";",b);
                         }
                         Intent ic = new Intent(Twodevices.this, Questions.class);
-                        startActivity(ic);*/
+                        startActivity(ic);
 
-                            if(readMessage.contains("*"))
+                         /*   if(readMessage.contains("*"))
                               {
                                   mbluetoothSocket = mBluetoothSocket;
                                   RandomQuestionsType rqt = new RandomQuestionsType(Integer.parseInt(readMessage.substring(1, readMessage.indexOf('['))), Integer.parseInt(readMessage.substring(readMessage.indexOf('[') + 1, readMessage.indexOf(']'))), readMessage.substring(readMessage.indexOf(']') + 1,readMessage.indexOf("*")));
@@ -414,7 +414,7 @@ public class Twodevices extends AppCompatActivity {
                                           Toast.makeText(getApplicationContext(), "in ;" + a + dbh.getRandomQuestionsType(a).getType(), Toast.LENGTH_SHORT).show();
                                       }
                                   });
-                              }
+                              }*/
                 }
                     if(readMessage.contains("/")) {
                         if (readMessage.contains(".")) {

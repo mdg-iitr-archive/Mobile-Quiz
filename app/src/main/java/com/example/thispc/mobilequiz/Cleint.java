@@ -336,7 +336,9 @@ DataBaseHandler dbh;
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
-                    if(readMessage.contains("+")) {
+                    Duration="01";
+                    playnum='1';
+                   /* if(readMessage.contains("+")) {
                         Duration = readMessage.substring(1, readMessage.indexOf("/"));
                         runOnUiThread(new Runnable() {
                             public void run() {
@@ -349,8 +351,29 @@ DataBaseHandler dbh;
                                 Toast.makeText(getApplicationContext(), "playnum" + playnum, Toast.LENGTH_SHORT).show();
                             }
                         });
-                    }
+                    }*/
 
+                 /*   if (readMessage.contains(";")) {
+                        String s = null;
+                        mbluetoothSocket = mBluetoothSocket;
+                        int b = 0;
+                        int c = readMessage.indexOf(";");
+                        while (c != -1) {
+                            s = readMessage.substring(b, c);
+                            RandomQuestionsType rqt = new RandomQuestionsType(Integer.parseInt(s.substring(0, s.indexOf('['))), Integer.parseInt(s.substring(s.indexOf('[') + 1, s.indexOf(']'))), s.substring(s.indexOf(']') + 1));
+                            dbh.adRandomQuestionsType(rqt);
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    a++;
+                                    Toast.makeText(getApplicationContext(), "in ;" + a + dbh.getRandomQuestionsType(a).getType(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            b = c + 1;
+                            c = readMessage.indexOf(";", b);
+                        }
+                        Intent ic = new Intent(Cleint.this, SelectQuestions.class);
+                        startActivity(ic);
+                    }*/
                     if(readMessage.contains(";"))
                     {
                         mbluetoothSocket=mBluetoothSocket;
@@ -363,7 +386,7 @@ DataBaseHandler dbh;
                             }
                         });
                     }
-                   if(readMessage.contains("reached"))
+                  /* if(readMessage.contains("reached"))
                     {
                         reach=1;
                         runOnUiThread(new Runnable() {
@@ -371,8 +394,8 @@ DataBaseHandler dbh;
                                 Toast.makeText(getApplicationContext(), "reached", Toast.LENGTH_SHORT).show();
                             }
                         });
-                    }
-                    if(readMessage.contains("()"))
+                    }*/
+                  /*  if(readMessage.contains("()"))
                     {
                         final String finalReadMessage = readMessage;
                         runOnUiThread(new Runnable() {
@@ -380,7 +403,7 @@ DataBaseHandler dbh;
                                 Toast.makeText(getApplicationContext(), "Your position is"+ finalReadMessage.charAt(2), Toast.LENGTH_SHORT).show();
                             }
                         });
-                    }
+                    }*/
                     if(readMessage.contains("..."))
                     {
                       qnumber=(readMessage.charAt(3));
