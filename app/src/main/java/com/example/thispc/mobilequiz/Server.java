@@ -185,13 +185,11 @@ public class Server extends AppCompatActivity {
         }
     }
 
-    public synchronized void connected(BluetoothSocket socket, BluetoothDevice device, int c) {
-      /*  playerhead.setText("PLAYER");
-        scorehead.setText("SCORE");
-        mBluetoothDevice = device;
+    public synchronized void connected(BluetoothSocket socket, int c) {
+
         mBluetoothSocket = socket;
         ct = new ConnectedThread(socket, c);
-        ct.start();*/
+        ct.start();
 
     }
 
@@ -249,10 +247,10 @@ public class Server extends AppCompatActivity {
             byte[] buffer = new byte[1024];
             int bytes;
             String s="";
-        //   ct.write(("+"+CategoryForServer.Duration+"/"+playnum).getBytes());
+           //ct.write(("+"+CategoryForServer.Duration+"/"+playnum).getBytes());
             for (int i = 1; i < Main2Activity.c; i++) {
                 RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
-            //    Toast.makeText(getApplicationContext(),"writing questions",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"writing questions",Toast.LENGTH_SHORT).show();
                 final int finalI = i;
                 runOnUiThread(new Runnable() {
                     public void run() {
@@ -613,8 +611,9 @@ public class Server extends AppCompatActivity {
                             }
                         });
                         finalscore=new int[a1];
-                        ct = new ConnectedThread(bluetoothSocket,a1);
-                        ct.start();
+                        connected(bluetoothSocket,a1);
+                       /* ct = new ConnectedThread(bluetoothSocket,a1);
+                        ct.start();*/
                     }
 
                 }

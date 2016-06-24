@@ -88,14 +88,14 @@ public class SelectQuestions extends AppCompatActivity {
        });
       connectedThread = new ConnectedThread(bluetoothSocket1);
    connectedThread.start();
-    display(null);
+    //display(null);
         }
 
     public void display(View v)
     {
        mChronometer.start();
         if(connectedThread!=null) {
-    connectedThread.write("lodu".getBytes());
+   // connectedThread.write("lodu".getBytes());
     runOnUiThread(new Runnable() {
         public void run() {
             Toast.makeText(getApplicationContext(), "connected Thread sending lodu", Toast.LENGTH_SHORT).show();
@@ -113,32 +113,32 @@ public class SelectQuestions extends AppCompatActivity {
         }
     });
     }
-        runOnUiThread(new Runnable() {
+       /* runOnUiThread(new Runnable() {
             public void run() {
                 Toast.makeText(getApplicationContext(), "pohonchgya", Toast.LENGTH_SHORT).show();
 
             }
-        });
+        });*/
         for (int i=1;i<=Integer.parseInt(Character.valueOf(Cleint.qnumber).toString());i++)
         {
-          runOnUiThread(new Runnable() {
+          /*runOnUiThread(new Runnable() {
                 public void run() {
                     Toast.makeText(getApplicationContext(), "tatti", Toast.LENGTH_SHORT).show();
 
                 }
-            });
+            });*/
 
          final RandomQuestionsType rqt= dbh.getRandomQuestionsType(i);
           if(rqt!=null)
 {
 
 
-          runOnUiThread(new Runnable() {
+       /*   runOnUiThread(new Runnable() {
                 public void run() {
                     Toast.makeText(getApplicationContext(), "pohonchgya", Toast.LENGTH_SHORT).show();
 
                 }
-            });
+            });*/
 }
 }
 
@@ -150,12 +150,12 @@ public void questions() {
 
    /* if (Integer.parseInt(mChronometer.getText().toString().substring(0,mChronometer.getText().toString().indexOf(":"))) < Integer.parseInt(duration))
     {*/
-    runOnUiThread(new Runnable() {
+   /* runOnUiThread(new Runnable() {
         public void run() {
             Toast.makeText(getApplicationContext(), "in questions", Toast.LENGTH_SHORT).show();
 
         }
-    });
+    });*/
 
     if (j <= Integer.parseInt(Character.valueOf(Cleint.qnumber).toString()))
   {
@@ -163,10 +163,6 @@ public void questions() {
         if(rqt2.getType().toString().equals("Aptitude"))
         {
             qd= dbh.getAptitudeQ(rqt2.getId2());
-           if(qd==null)
-           {
-               Toast.makeText(getApplicationContext(), "null", Toast.LENGTH_SHORT).show();
-           }
         }
         if(rqt2.getType().toString().equals("Reasoning"))
         {
@@ -178,7 +174,7 @@ public void questions() {
         o3.setText(qd.getOption3());
         o4.setText(qd.getOption4());
         ans = qd.getAnswer();
-      if(Cleint.reach>0)
+    /*  if(Cleint.reach>0)
       {
           runOnUiThread(new Runnable() {
               public void run() {
@@ -186,7 +182,7 @@ public void questions() {
 
               }
           });
-      }
+      }*/
         o1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

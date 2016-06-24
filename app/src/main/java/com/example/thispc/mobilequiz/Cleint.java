@@ -336,9 +336,9 @@ DataBaseHandler dbh;
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
-                    Duration="01";
+                    Duration ="01";
                     playnum='1';
-                   /* if(readMessage.contains("+")) {
+                 /*   if(readMessage.contains("+")) {
                         Duration = readMessage.substring(1, readMessage.indexOf("/"));
                         runOnUiThread(new Runnable() {
                             public void run() {
@@ -386,7 +386,7 @@ DataBaseHandler dbh;
                             }
                         });
                     }
-                  /* if(readMessage.contains("reached"))
+                 /*  if(readMessage.contains("reached"))
                     {
                         reach=1;
                         runOnUiThread(new Runnable() {
@@ -395,7 +395,7 @@ DataBaseHandler dbh;
                             }
                         });
                     }*/
-                  /*  if(readMessage.contains("()"))
+                   /* if(readMessage.contains("()"))
                     {
                         final String finalReadMessage = readMessage;
                         runOnUiThread(new Runnable() {
@@ -413,8 +413,13 @@ DataBaseHandler dbh;
                                 Toast.makeText(getApplicationContext(), "in ............."+qnumber, Toast.LENGTH_SHORT).show();
                             }
                         });
-                     Intent ic=new Intent(Cleint.this,SelectQuestions.class);
-                        startActivity(ic);
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Intent ic = new Intent(Cleint.this, SelectQuestions.class);
+                                startActivity(ic);
+                            }
+                        });
+
                     }
 
                 } catch (Exception e) {
