@@ -87,14 +87,20 @@ public void twodevices(View v)
         t1.setTypeface(m2);
         dbh = new DataBaseHandler(this);
         dbh.clear();
-        QuestionDetails qd = new QuestionDetails(1,"name of country","india","malaysia","usa","germany","india" );
+        QuestionDetails qd =  new QuestionDetails(1,"name of country","india","malaysia","usa","germany","india","country" );
         dbh.adReasoningQ(qd);
-        qd = new QuestionDetails(2,"name of country2","germany","malaysia","usa","india","india" );
+        qd = new QuestionDetails(2,"name of country2","germany","malaysia","usa","india","india","country" );
         dbh.adReasoningQ(qd);
 
-        qd = new QuestionDetails(1,"name of country","india","malaysia","usa","germany","india" );
+         qd = new QuestionDetails(1,"A flagstaff 17.5 m high casts a shadow of length 40.25 m. The height of the building, which casts a shadow of length 28.75 m under similar conditions will be:","10m","12.5m","17,5m","21.25m","12.5m","casting shadow");
         dbh.adAptitudeQ(qd);
-        qd = new QuestionDetails(2,"name of country2","germany","malaysia","usa","india","india" );
+        qd = new QuestionDetails(2, "An industrial loom weaves 0.128 metres of cloth every second. Approximately, how many seconds will it take for the loom to weave 25 metres of cloth?","178","195","204","488","195","weaving loom" );
+        dbh.adAptitudeQ(qd);
+        qd = new QuestionDetails(3, "How many 4-letter words with or without meaning, can be formed out of the letters of the word,'LOGARITHMS', if repetition of letters is not allowed? ","40","400","5040","2520","5040","4 letter words" );
+        dbh.adAptitudeQ(qd);
+        qd = new QuestionDetails(4, "One card is drawn at random from a pack of 52 cards. What is the probability that the card drawn is a face card (Jack, Queen and King only)?","1/13","3/13","1/4","9/52","3/13","probability" );
+        dbh.adAptitudeQ(qd);
+        qd = new QuestionDetails(5, "The banker's discount on a sum of money for 1 years is Rs. 558 and the true discount on the same sum for 2 years is Rs. 600. The rate percent is:","10%","13%","12%","15%","12%","Banker's discount" );
         dbh.adAptitudeQ(qd);
     }
 }

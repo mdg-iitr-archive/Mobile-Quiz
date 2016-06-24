@@ -12,9 +12,10 @@ public class QuestionDetails {
     private String option4;
     private String answer;
     private boolean isSelected;
+    private String qTag;
 
 
-    public QuestionDetails(int id, String question, String option1, String option2,String option3,String option4, String answer) {
+    public QuestionDetails(int id, String question, String option1, String option2,String option3,String option4, String answer,String qTag) {
         this.id = id;
         this.question = question;
         this.option1 = option1;
@@ -22,9 +23,10 @@ public class QuestionDetails {
         this.option3 = option3;
         this.option4 = option4;
         this.answer=answer;
+        this.qTag=qTag;
 
 }
-    public QuestionDetails(int id, String question, String option1, String option2,String option3,String option4, String answer,boolean isSelected) {
+    public QuestionDetails(int id, String question, String option1, String option2,String option3,String option4, String answer,boolean isSelected,String qTag) {
         this.id = id;
         this.question = question;
         this.option1 = option1;
@@ -33,6 +35,7 @@ public class QuestionDetails {
         this.option4 = option4;
         this.answer=answer;
         this.isSelected=isSelected;
+        this.qTag=qTag;
     }
 
 
@@ -62,6 +65,10 @@ public class QuestionDetails {
 
     public String getAnswer() {
         return answer;
+    }
+
+    public String getQtag() {
+        return qTag;
     }
 
     public void setId(int id) {

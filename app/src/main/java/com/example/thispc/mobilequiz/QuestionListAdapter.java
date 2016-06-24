@@ -37,7 +37,7 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
     @Override
     public void onBindViewHolder (QuestionListAdapter.ListViewHolder holder, final int position) {
        final QuestionDetails qd =questionList.get(position);
-        holder.ques.setText(qd.getQuestion().toString());
+        holder.ques.setText(qd.getQtag().toString());
         holder.checkbox.setOnCheckedChangeListener(null);
         holder.checkbox.setChecked(questionList.get(position).isSelected());
         holder.checkbox.setTag(questionList.get(position));

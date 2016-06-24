@@ -32,6 +32,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     private static final String option4 = "option4";
     private static final String answer = "answer";
     private static final String type = "type";
+    private static final String qTag = "qTag";
 
     public DataBaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -40,9 +41,9 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String z="Create Table if not exists Reasoning(id Int,question Text,option1 Text,option2 Text,option3 Text,option4 Text,answer Text)";
+        String z="Create Table if not exists Reasoning(id Int,question Text,option1 Text,option2 Text,option3 Text,option4 Text,answer Text,qTag Text)";
         db.execSQL(z);
-        String z1="Create Table if not exists Aptitude(id Int,question Text,option1 Text,option2 Text,option3 Text,option4 Text,answer Text)";
+        String z1="Create Table if not exists Aptitude(id Int,question Text,option1 Text,option2 Text,option3 Text,option4 Text,answer Text,qTag Text)";
         db.execSQL(z1);
        /* String z2="Create Table if not exists RandomQuestions(id Int,question Text,option1 Text,option2 Text,option3 Text,option4 Text,answer Text)";
         db.execSQL(z2);*/
@@ -99,6 +100,7 @@ public void adReasoningQ(QuestionDetails qd)
     values.put(option3, qd.getOption3());
     values.put(option4, qd.getOption4());
     values.put(answer, qd.getAnswer());
+    values.put(qTag, qd.getQtag());
 
     db.insert(TABLE_REASONING, null, values);
     db.close();
@@ -114,6 +116,7 @@ public void adReasoningQ(QuestionDetails qd)
         values.put(option3, qd.getOption3());
         values.put(option4, qd.getOption4());
         values.put(answer, qd.getAnswer());
+        values.put(qTag, qd.getQtag());
 
         db.insert(TABLE_APTITUDE, null, values);
         db.close();
@@ -124,7 +127,7 @@ public void adReasoningQ(QuestionDetails qd)
         QuestionDetails qd=null;
         if (c.moveToNext() == true) {
 
-         qd =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6));
+         qd =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6),c.getString(7));
         }
         return qd;
     }
@@ -135,7 +138,7 @@ public void adReasoningQ(QuestionDetails qd)
         QuestionDetails qd=null;
         if (c.moveToNext() == true) {
 
-            qd =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6));
+            qd =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6),c.getString(7));
         }
         return qd;
     }
@@ -170,7 +173,7 @@ public void adReasoningQ(QuestionDetails qd)
             Cursor c = db.rawQuery(query, null);
             if (c.moveToFirst()) {
                 do {
-                   QuestionDetails q =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6),false);
+                   QuestionDetails q =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6),false,c.getString(7));
                     questionList.add(q);
 
                 } while (c.moveToNext());
@@ -183,7 +186,7 @@ public void adReasoningQ(QuestionDetails qd)
             Cursor c = db.rawQuery(query, null);
             if (c.moveToFirst()) {
                 do {
-                    QuestionDetails q =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6),false);
+                    QuestionDetails q =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6),false,c.getString(7));
                     questionList.add(q);
 
                 } while (c.moveToNext());
