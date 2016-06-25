@@ -36,6 +36,12 @@ public class CategoryForServer extends AppCompatActivity {
         Intent i=new Intent(CategoryForServer.this,QuestionList.class);
         startActivity(i);
     }
+    public void verbal(View v) {
+        editor.putString("category", "Verbal");
+        editor.commit();
+        Intent i=new Intent(CategoryForServer.this,QuestionList.class);
+        startActivity(i);
+    }
     public void ok(View v)
     {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);

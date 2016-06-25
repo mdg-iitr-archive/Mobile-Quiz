@@ -336,9 +336,7 @@ DataBaseHandler dbh;
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
-                    Duration ="01";
-                    playnum='1';
-                 /*   if(readMessage.contains("+")) {
+               /*   if(readMessage.contains("+")) {
                         Duration = readMessage.substring(1, readMessage.indexOf("/"));
                         runOnUiThread(new Runnable() {
                             public void run() {
@@ -353,7 +351,7 @@ DataBaseHandler dbh;
                         });
                     }*/
 
-                 /*   if (readMessage.contains(";")) {
+                   if (readMessage.contains(";")) {
                         String s = null;
                         mbluetoothSocket = mBluetoothSocket;
                         int b = 0;
@@ -371,10 +369,14 @@ DataBaseHandler dbh;
                             b = c + 1;
                             c = readMessage.indexOf(";", b);
                         }
-                        Intent ic = new Intent(Cleint.this, SelectQuestions.class);
-                        startActivity(ic);
-                    }*/
-                    if(readMessage.contains(";"))
+                       runOnUiThread(new Runnable() {
+                           public void run() {
+                               Intent ic = new Intent(Cleint.this, SelectQuestions.class);
+                               startActivity(ic);
+                           }
+                       });
+                    }
+                   /* if(readMessage.contains(";"))
                     {
                         mbluetoothSocket=mBluetoothSocket;
                         RandomQuestionsType rqt=new RandomQuestionsType(Integer.parseInt(readMessage.substring(1,readMessage.indexOf('['))),Integer.parseInt(readMessage.substring(readMessage.indexOf('[')+1,readMessage.indexOf(']'))),readMessage.substring(readMessage.indexOf(']')+1));
@@ -385,7 +387,7 @@ DataBaseHandler dbh;
                                 Toast.makeText(getApplicationContext(), "in ;" + a +dbh.getRandomQuestionsType(a).getType(), Toast.LENGTH_SHORT).show();
                             }
                         });
-                    }
+                    }*/
                  /*  if(readMessage.contains("reached"))
                     {
                         reach=1;
@@ -404,7 +406,7 @@ DataBaseHandler dbh;
                             }
                         });
                     }*/
-                    if(readMessage.contains("..."))
+                  /*  if(readMessage.contains("..."))
                     {
                       qnumber=(readMessage.charAt(3));
                        runOnUiThread(new Runnable() {
@@ -420,7 +422,7 @@ DataBaseHandler dbh;
                             }
                         });
 
-                    }
+                    }*/
 
                 } catch (Exception e) {
 

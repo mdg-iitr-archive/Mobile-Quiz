@@ -87,12 +87,18 @@ public void twodevices(View v)
         t1.setTypeface(m2);
         dbh = new DataBaseHandler(this);
         dbh.clear();
-        QuestionDetails qd =  new QuestionDetails(1,"name of country","india","malaysia","usa","germany","india","country" );
+        QuestionDetails qd =  new QuestionDetails(1,"Look at this series: F2, __, D8, C16, B32, ... What number should fill the blank?","A16","G4","E4","E3","E4","series" );
         dbh.adReasoningQ(qd);
-        qd = new QuestionDetails(2,"name of country2","germany","malaysia","usa","india","india","country" );
+        qd = new QuestionDetails(2,"Look at this series: 8, 43, 11, 41, __, 39, 17, ... What number should fill in the blank?","8","14","43","44","14","fill blank" );
+        dbh.adReasoningQ(qd);
+        qd = new QuestionDetails(3,"Blueberries cost more than strawberries.Blueberries cost less than raspberries.Raspberries cost more than strawberries and blueberries.If the first two statements are true, the third statement is","True","False","Uncertain","Unknown","True","correct statement" );
+        dbh.adReasoningQ(qd);
+        qd = new QuestionDetails(4,"Apartments in the Riverdale Manor cost less than apartments in The Gaslight Commons.Apartments in the Livingston Gate cost more than apartments in the The Gaslight Commons.Of the three apartment buildings, the Livingston Gate costs the most.If the first two statements are true, the third statement is","True","False","Uncertain","Unknown","True","Aparments" );
+        dbh.adReasoningQ(qd);
+        qd = new QuestionDetails(5,"QAR, RAS, SAT, TAU, _____","UAV","UAT","TAS","TAT","UAV","Letter Series" );
         dbh.adReasoningQ(qd);
 
-         qd = new QuestionDetails(1,"A flagstaff 17.5 m high casts a shadow of length 40.25 m. The height of the building, which casts a shadow of length 28.75 m under similar conditions will be:","10m","12.5m","17,5m","21.25m","12.5m","casting shadow");
+         qd = new QuestionDetails(1,"A flagstaff 17.5 m high casts a shadow of length 40.25 m. The height of the building, which casts a shadow of length 28.75 m under similar conditions will be:","10m","12.5m","17.5m","21.25m","12.5m","casting shadow");
         dbh.adAptitudeQ(qd);
         qd = new QuestionDetails(2, "An industrial loom weaves 0.128 metres of cloth every second. Approximately, how many seconds will it take for the loom to weave 25 metres of cloth?","178","195","204","488","195","weaving loom" );
         dbh.adAptitudeQ(qd);
@@ -102,5 +108,11 @@ public void twodevices(View v)
         dbh.adAptitudeQ(qd);
         qd = new QuestionDetails(5, "The banker's discount on a sum of money for 1 years is Rs. 558 and the true discount on the same sum for 2 years is Rs. 600. The rate percent is:","10%","13%","12%","15%","12%","Banker's discount" );
         dbh.adAptitudeQ(qd);
+
+        qd = new QuestionDetails(1, "A school boy who cuts classes frequently is a","Martinet","Defeatist","Sycophant","Truant","Truant","one word subtitle");
+        dbh.adVerbalQ(qd);
+        qd = new QuestionDetails(2, "A school boy who cuts classes frequently is a","Martinet","Defeatist","Sycophant","Truant","Truant","one word subtitle");
+        dbh.adVerbalQ(qd);
+
     }
 }

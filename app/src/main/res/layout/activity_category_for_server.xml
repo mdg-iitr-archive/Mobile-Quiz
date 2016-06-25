@@ -59,6 +59,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:text="Verbal Ability"
+        android:onClick="verbal"
         android:id="@+id/button9"
         android:background="#ffffff"
         android:drawableTop="@drawable/down5"

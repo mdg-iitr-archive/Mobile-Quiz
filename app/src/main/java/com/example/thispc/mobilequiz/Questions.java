@@ -173,6 +173,10 @@ public void questions() {
                 {
                 qd= dbh.getReasoningQ(rqt2.getId2());
                }
+            if(rqt2.getType().toString().equals("Verbal"))
+            {
+                qd= dbh.getReasoningQ(rqt2.getId2());
+            }
                tv.setText(qd.getQuestion());
                o1.setText(qd.getOption1());
                o2.setText(qd.getOption2());

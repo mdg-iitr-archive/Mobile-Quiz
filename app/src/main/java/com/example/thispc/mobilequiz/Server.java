@@ -247,8 +247,8 @@ public class Server extends AppCompatActivity {
             byte[] buffer = new byte[1024];
             int bytes;
             String s="";
-           //ct.write(("+"+CategoryForServer.Duration+"/"+playnum).getBytes());
-            for (int i = 1; i < Main2Activity.c; i++) {
+          //ct.write(("+"+CategoryForServer.Duration+"/"+playnum).getBytes());
+          /*  for (int i = 1; i < Main2Activity.c; i++) {
                 RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
             //Toast.makeText(getApplicationContext(),"writing questions",Toast.LENGTH_SHORT).show();
                 final int finalI = i;
@@ -266,8 +266,8 @@ public class Server extends AppCompatActivity {
                     });
                     ct.write(("..." +( Main2Activity.c-1)).getBytes());
                 }
-            }
-          /*  for (int i = 1; i < Main2Activity.c; i++) {
+            }*/
+           for (int i = 1; i < Main2Activity.c; i++) {
                 RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
                 //    Toast.makeText(getApplicationContext(),"writing questions",Toast.LENGTH_SHORT).show();
                 final int finalI = i;
@@ -279,7 +279,7 @@ public class Server extends AppCompatActivity {
 
                 s+=rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()+";";
             }
-            ct.write((s).getBytes());*/
+            ct.write((s).getBytes());
 
 
 
