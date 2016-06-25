@@ -54,6 +54,7 @@ public class QuestionList extends AppCompatActivity {
                 ++Main2Activity.c;
             }
         }
+        finish();
     }
 
 

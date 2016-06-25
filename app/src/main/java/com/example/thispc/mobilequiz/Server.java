@@ -279,6 +279,7 @@ public class Server extends AppCompatActivity {
 
                 s+=rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()+";";
             }
+            s=s+"+"+CategoryForServer.Duration+"/"+playnum;
             ct.write((s).getBytes());
 
 

@@ -88,7 +88,7 @@ public class SelectQuestions extends AppCompatActivity {
        });
       connectedThread = new ConnectedThread(bluetoothSocket1);
    connectedThread.start();
-   // display(null);
+   display(null);
         }
 
     public void display(View v)
@@ -157,7 +157,7 @@ public void questions() {
         }
     });*/
 
-    if (j <= Cleint.a)//Integer.parseInt(Character.valueOf(Cleint.qnumber).toString()))
+    if (j <= Cleint.a)
   {
        rqt2=dbh.getRandomQuestionsType(j);
         if(rqt2.getType().toString().equals("Aptitude"))
@@ -194,9 +194,9 @@ public void questions() {
                     c++;
                 }
                 j++;
-                if(j < Cleint.a+1)//Integer.parseInt(Character.valueOf(Cleint.qnumber).toString())+1)
+                if(j < Cleint.a+1)
                 connectedThread.write(("?" +playnum1+c+">"+name).getBytes());
-                if(j == Cleint.a+1)//Integer.parseInt(Character.valueOf(Cleint.qnumber).toString())+1)
+                if(j == Cleint.a+1)
                     connectedThread.write(("=" +playnum1+c+">"+name).getBytes());
                     questions();
             }
@@ -208,9 +208,9 @@ public void questions() {
                     c++;
                 }
                 j++;
-                if(j < Cleint.a+1)//Integer.parseInt(Character.valueOf(Cleint.qnumber).toString())+1)
+                if(j < Cleint.a+1)
                     connectedThread.write(("?" +playnum1+c+">"+name).getBytes());
-                if(j == Cleint.a+1)//Integer.parseInt(Character.valueOf(Cleint.qnumber).toString())+1)
+                if(j == Cleint.a+1)
                     connectedThread.write(("=" +playnum1+c+">"+name).getBytes());
                 questions();
             }
@@ -222,9 +222,9 @@ public void questions() {
                     c++;
                 }
                 j++;
-                if(j < Cleint.a+1)//Integer.parseInt(Character.valueOf(Cleint.qnumber).toString())+1)
+                if(j < Cleint.a+1)
                     connectedThread.write(("?" +playnum1+c+">"+name).getBytes());
-                if(j == Cleint.a+1)//Integer.parseInt(Character.valueOf(Cleint.qnumber).toString())+1)
+                if(j == Cleint.a+1)
                     connectedThread.write(("=" +playnum1+c+">"+name).getBytes());
                 questions();
             }
@@ -236,9 +236,9 @@ public void questions() {
                     c++;
                 }
                 j++;
-                if(j < Cleint.a+1)//Integer.parseInt(Character.valueOf(Cleint.qnumber).toString())+1)
+                if(j < Cleint.a+1)
                     connectedThread.write(("?" +playnum1+c+">"+name).getBytes());
-                if(j == Cleint.a+1)//Integer.parseInt(Character.valueOf(Cleint.qnumber).toString())+1)
+                if(j == Cleint.a+1)
                     connectedThread.write(("=" +playnum1+c+">"+name).getBytes());
                 questions();
             }

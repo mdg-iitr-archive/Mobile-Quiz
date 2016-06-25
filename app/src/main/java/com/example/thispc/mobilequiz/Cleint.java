@@ -336,7 +336,7 @@ DataBaseHandler dbh;
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
-               /*   if(readMessage.contains("+")) {
+                 /* if(readMessage.contains("+")) {
                         Duration = readMessage.substring(1, readMessage.indexOf("/"));
                         runOnUiThread(new Runnable() {
                             public void run() {
@@ -369,6 +369,19 @@ DataBaseHandler dbh;
                             b = c + 1;
                             c = readMessage.indexOf(";", b);
                         }
+                       Duration = readMessage.substring(b, readMessage.indexOf("/"));
+                       runOnUiThread(new Runnable() {
+                           public void run() {
+                               Toast.makeText(getApplicationContext(), "duration" + Duration, Toast.LENGTH_SHORT).show();
+                           }
+                       });
+                       playnum = readMessage.charAt(readMessage.indexOf("/") + 1);
+                       runOnUiThread(new Runnable() {
+                           public void run() {
+                               Toast.makeText(getApplicationContext(), "playnum" + playnum, Toast.LENGTH_SHORT).show();
+                           }
+                       });
+
                        runOnUiThread(new Runnable() {
                            public void run() {
                                Intent ic = new Intent(Cleint.this, SelectQuestions.class);

@@ -111,8 +111,20 @@ public void twodevices(View v)
 
         qd = new QuestionDetails(1, "A school boy who cuts classes frequently is a","Martinet","Defeatist","Sycophant","Truant","Truant","one word subtitle");
         dbh.adVerbalQ(qd);
-        qd = new QuestionDetails(2, "A school boy who cuts classes frequently is a","Martinet","Defeatist","Sycophant","Truant","Truant","one word subtitle");
+        qd = new QuestionDetails(2, "Fate smiles ...... those who untiringly grapple with stark realities of life.","with","over","on","round","on","Select word");
         dbh.adVerbalQ(qd);
-
+        qd = new QuestionDetails(3, "Select Synonym for EMBEZZLE","Misappropriate","Balance","Remunerate","Clear","Misappropriate","Select synonym");
+        dbh.adVerbalQ(qd);
+        qd = new QuestionDetails(4, "When he\n" +
+                "P :\tdid not know\n" +
+                "Q :\the was nervous and\n" +
+                "R :\theard the hue and cry at midnight\n" +
+                "S :\twhat to do\n" +
+                "The Proper sequence should be:","RQPS","QSPR","SQPR","PQRS","RQPS","ordering of words");
+                dbh.adVerbalQ(qd);
+        qd = new QuestionDetails(1, "A school boy who cuts classes frequently is a","Martinet","Defeatist","Sycophant","Truant","Truant","one word subtitle");
+        dbh.adVerbalQ(qd);
+        qd = new QuestionDetails(1, "Find antonym for EXODUS","Influx","Home-coming","Return","Restoration","Influx","Select antonym");
+        dbh.adVerbalQ(qd);
     }
 }
