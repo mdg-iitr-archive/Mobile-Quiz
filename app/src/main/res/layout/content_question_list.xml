@@ -22,16 +22,5 @@
             android:padding="5dp">
         </android.support.v7.widget.RecyclerView>
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button12"
-        android:layout_alignBottom="@+id/questionList_recycler"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="59dp"
-        android:onClick="ok"/>
-
 
 </RelativeLayout>

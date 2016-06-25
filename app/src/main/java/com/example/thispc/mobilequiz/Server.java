@@ -603,8 +603,6 @@ public class Server extends AppCompatActivity {
                         a[a1] = bluetoothSocket;
                         check = false;
                         a1++;
-                     /*   playerhead.setText("PLAYER");
-                        scorehead.setText("SCORE");*/
                         runOnUiThread(new Runnable() {
                             public void run() {
                                        c++;
@@ -613,8 +611,6 @@ public class Server extends AppCompatActivity {
                         });
                         finalscore=new int[a1];
                         connected(bluetoothSocket,a1);
-                       /* ct = new ConnectedThread(bluetoothSocket,a1);
-                        ct.start();*/
                     }
 
                 }

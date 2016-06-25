@@ -34,30 +34,24 @@ public class QuestionList extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                List<QuestionDetails> stList = QuestionListAdapter.questionList;
+                Toast.makeText(getApplicationContext(), stList.size()+" ", Toast.LENGTH_SHORT).show();
+                for (int i = 0; i <stList.size(); i++) {
+                    QuestionDetails qd = stList.get(i);
+                    if (qd.isSelected()) {
+                        RandomQuestionsType rqt = new RandomQuestionsType(Main2Activity.c, qd.getId(), category);
+                        dbh.adRandomQuestionsType(rqt);
+                        Toast.makeText(getApplicationContext(), "saved in database" + Main2Activity.c, Toast.LENGTH_SHORT).show();
+                        ++Main2Activity.c;
+                    }
+                }
+                finish();
             }
         });
         recList = (RecyclerView) findViewById(R.id.questionList_recycler);
         dbh = new DataBaseHandler(this);
         addToList();
     }
-    public void ok(View v) {
-
-        List<QuestionDetails> stList = QuestionListAdapter.questionList;
-        Toast.makeText(getApplicationContext(), stList.size()+" ", Toast.LENGTH_SHORT).show();
-      for (int i = 0; i <stList.size(); i++) {
-            QuestionDetails qd = stList.get(i);
-               if (qd.isSelected()) {
-                RandomQuestionsType rqt = new RandomQuestionsType(Main2Activity.c, qd.getId(), category);
-                dbh.adRandomQuestionsType(rqt);
-                Toast.makeText(getApplicationContext(), "saved in database" + Main2Activity.c, Toast.LENGTH_SHORT).show();
-                ++Main2Activity.c;
-            }
-        }
-        finish();
-    }
-
-
     private List<QuestionDetails> createList() {
         List<QuestionDetails> result;
         result=dbh.getAllQuestions(category);
