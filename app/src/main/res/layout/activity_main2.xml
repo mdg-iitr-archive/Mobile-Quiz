@@ -19,7 +19,7 @@
         android:textSize="20dp"
         android:id="@+id/button3"
         android:onClick="twodevices"
-        android:background="#ffffff"
+        android:background="@drawable/shape"
         android:layout_above="@+id/button4"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="29dp" />
@@ -33,7 +33,7 @@
         android:onClick="multipledevices"
         android:textColor="#1A7E00"
         android:textStyle="bold"
-        android:background="#ffffff"
+        android:background="@drawable/shape"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 

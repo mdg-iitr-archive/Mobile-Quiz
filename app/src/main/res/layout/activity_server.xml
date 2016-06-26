@@ -32,14 +32,15 @@
         android:layout_alignParentEnd="true"/>
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/shape2"
         android:text="Discover Clients"
         android:textColor="#FFFFFF"
         android:textSize="20dp"
         android:id="@+id/btn_find"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"

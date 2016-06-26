@@ -29,7 +29,7 @@
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="New Button"
-        android:background="#07A611"
+        android:background="@drawable/shape2"
         android:textColor="#ffffff"
         android:textStyle="bold"
         android:id="@+id/button7"
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/button15"
-        android:background="#07A611"
+        android:background="@drawable/shape2"
         android:textColor="#ffffff"
         android:textStyle="bold"
         android:layout_marginBottom="8dp"
@@ -57,7 +57,7 @@
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="New Button"
-        android:background="#07A611"
+        android:background="@drawable/shape2"
         android:textColor="#ffffff"
         android:textStyle="bold"
         android:id="@+id/button16"
@@ -72,12 +72,12 @@
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/button17"
-        android:background="#07A611"
+        android:background="@drawable/shape2"
         android:textColor="#ffffff"
         android:textStyle="bold"
-        android:layout_above="@+id/textView4"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp" />
+        android:layout_marginBottom="55dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <Chronometer
         android:layout_width="wrap_content"
@@ -87,17 +87,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CHECK SCORES >>>"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:textColor="#07A611"
-        android:id="@+id/textView4"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

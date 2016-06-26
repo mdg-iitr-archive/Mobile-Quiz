@@ -13,8 +13,6 @@
     android:background="#DEFED8">
 
 
-
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,7 +29,7 @@
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="New Button"
-        android:background="#07A611"
+        android:background="@drawable/shape2"
         android:textColor="#ffffff"
         android:textStyle="bold"
         android:id="@+id/button14"
@@ -46,7 +44,7 @@
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/button15"
-        android:background="#07A611"
+        android:background="@drawable/shape2"
         android:textColor="#ffffff"
         android:textStyle="bold"
         android:layout_marginBottom="8dp"
@@ -59,7 +57,7 @@
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="New Button"
-        android:background="#07A611"
+        android:background="@drawable/shape2"
         android:textColor="#ffffff"
         android:textStyle="bold"
         android:id="@+id/button16"
@@ -74,12 +72,11 @@
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/button17"
-        android:background="#07A611"
+        android:background="@drawable/shape2"
         android:textColor="#ffffff"
         android:textStyle="bold"
-        android:layout_above="@+id/textView4"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp" />
+        android:layout_alignTop="@+id/fab1"
+        android:layout_centerHorizontal="true" />
 
     <Chronometer
         android:layout_width="wrap_content"
@@ -90,25 +87,15 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CHECK SCORES >>>"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:textColor="#07A611"
-        android:id="@+id/textView4"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_launcher"
+        android:src="@android:drawable/arrow_up_float"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignRight="@+id/chronometer1"
+        android:layout_alignEnd="@+id/chronometer1" />
 
 
 </RelativeLayout>
