@@ -89,17 +89,6 @@ public class Questions extends AppCompatActivity {
         o4=(Button)findViewById(R.id.button17);
         tv=(TextView)findViewById(R.id.TextView);
 
-    /*  j= getIntent().getExtras().getString("type");
-        if(j.equals("1"))
-        {
-            mChronometer.start();
-            aptitude();
-        }
-        if(j.equals("2"))
-        {
-            mChronometer.start();
-           reasoning();
-        }*/
         mChronometer.start();
         questions();
      connectedThread = new ConnectedThread(bluetoothSocket);
@@ -164,10 +153,6 @@ public void questions() {
             if(rqt2.getType().toString().equals("Aptitude"))
             {
                 qd= dbh.getAptitudeQ(rqt2.getId2());
-                if(qd==null)
-                {
-                    Toast.makeText(getApplicationContext(), "null", Toast.LENGTH_SHORT).show();
-                }
             }
               if(rqt2.getType().toString().equals("Reasoning"))
                 {
@@ -263,7 +248,7 @@ public void questions() {
             o3.setEnabled(false);
             o4.setEnabled(false);
             mChronometer.stop();
-           if(Main2Activity.joined_as.equals("server"))
+           if((Main2Activity.joined_as).equals("server"))
             {
                 if (TwodeviceServer.value > -1) {
                     if (TwodeviceServer.value > c) {
@@ -277,7 +262,7 @@ public void questions() {
                     }
                 }
             }
-            if(Main2Activity.joined_as.equals("client"))
+            if((Main2Activity.joined_as).equals("client"))
             {
                 if (Twodevices.value > -1) {
                     if (Twodevices.value > c) {

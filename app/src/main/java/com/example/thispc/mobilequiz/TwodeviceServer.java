@@ -333,25 +333,8 @@ public class TwodeviceServer extends AppCompatActivity {
                 });
 
                s+=rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()+";";
-
-              /* if(i<Main2Activity.c - 1)
-                {
-                    connectedThread.write((";" + rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()).getBytes());
-                }
-                if (i == (Main2Activity.c) - 1) {
-
-                    connectedThread.write((";" + rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()+"*"+(MainActivity.c-1)).getBytes());
-                    final int finalI1 = Main2Activity.c-1;
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "value of c" + finalI1, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    Intent ic =new Intent(TwodeviceServer.this,Questions.class);
-                    startActivity(ic);
-                }*/
-
             }
+            s=s+"+"+CategoryForServer.Duration+"%"+MyName;
            connectedThread.write((s).getBytes());
             Intent ic =new Intent(TwodeviceServer.this,Questions.class);
             startActivity(ic);
@@ -397,8 +380,8 @@ public class TwodeviceServer extends AppCompatActivity {
                                 }
 
                             });
-                            value = Integer.valueOf(String.valueOf(readMessage.charAt(1)));
-                            if (Questions.i > Main2Activity.c-1 || Questions.mChronometer.getText() == (CategoryForServer.Duration + ":" + "00")) {
+                            value = Integer.parseInt(readMessage.substring(2));
+                            if (Questions.i > (Main2Activity.c-1) || Questions.mChronometer.getText() == (CategoryForServer.Duration + ":" + "00")) {
                                 if (value > Questions.c) {
                                     runOnUiThread(new Runnable() {
                                         public void run() {

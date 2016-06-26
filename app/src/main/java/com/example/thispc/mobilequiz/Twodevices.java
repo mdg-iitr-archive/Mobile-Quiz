@@ -346,7 +346,7 @@ public class Twodevices extends AppCompatActivity {
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
-                    if (readMessage.contains("+")) {
+                 /*   if (readMessage.contains("+")) {
                         Duration = readMessage.substring(1, readMessage.indexOf("%"));
                         OpponentName = readMessage.substring(readMessage.indexOf("%") + 1);
                         runOnUiThread(new Runnable() {
@@ -359,7 +359,7 @@ public class Twodevices extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "opponent name" + OpponentName, Toast.LENGTH_SHORT).show();
                             }
                         });
-                    }
+                    }*/
 
                     if (readMessage.contains(";")) {
                         String s=null;
@@ -380,41 +380,20 @@ public class Twodevices extends AppCompatActivity {
                             b=c+1;
                             c=readMessage.indexOf(";",b);
                         }
+                        Duration = readMessage.substring(b+1, readMessage.indexOf("%"));
+                        OpponentName = readMessage.substring(readMessage.indexOf("%") + 1);
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "duration" + Duration, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "opponent name" + OpponentName, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         Intent ic = new Intent(Twodevices.this, Questions.class);
                         startActivity(ic);
-
-                         /*   if(readMessage.contains("*"))
-                              {
-                                  mbluetoothSocket = mBluetoothSocket;
-                                  RandomQuestionsType rqt = new RandomQuestionsType(Integer.parseInt(readMessage.substring(1, readMessage.indexOf('['))), Integer.parseInt(readMessage.substring(readMessage.indexOf('[') + 1, readMessage.indexOf(']'))), readMessage.substring(readMessage.indexOf(']') + 1,readMessage.indexOf("*")));
-                                  dbh.adRandomQuestionsType(rqt);
-                                  runOnUiThread(new Runnable() {
-                                      public void run() {
-                                          a++;
-                                          Toast.makeText(getApplicationContext(), "in ;" + a + dbh.getRandomQuestionsType(a).getType(), Toast.LENGTH_SHORT).show();
-                                      }
-                                  });
-                                  qnumber = (readMessage.charAt(readMessage.indexOf("*")+1));
-                                  runOnUiThread(new Runnable() {
-                                      public void run() {
-
-                                          Toast.makeText(getApplicationContext(), "in *" + qnumber, Toast.LENGTH_SHORT).show();
-                                      }
-                                  });
-                                  Intent ic = new Intent(Twodevices.this, Questions.class);
-                                  startActivity(ic);
-                              }
-                       else
-                              {
-                                  RandomQuestionsType rqt = new RandomQuestionsType(Integer.parseInt(readMessage.substring(1, readMessage.indexOf('['))), Integer.parseInt(readMessage.substring(readMessage.indexOf('[') + 1, readMessage.indexOf(']'))), readMessage.substring(readMessage.indexOf(']') + 1));
-                                  dbh.adRandomQuestionsType(rqt);
-                                  runOnUiThread(new Runnable() {
-                                      public void run() {
-                                          a++;
-                                          Toast.makeText(getApplicationContext(), "in ;" + a + dbh.getRandomQuestionsType(a).getType(), Toast.LENGTH_SHORT).show();
-                                      }
-                                  });
-                              }*/
                 }
                     if(readMessage.contains("/")) {
                         if (readMessage.contains(".")) {
@@ -433,8 +412,8 @@ public class Twodevices extends AppCompatActivity {
                                 }
 
                             });
-                            value = Integer.valueOf(String.valueOf(readMessage.charAt(1)));
-                            if (Questions.i > qnumber || Questions.mChronometer.getText() == (Duration + ":" + "00")) {
+                            value = Integer.parseInt((readMessage.substring(2)));
+                            if (Questions.i > a || Questions.mChronometer.getText() == (Duration + ":" + "00")) {
                                 if (value > Questions.c) {
                                     runOnUiThread(new Runnable() {
                                         public void run() {

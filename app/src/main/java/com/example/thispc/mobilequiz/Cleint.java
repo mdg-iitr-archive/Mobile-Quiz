@@ -369,7 +369,7 @@ DataBaseHandler dbh;
                             b = c + 1;
                             c = readMessage.indexOf(";", b);
                         }
-                       Duration = readMessage.substring(b, readMessage.indexOf("/"));
+                       Duration = readMessage.substring(b+1, readMessage.indexOf("/"));
                        runOnUiThread(new Runnable() {
                            public void run() {
                                Toast.makeText(getApplicationContext(), "duration" + Duration, Toast.LENGTH_SHORT).show();
