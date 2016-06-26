@@ -4,21 +4,44 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class CategoryForServer extends AppCompatActivity {
     SharedPreferences.Editor editor=null;
     public static String Duration;
+    Button b1;
+    TextView t1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_for_server);
+        b1=(Button)findViewById(R.id.button8);
+        Typeface m=Typeface.createFromAsset(getAssets(),"MING____.ttf");
+        b1.setTypeface(m);
+        b1=(Button)findViewById(R.id.button6);
+        Typeface m2=Typeface.createFromAsset(getAssets(),"MING____.ttf");
+        b1.setTypeface(m2);
+        b1=(Button)findViewById(R.id.button9);
+        Typeface m3=Typeface.createFromAsset(getAssets(),"MING____.ttf");
+        b1.setTypeface(m3);
+        b1=(Button)findViewById(R.id.button10);
+        Typeface m4=Typeface.createFromAsset(getAssets(),"MING____.ttf");
+        b1.setTypeface(m4);
+        b1=(Button)findViewById(R.id.button5);
+        Typeface m5=Typeface.createFromAsset(getAssets(),"MING____.ttf");
+        b1.setTypeface(m5);
+        t1=(TextView)findViewById(R.id.textView2);
+        Typeface m1=Typeface.createFromAsset(getAssets(),"MING____.ttf");
+        t1.setTypeface(m1);
         SharedPreferences prefs = getSharedPreferences("category", MODE_PRIVATE);
         editor = prefs.edit();
     }

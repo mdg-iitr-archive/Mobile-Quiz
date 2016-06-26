@@ -36,6 +36,7 @@ public class Server extends AppCompatActivity {
     private BluetoothAdapter bluetoothAdapter;
     public static String MyName = "";
     Button btn;
+    int array[];
     EditText name;
     private ListView listview;
     DataBaseHandler dbh;
@@ -247,26 +248,6 @@ public class Server extends AppCompatActivity {
             byte[] buffer = new byte[1024];
             int bytes;
             String s="";
-          //ct.write(("+"+CategoryForServer.Duration+"/"+playnum).getBytes());
-          /*  for (int i = 1; i < Main2Activity.c; i++) {
-                RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
-            //Toast.makeText(getApplicationContext(),"writing questions",Toast.LENGTH_SHORT).show();
-                final int finalI = i;
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "in loop" + finalI, Toast.LENGTH_SHORT).show();
-                    }
-                });
-                ct.write((";" + rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()).getBytes());
-                if (i == (Main2Activity.c) - 1) {
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "in if" , Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    ct.write(("..." +( Main2Activity.c-1)).getBytes());
-                }
-            }*/
            for (int i = 1; i < Main2Activity.c; i++) {
                 RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
                 //    Toast.makeText(getApplicationContext(),"writing questions",Toast.LENGTH_SHORT).show();
@@ -350,9 +331,9 @@ public class Server extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "playername" + finalReadMessage1.substring(finalReadMessage1.indexOf(">")+1), Toast.LENGTH_SHORT).show();
                         }
                     });
-                  //  s1.setText(readMessage.substring(2));
+
                     if (readMessage.charAt(1) == '1') {
-                        ct.write("reached".getBytes());
+                       // ct.write("reached".getBytes());
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 Toast.makeText(getApplicationContext(), " sending reached", Toast.LENGTH_SHORT).show();
@@ -422,7 +403,7 @@ public class Server extends AppCompatActivity {
                         });
                          arraylength++;
                         if (readMessage.charAt(1) == '1') {
-                            ct.write("reached".getBytes());
+                           // ct.write("reached".getBytes());
                             runOnUiThread(new Runnable() {
                                 public void run() {
                                     Toast.makeText(getApplicationContext(), " sending reached", Toast.LENGTH_SHORT).show();
@@ -483,30 +464,8 @@ public class Server extends AppCompatActivity {
                             finalscore[4]=Integer.parseInt(readMessage.substring(2,readMessage.indexOf(">")));
 
                         }
-                            waitingforresult();
+                        waitingforresult();
                     }
-
-               /*     if (playnum == 1) {
-                        p1.setText(playname);
-                        s1.setText(score);
-                    }
-                    if (playnum == 2) {
-                        p2.setText(playname);
-                        s2.setText(score);
-                    }
-                    if (playnum == 3) {
-                        p3.setText(playname);
-                        s3.setText(score);
-                    }
-                    if (playnum == 4) {
-                        p4.setText(playname);
-                        s4.setText(score);
-                    }
-                    if (playnum == 5) {
-                        p5.setText(playname);
-                        s5.setText(score);
-                    }*/
-
                 } catch (Exception e) {
 
                     break;
@@ -515,32 +474,53 @@ public class Server extends AppCompatActivity {
         }
       public void waitingforresult()
         {
-            int b[]=new int[a1];
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "in waiting for result", Toast.LENGTH_LONG).show();
+                }
+            });
+            array=new int[a1];
             int d;
             boolean c=true;
             while(c)
             {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "in while", Toast.LENGTH_LONG).show();
+                    }
+                });
                 if(arraylength==a1)
                 {
-                    b=finalscore;
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "in if of array length", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                   array=finalscore;
                     c=false;
                     for (int i=0;i<a1;i++)
                     {
                         for (int j=0;j<a1-1;j++)
                         {
-                            if(b[j]>b[j+1])
+                            if(array[j]>array[j+1])
                             {
-                                d=b[j];
-                                b[j]=b[j+1];
-                                b[j+1]=d;
+                                d=array[j];
+                                array[j]=array[j+1];
+                                array[j+1]=d;
                             }
                         }
                     }
                     for (int i=0;i<a1;i++)
                     {
-                        if(finalscore[playnum]==b[i])
+
+                        if(finalscore[playnum-1]==array[i])
                         {
-                            ct.write(("()"+i).getBytes());
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), "in arranging position", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                            ct.write(("()"+(i+1)).getBytes());
                             break;
                         }
                     }
@@ -610,6 +590,12 @@ public class Server extends AppCompatActivity {
                             }
                         });
                         finalscore=new int[a1];
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                c++;
+                                Toast.makeText(getApplicationContext(), "value of a1" + a1, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         connected(bluetoothSocket,a1);
                     }
 

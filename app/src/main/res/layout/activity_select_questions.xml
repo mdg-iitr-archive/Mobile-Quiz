@@ -16,8 +16,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15dp"
+        android:textSize="18dp"
         android:textColor="#07A611"
+        android:text="aaaaaaaa"
         android:id="@+id/textView3"
         android:layout_below="@+id/chronometer1"
         android:layout_alignParentLeft="true"
@@ -33,8 +34,7 @@
         android:textColor="#ffffff"
         android:textStyle="bold"
         android:id="@+id/button14"
-        android:layout_marginBottom="9dp"
-        android:layout_above="@+id/button15"
+        android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/button15"
         android:layout_alignStart="@+id/button15" />
 
@@ -47,8 +47,8 @@
         android:background="@drawable/shape2"
         android:textColor="#ffffff"
         android:textStyle="bold"
-        android:layout_marginBottom="8dp"
-        android:layout_above="@+id/button16"
+        android:layout_marginTop="14dp"
+        android:layout_below="@+id/button14"
         android:layout_alignLeft="@+id/button16"
         android:layout_alignStart="@+id/button16" />
 
@@ -61,8 +61,8 @@
         android:textColor="#ffffff"
         android:textStyle="bold"
         android:id="@+id/button16"
-        android:layout_marginBottom="9dp"
-        android:layout_above="@+id/button17"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/button15"
         android:layout_alignLeft="@+id/button17"
         android:layout_alignStart="@+id/button17" />
 
@@ -75,8 +75,9 @@
         android:background="@drawable/shape2"
         android:textColor="#ffffff"
         android:textStyle="bold"
-        android:layout_alignTop="@+id/fab1"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/button16"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp" />
 
     <Chronometer
         android:layout_width="wrap_content"

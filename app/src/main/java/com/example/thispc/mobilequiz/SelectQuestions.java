@@ -148,14 +148,14 @@ questions();
 public void questions() {
 
 
-   /* if (Integer.parseInt(mChronometer.getText().toString().substring(0,mChronometer.getText().toString().indexOf(":"))) < Integer.parseInt(duration))
-    {*/
-   /* runOnUiThread(new Runnable() {
+   if (Integer.parseInt(mChronometer.getText().toString().substring(0,mChronometer.getText().toString().indexOf(":"))) < Integer.parseInt(duration))
+    {
+    runOnUiThread(new Runnable() {
         public void run() {
             Toast.makeText(getApplicationContext(), "in questions", Toast.LENGTH_SHORT).show();
 
         }
-    });*/
+    });
 
     if (j <= Cleint.a)
   {
@@ -243,14 +243,14 @@ public void questions() {
                 questions();
             }
         });
-   // }else
-   /* {
+    }else
+    {
         Toast.makeText(SelectQuestions.this, "You finished Quiz Before Time......Please Wait For Results", Toast.LENGTH_LONG).show();
         o1.setEnabled(false);
         o2.setEnabled(false);
         o3.setEnabled(false);
         o4.setEnabled(false);
-    }*/
+    }
 }}
     public class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;

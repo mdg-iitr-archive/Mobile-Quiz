@@ -38,8 +38,8 @@
         android:textColor="#FFFFFF"
         android:textSize="20dp"
         android:id="@+id/btn_find"
-        android:layout_alignBottom="@+id/listView"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" />
 
 
     </RelativeLayout>

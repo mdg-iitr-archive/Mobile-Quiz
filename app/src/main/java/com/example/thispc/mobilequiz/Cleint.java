@@ -369,7 +369,7 @@ DataBaseHandler dbh;
                             b = c + 1;
                             c = readMessage.indexOf(";", b);
                         }
-                       Duration = readMessage.substring(b+1, readMessage.indexOf("/"));
+                       Duration = readMessage.substring(b+1,readMessage.indexOf("/"));
                        runOnUiThread(new Runnable() {
                            public void run() {
                                Toast.makeText(getApplicationContext(), "duration" + Duration, Toast.LENGTH_SHORT).show();
@@ -410,7 +410,7 @@ DataBaseHandler dbh;
                             }
                         });
                     }*/
-                   /* if(readMessage.contains("()"))
+                  if(readMessage.contains("()"))
                     {
                         final String finalReadMessage = readMessage;
                         runOnUiThread(new Runnable() {
@@ -418,7 +418,7 @@ DataBaseHandler dbh;
                                 Toast.makeText(getApplicationContext(), "Your position is"+ finalReadMessage.charAt(2), Toast.LENGTH_SHORT).show();
                             }
                         });
-                    }*/
+                    }
                   /*  if(readMessage.contains("..."))
                     {
                       qnumber=(readMessage.charAt(3));
