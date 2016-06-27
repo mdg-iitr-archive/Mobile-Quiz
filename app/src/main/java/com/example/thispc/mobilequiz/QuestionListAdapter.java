@@ -1,6 +1,7 @@
 package com.example.thispc.mobilequiz;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,7 +75,14 @@ public class QuestionListAdapter extends RecyclerView.Adapter<QuestionListAdapte
 
         @Override
         public void onClick(View v) {
-
+            if(Main2Activity.type.equals("multidevices"))
+            {
+                int itemPosition =QuestionList.recList.getChildLayoutPosition(itemView);
+                String item = questionList.get(itemPosition).getQuestion();
+           Intent intent = new Intent(parentAct , ViewQuestion.class);
+           intent.putExtra("question",item);
+            parentAct.startActivity(intent);
+            }
         }
     }
     public List<QuestionDetails> getQuestionList() {

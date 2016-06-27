@@ -15,7 +15,9 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Main2Activity" android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".Main2Activity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,7 +38,8 @@
             android:label="@string/title_activity_question_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".CategoryForServer" />
-        <activity android:name=".TwodeviceServer"></activity>
+        <activity android:name=".TwodeviceServer" />
+        <activity android:name=".ViewQuestion"></activity>
     </application>
 
 </manifest>

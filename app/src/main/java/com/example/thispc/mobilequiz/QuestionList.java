@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionList extends AppCompatActivity {
-    RecyclerView recList;
+   public static RecyclerView recList;
     DataBaseHandler dbh;
     String category=null;
     private RecyclerView.Adapter mAdapter;
