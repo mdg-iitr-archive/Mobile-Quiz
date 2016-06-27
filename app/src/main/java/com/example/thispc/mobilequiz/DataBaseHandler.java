@@ -20,6 +20,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_APTITUDE = "Aptitude";
     private static final String TABLE_REASONING = "Reasoning";
     private static final String TABLE_VERBAL = "Verbal";
+    private static final String TABLE_ENGG = "Engg";
     private static final String TABLE_RandomQuestionType = "RandomQuestionsType";
     private static final String TABLE_RandomQuestion = "RandomQuestions";
 
@@ -48,6 +49,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.execSQL(z1);
         String z3="Create Table if not exists Verbal(id Int,question Text,option1 Text,option2 Text,option3 Text,option4 Text,answer Text,qTag Text)";
         db.execSQL(z3);
+        String z5="Create Table if not exists Engg(id Int,question Text,option1 Text,option2 Text,option3 Text,option4 Text,answer Text,qTag Text)";
+        db.execSQL(z5);
         String z4="Create Table if not exists RandomQuestionsType(id1 Int,id2 Int,type Text)";
         db.execSQL(z4);
     }
@@ -58,6 +61,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REASONING);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_RandomQuestionType);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_VERBAL);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ENGG);
         onCreate(db);
     }
     public void clear(){
@@ -66,6 +70,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM " + TABLE_APTITUDE + ";");
         db.execSQL("DELETE FROM " + TABLE_VERBAL + ";");
         db.execSQL("DELETE FROM " + TABLE_RandomQuestionType + ";");
+        db.execSQL("DELETE FROM " + TABLE_ENGG + ";");
     }
 public void adRandomQuestionsType(RandomQuestionsType rqd)
 {
@@ -109,6 +114,22 @@ public void adReasoningQ(QuestionDetails qd)
         db.insert(TABLE_VERBAL, null, values);
         db.close();
     }
+    public void adEnggQ(QuestionDetails qd)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(id, qd.getId());
+        values.put(question, qd.getQuestion());
+        values.put(option1, qd.getOption1());
+        values.put(option2, qd.getOption2());
+        values.put(option3, qd.getOption3());
+        values.put(option4, qd.getOption4());
+        values.put(answer, qd.getAnswer());
+        values.put(qTag, qd.getQtag());
+
+        db.insert(TABLE_ENGG, null, values);
+        db.close();
+    }
     public void adAptitudeQ(QuestionDetails qd)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -132,6 +153,16 @@ public void adReasoningQ(QuestionDetails qd)
         if (c.moveToNext() == true) {
 
          qd =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6),c.getString(7));
+        }
+        return qd;
+    }
+    public  QuestionDetails getEnggQ(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("Select * from Aptitude where id=" + id + "", null);
+        QuestionDetails qd=null;
+        if (c.moveToNext() == true) {
+
+            qd =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6),c.getString(7));
         }
         return qd;
     }
@@ -199,6 +230,19 @@ public void adReasoningQ(QuestionDetails qd)
         if(type.equals("Verbal"))
         {
             String query = "SELECT * FROM " + TABLE_VERBAL;
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery(query, null);
+            if (c.moveToFirst()) {
+                do {
+                    QuestionDetails q =new QuestionDetails(Integer.parseInt(c.getString(0)),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getString(5),c.getString(6),false,c.getString(7));
+                    questionList.add(q);
+
+                } while (c.moveToNext());
+            }
+        }
+        if(type.equals("Engg"))
+        {
+            String query = "SELECT * FROM " + TABLE_ENGG;
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor c = db.rawQuery(query, null);
             if (c.moveToFirst()) {

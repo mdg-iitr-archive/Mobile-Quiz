@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -87,6 +88,10 @@ public class Server extends AppCompatActivity {
         setContentView(R.layout.activity_server);
         playerhead = (TextView) findViewById(R.id.Playerhead);
         scorehead = (TextView) findViewById(R.id.Scorehead);
+        Typeface m=Typeface.createFromAsset(getAssets(),"MING____.ttf");
+        playerhead.setTypeface(m);
+        Typeface m1=Typeface.createFromAsset(getAssets(),"MING____.ttf");
+        scorehead.setTypeface(m1);
         p1 = (TextView) findViewById(R.id.player1);
         p2 = (TextView) findViewById(R.id.player2);
         p3 = (TextView) findViewById(R.id.player3);
@@ -98,6 +103,8 @@ public class Server extends AppCompatActivity {
         s4 = (TextView) findViewById(R.id.score4);
         s5 = (TextView) findViewById(R.id.score5);
         btn = (Button) findViewById(R.id.btn_find);
+        Typeface m2=Typeface.createFromAsset(getAssets(),"MING____.ttf");
+        btn.setTypeface(m2);
         name = (EditText) findViewById(R.id.myName);
         name.setText(MyName);
         dbh = new DataBaseHandler(this);

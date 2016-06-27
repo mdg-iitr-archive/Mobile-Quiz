@@ -170,7 +170,11 @@ public void questions() {
         }
       if(rqt2.getType().toString().equals("Verbal"))
       {
-          qd= dbh.getReasoningQ(rqt2.getId2());
+          qd= dbh.getVerbalQ(rqt2.getId2());
+      }
+      if(rqt2.getType().toString().equals("Engg"))
+      {
+          qd= dbh.getEnggQ(rqt2.getId2());
       }
        t.setText(qd.getQuestion());
         o1.setText(qd.getOption1());

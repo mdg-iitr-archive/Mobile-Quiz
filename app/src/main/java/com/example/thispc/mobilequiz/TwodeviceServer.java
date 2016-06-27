@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -72,6 +73,8 @@ public class TwodeviceServer extends AppCompatActivity {
         btn = (Button) findViewById(R.id.btn_find);
         name = (EditText) findViewById(R.id.myName);
         name.setText(MyName);
+        Typeface m=Typeface.createFromAsset(getAssets(),"MING____.ttf");
+        btn.setTypeface(m);
         btn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

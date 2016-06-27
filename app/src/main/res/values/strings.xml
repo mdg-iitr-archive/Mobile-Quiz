@@ -2,5 +2,5 @@
     <string name="app_name">Mobile Quiz</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_questions">Questions</string>
-    <string name="title_activity_question_list">QuestionList</string>
+    <string name="title_activity_question_list">Select Questions</string>
 </resources>

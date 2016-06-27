@@ -82,7 +82,7 @@
     <Chronometer
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="40dp"
+        android:textSize="35dp"
         android:id="@+id/chronometer1"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"

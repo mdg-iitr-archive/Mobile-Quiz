@@ -1,5 +1,6 @@
 package com.example.thispc.mobilequiz;
 
+import android.graphics.Typeface;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -79,6 +80,8 @@ DataBaseHandler dbh;
         setContentView(R.layout.activity_cleint);
         blue=new BluetoothSocket[2];
         btn = (Button) findViewById(R.id.btn_find);
+        Typeface m=Typeface.createFromAsset(getAssets(),"MING____.ttf");
+        btn.setTypeface(m);
         name = (EditText) findViewById(R.id.myName);
         name.setText(MyName);
         dbh = new DataBaseHandler(this);

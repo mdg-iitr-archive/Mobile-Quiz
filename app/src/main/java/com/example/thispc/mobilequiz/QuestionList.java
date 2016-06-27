@@ -1,6 +1,7 @@
 package com.example.thispc.mobilequiz;
 
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -31,6 +32,7 @@ public class QuestionList extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("category", MODE_PRIVATE);
        category= prefs.getString("category",null);
        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -97,6 +97,17 @@ public void twodevices(View v)
         dbh.adReasoningQ(qd);
         qd = new QuestionDetails(5,"QAR, RAS, SAT, TAU, _____","UAV","UAT","TAS","TAT","UAV","Letter Series" );
         dbh.adReasoningQ(qd);
+        qd = new QuestionDetails(6, "Pointing to Varman, Madhav said, \"I am the only son of one of the sons of his father.\" How is Varman related to Madhav?","Nephew","Uncle","Father","Mother","Uncle","Varma And Madhav");
+        dbh.adReasoningQ(qd);
+        qd = new QuestionDetails(7, "Introducing a woman, Shashank said, \"She is the mother of the only daughter of my son.\" How that woman is related to Shashank?","Daughter","Sister","Wife","Daughter-in-law","Daughter-in-law","Shashak's Relation");
+        dbh.adReasoningQ(qd);
+        qd = new QuestionDetails(8,"A flagstaff 17.5 m high casts a shadow of length 40.25 m. The height of the building, which casts a shadow of length 28.75 m under similar conditions will be:","10m","12.5m","17.5m","21.25m","12.5m","casting shadow");
+        dbh.adReasoningQ(qd);
+        qd = new QuestionDetails(9, "An industrial loom weaves 0.128 metres of cloth every second. Approximately, how many seconds will it take for the loom to weave 25 metres of cloth?","178","195","204","488","195","weaving loom" );
+        dbh.adReasoningQ(qd);
+        qd = new QuestionDetails(10, "The banker's discount on a sum of money for 1 years is Rs. 558 and the true discount on the same sum for 2 years is Rs. 600. The rate percent is:","10%","13%","12%","15%","12%","Banker's discount" );
+        dbh.adReasoningQ(qd);
+
 
          qd = new QuestionDetails(1,"A flagstaff 17.5 m high casts a shadow of length 40.25 m. The height of the building, which casts a shadow of length 28.75 m under similar conditions will be:","10m","12.5m","17.5m","21.25m","12.5m","casting shadow");
         dbh.adAptitudeQ(qd);
@@ -107,6 +118,16 @@ public void twodevices(View v)
         qd = new QuestionDetails(4, "One card is drawn at random from a pack of 52 cards. What is the probability that the card drawn is a face card (Jack, Queen and King only)?","1/13","3/13","1/4","9/52","3/13","probability" );
         dbh.adAptitudeQ(qd);
         qd = new QuestionDetails(5, "The banker's discount on a sum of money for 1 years is Rs. 558 and the true discount on the same sum for 2 years is Rs. 600. The rate percent is:","10%","13%","12%","15%","12%","Banker's discount" );
+        dbh.adAptitudeQ(qd);
+        qd = new QuestionDetails(6, "P is the mother of K; K is the sister of D; D is the father of J. How is P related to J?","Mother","Grandmother","Aunt","Son","Uncle","P & K");
+        dbh.adAptitudeQ(qd);
+        qd = new QuestionDetails(7, "Pointing to Varman, Madhav said, \"I am the only son of one of the sons of his father.\" How is Varman related to Madhav?","Nephew","Uncle","Father","Mother","Uncle","Varma And Madhav");
+        dbh.adAptitudeQ(qd);
+        qd = new QuestionDetails(8,"Apartments in the Riverdale Manor cost less than apartments in The Gaslight Commons.Apartments in the Livingston Gate cost more than apartments in the The Gaslight Commons.Of the three apartment buildings, the Livingston Gate costs the most.If the first two statements are true, the third statement is","True","False","Uncertain","Unknown","True","Aparments" );
+        dbh.adAptitudeQ(qd);
+        qd = new QuestionDetails(9,"Blueberries cost more than strawberries.Blueberries cost less than raspberries.Raspberries cost more than strawberries and blueberries.If the first two statements are true, the third statement is","True","False","Uncertain","Unknown","True","correct statement" );
+        dbh.adAptitudeQ(qd);
+        qd = new QuestionDetails(10, "Select Synonym for EMBEZZLE","Misappropriate","Balance","Remunerate","Clear","Misappropriate","Select synonym");
         dbh.adAptitudeQ(qd);
 
         qd = new QuestionDetails(1, "A school boy who cuts classes frequently is a","Martinet","Defeatist","Sycophant","Truant","Truant","one word subtitle");
@@ -122,9 +143,27 @@ public void twodevices(View v)
                 "S :\twhat to do\n" +
                 "The Proper sequence should be:","RQPS","QSPR","SQPR","PQRS","RQPS","ordering of words");
                 dbh.adVerbalQ(qd);
-        qd = new QuestionDetails(1, "A school boy who cuts classes frequently is a","Martinet","Defeatist","Sycophant","Truant","Truant","one word subtitle");
+        qd = new QuestionDetails(5, "A school boy who cuts classes frequently is a","Martinet","Defeatist","Sycophant","Truant","Truant","one word subtitle");
         dbh.adVerbalQ(qd);
-        qd = new QuestionDetails(1, "Find antonym for EXODUS","Influx","Home-coming","Return","Restoration","Influx","Select antonym");
+        qd = new QuestionDetails(6, "Find antonym for EXODUS","Influx","Home-coming","Return","Restoration","Influx","Select antonym");
         dbh.adVerbalQ(qd);
+
+        qd = new QuestionDetails(1, "Amit said - \"This girl is the wife of the grandson of my mother\". How is Amit related to the girl?","Brother","Grandfather","Husband","Father-in-law","Father-in-law","Amit's Relation");
+        dbh.adEnggQ(qd);
+        qd = new QuestionDetails(2, "Pointing towards a man, a woman said, \"His mother is the only daughter of my mother.\" How is the woman related to the man?","Mother","Grandmother","Sister","Daughter","Mother","Relation Of Woman");
+        dbh.adEnggQ(qd);
+        qd = new QuestionDetails(3, "Introducing Sonia, Aamir says, \"She is the wife of only nephew of only brother of my mother.\" How Sonia is related to Aamir?","Wife","Sister in law","Insufficient data","Sister","Wife","Sonia And Amir");
+        dbh.adEnggQ(qd);
+        qd = new QuestionDetails(4, " Introducing a man, a woman said, \"He is the only son of the mother of my mother.\" How is the woman related to the man?","Mother","Sister","Niece","Maternal Aunt","Niece","Son of Mother");
+        dbh.adEnggQ(qd);
+        qd = new QuestionDetails(5,  "Pointing to a photograph Anjali said, \"He is the son of the only son of my grandfather.\" How is the man in the photograph related to Anjali?","Brother","Uncle","Son","Insufficient Data","Brother","Angali and grandfather");
+        dbh.adEnggQ(qd);
+        qd = new QuestionDetails(6, "Pointing to a person, Deepak said, \"His only brother is the father of my daughter's father\". How is the person related to Deepak?","Father","Grandfather","Uncle","Son","Uncle","Depak's Relation");
+        dbh.adEnggQ(qd);
+        qd = new QuestionDetails(7, "P is the mother of K; K is the sister of D; D is the father of J. How is P related to J?","Mother","Grandmother","Aunt","Son","Uncle","P & K");
+        dbh.adEnggQ(qd);
+        qd = new QuestionDetails(8, "Pointing to Varman, Madhav said, \"I am the only son of one of the sons of his father.\" How is Varman related to Madhav?","Nephew","Uncle","Father","Mother","Father","Varma And Madhav");
+        dbh.adEnggQ(qd);
+
     }
 }

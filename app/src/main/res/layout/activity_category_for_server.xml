@@ -21,10 +21,10 @@
         android:drawableTop="@drawable/down4"
         android:id="@+id/button5"
         android:onClick="reasoning"
-        android:layout_marginTop="47dp"
         android:layout_below="@+id/textView2"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp">
     </Button>
 
     <Button
@@ -39,11 +39,11 @@
         android:onClick="aptitude"
         android:layout_alignTop="@+id/button5"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        />
+        android:layout_alignParentEnd="true" />
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="23dp"
+        android:layout_height="20dp"
+        android:textSize="20dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="SELECT CATEGORY"
         android:textColor="#07A611"
@@ -75,8 +75,7 @@
         android:id="@+id/button9"
         android:background="#ffffff"
         android:drawableTop="@drawable/down5"
-        android:layout_marginBottom="29dp"
-        android:layout_above="@+id/button8"
+        android:layout_alignTop="@+id/button10"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -85,14 +84,15 @@
         android:layout_height="150dp"
         android:drawableTop="@drawable/down7"
         android:background="#ffffff"
-        android:text="engineering"
+        android:text="PUZZLES"
         android:textColor="#A63434"
-        android:onClick="verbal"
+        android:onClick="engg"
         android:textStyle="bold"
         android:id="@+id/button10"
-        android:layout_alignBottom="@+id/button9"
-        android:layout_alignRight="@+id/button6"
-        android:layout_alignEnd="@+id/button6" />
+        android:layout_below="@+id/button6"
+        android:layout_alignLeft="@+id/button6"
+        android:layout_alignStart="@+id/button6"
+        android:layout_marginTop="31dp" />
 
 
 

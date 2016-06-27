@@ -160,7 +160,11 @@ public void questions() {
                }
             if(rqt2.getType().toString().equals("Verbal"))
             {
-                qd= dbh.getReasoningQ(rqt2.getId2());
+                qd= dbh.getVerbalQ(rqt2.getId2());
+            }
+            if(rqt2.getType().toString().equals("Engg"))
+            {
+                qd= dbh.getEnggQ(rqt2.getId2());
             }
                tv.setText(qd.getQuestion());
                o1.setText(qd.getOption1());
@@ -175,6 +179,18 @@ public void questions() {
             public void onClick(View v) {
                 if (o1.getText().equals(ans)) {
                     c++;
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "correct", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else
+                {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "wrong", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
                 if(i<qnumber) {
                     connectedThread.write(("/" + c).getBytes());
@@ -191,6 +207,18 @@ public void questions() {
             public void onClick(View v) {
                 if (o2.getText().equals(ans)) {
                     c++;
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "correct", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else
+                {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "wrong", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
                 if(i<qnumber) {
                     connectedThread.write(("/" + c).getBytes());
@@ -207,6 +235,18 @@ public void questions() {
             public void onClick(View v) {
                 if (o3.getText().equals(ans)) {
                     c++;
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "correct", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else
+                {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "wrong", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
                 if(i<qnumber) {
                     connectedThread.write(("/" + c).getBytes());
@@ -223,6 +263,18 @@ public void questions() {
             public void onClick(View v) {
                 if (o4.getText().equals(ans)) {
                     c++;
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "correct", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else
+                {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "wrong", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
                if(i<qnumber) {
                     connectedThread.write(("/" + c).getBytes());

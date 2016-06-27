@@ -17,7 +17,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15dp"
+        android:textSize="18dp"
+        android:text="aaaaaaaaaaaaaa"
         android:textColor="#07A611"
         android:id="@+id/TextView"
         android:layout_below="@+id/chronometer"
@@ -82,7 +83,7 @@
     <Chronometer
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="40dp"
+        android:textSize="35dp"
         android:id="@+id/chronometer"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
