@@ -12,10 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".Main2Activity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -26,7 +22,6 @@
         </activity>
         <activity android:name=".Twodevices" />
         <activity android:name=".Server" />
-        <activity android:name=".Category" />
         <activity
             android:name=".Questions"
             android:label="@string/title_activity_questions"

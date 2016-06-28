@@ -418,7 +418,7 @@ DataBaseHandler dbh;
                         final String finalReadMessage = readMessage;
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(getApplicationContext(), "Your position is"+ finalReadMessage.charAt(2), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Your position is  "+ finalReadMessage.charAt(2), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

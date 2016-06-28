@@ -27,7 +27,7 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="130dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:text="New Button"
         android:background="@drawable/shape2"
@@ -40,7 +40,7 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="130dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/button15"
@@ -54,7 +54,7 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="130dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:text="New Button"
         android:background="@drawable/shape2"
@@ -68,7 +68,7 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="130dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/button17"

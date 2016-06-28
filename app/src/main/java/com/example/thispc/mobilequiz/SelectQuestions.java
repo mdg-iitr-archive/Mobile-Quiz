@@ -196,6 +196,18 @@ public void questions() {
             public void onClick(View v) {
                 if (o1.getText().equals(ans)) {
                     c++;
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "correct", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else
+                {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "wrong", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
                 j++;
                 if(j < Cleint.a+1)
@@ -210,6 +222,18 @@ public void questions() {
             public void onClick(View v) {
                 if (o2.getText().equals(ans)) {
                     c++;
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "correct", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else
+                {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "wrong", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
                 j++;
                 if(j < Cleint.a+1)
@@ -224,6 +248,18 @@ public void questions() {
             public void onClick(View v) {
                 if (o3.getText().equals(ans)) {
                     c++;
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "correct", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else
+                {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "wrong", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
                 j++;
                 if(j < Cleint.a+1)
@@ -238,6 +274,18 @@ public void questions() {
             public void onClick(View v) {
                 if (o4.getText().equals(ans)) {
                     c++;
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "correct", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else
+                {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "wrong", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
                 j++;
                 if(j < Cleint.a+1)

@@ -152,11 +152,11 @@ public void twodevices(View v)
         dbh.adEnggQ(qd);
         qd = new QuestionDetails(2, "Pointing towards a man, a woman said, \"His mother is the only daughter of my mother.\" How is the woman related to the man?","Mother","Grandmother","Sister","Daughter","Mother","Relation Of Woman");
         dbh.adEnggQ(qd);
-        qd = new QuestionDetails(3, "Introducing Sonia, Aamir says, \"She is the wife of only nephew of only brother of my mother.\" How Sonia is related to Aamir?","Wife","Sister in law","Insufficient data","Sister","Wife","Sonia And Amir");
+        qd = new QuestionDetails(3, "Introducing Sonia, Aamir says, \"She is the wife of only nephew of only brother of my mother.\" How Sonia is related to Aamir?","Wife","Sister in law"," More data","Sister","Wife","Sonia And Amir");
         dbh.adEnggQ(qd);
         qd = new QuestionDetails(4, " Introducing a man, a woman said, \"He is the only son of the mother of my mother.\" How is the woman related to the man?","Mother","Sister","Niece","Maternal Aunt","Niece","Son of Mother");
         dbh.adEnggQ(qd);
-        qd = new QuestionDetails(5,  "Pointing to a photograph Anjali said, \"He is the son of the only son of my grandfather.\" How is the man in the photograph related to Anjali?","Brother","Uncle","Son","Insufficient Data","Brother","Angali and grandfather");
+        qd = new QuestionDetails(5,  "Pointing to a photograph Anjali said, \"He is the son of the only son of my grandfather.\" How is the man in the photograph related to Anjali?","Brother","Uncle","Son","More Data","Brother","Angali and grandfather");
         dbh.adEnggQ(qd);
         qd = new QuestionDetails(6, "Pointing to a person, Deepak said, \"His only brother is the father of my daughter's father\". How is the person related to Deepak?","Father","Grandfather","Uncle","Son","Uncle","Depak's Relation");
         dbh.adEnggQ(qd);

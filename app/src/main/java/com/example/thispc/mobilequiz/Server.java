@@ -105,8 +105,8 @@ public class Server extends AppCompatActivity {
         btn = (Button) findViewById(R.id.btn_find);
         Typeface m2=Typeface.createFromAsset(getAssets(),"MING____.ttf");
         btn.setTypeface(m2);
-        name = (EditText) findViewById(R.id.myName);
-        name.setText(MyName);
+      //  name = (EditText) findViewById(R.id.myName);
+       // name.setText(MyName);
         dbh = new DataBaseHandler(this);
         mUuids = new ArrayList<UUID>();
         a = new BluetoothSocket[2];
@@ -116,13 +116,13 @@ public class Server extends AppCompatActivity {
               new View.OnClickListener() {
                   @Override
                   public void onClick(View v) {
-                      MyName = name.getText().toString();
+                      /*MyName = name.getText().toString();
                       if (MyName.trim().equals("")) {
-                          name.setError("Enter Name");
-                      } else {
+                          name.setError("Please Enter Your Name");
+                      } else {*/
 
                           if (bluetoothAdapter == null) {
-                              Toast.makeText(getApplicationContext(), "Oops! Your device does not support Bluetooth",
+                              Toast.makeText(getApplicationContext(), " Your device does not support Bluetooth",
                                       Toast.LENGTH_SHORT).show();
                           } else if (!refreshEnabled) {
                               refreshEnabled = true;
@@ -136,7 +136,7 @@ public class Server extends AppCompatActivity {
                               adapter.clear();
                               bluetoothAdapter.disable();
                           }
-                      }
+                    //  }
                   }
               }
       );
