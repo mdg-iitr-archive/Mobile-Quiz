@@ -70,6 +70,7 @@ public class Server extends AppCompatActivity {
     TextView s3;
     TextView s4;
     TextView s5;
+   public static ConnectedThread carray[];
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -92,6 +93,7 @@ public class Server extends AppCompatActivity {
         playerhead.setTypeface(m);
         Typeface m1=Typeface.createFromAsset(getAssets(),"MING____.ttf");
         scorehead.setTypeface(m1);
+        carray=new ConnectedThread[5];
         p1 = (TextView) findViewById(R.id.player1);
         p2 = (TextView) findViewById(R.id.player2);
         p3 = (TextView) findViewById(R.id.player3);
@@ -110,6 +112,8 @@ public class Server extends AppCompatActivity {
         a = new BluetoothSocket[2];
         mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
         mUuids.add(UUID.fromString("2d64189d-5a2c-4511-a074-77f199fd0834"));
+        mUuids.add(UUID.fromString("e442e09a-51f3-4a7b-91cb-f638491d1412"));
+        mUuids.add(UUID.fromString("a81d6504-4536-49ee-a475-7d96d09439e4"));
       btn.setOnClickListener(
               new View.OnClickListener() {
                   @Override
@@ -190,6 +194,7 @@ public class Server extends AppCompatActivity {
 
         mBluetoothSocket = socket;
         ct = new ConnectedThread(socket, c);
+        carray[c-1]=ct;
         ct.start();
 
     }
@@ -408,6 +413,13 @@ public class Server extends AppCompatActivity {
         }
       public void waitingforresult()
         {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "in waiting for results", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
             array=new int[a1];
             int d;
             boolean c=true;
@@ -415,7 +427,14 @@ public class Server extends AppCompatActivity {
             {
                 if(arraylength==a1)
                 {
-                   array=finalscore;
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "in if", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+
+                    array=finalscore;
                     c=false;
                     for (int i=0;i<a1;i++)
                     {
@@ -434,7 +453,13 @@ public class Server extends AppCompatActivity {
 
                         if(finalscore[playnum-1]==array[i])
                         {
-                            ct.write(("()"+(i+1)).getBytes());
+                            final int finalI = i;
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), "in arranging ranks", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            carray[playnum-1].write(("()" + (finalI + 1)).getBytes());
                             break;
                         }
                     }
