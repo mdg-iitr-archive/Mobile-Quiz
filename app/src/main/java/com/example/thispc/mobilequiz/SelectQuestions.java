@@ -44,9 +44,12 @@ public class SelectQuestions extends AppCompatActivity {
         mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
-                if (chronometer.getText().toString().equalsIgnoreCase(duration+":"+"00"))
-                {
-                    connectedThread.write(("=" +playnum1+c+">"+name).getBytes());
+                if (chronometer.getText().toString().equalsIgnoreCase(duration + ":" + "00")) {
+                    o1.setEnabled(false);
+                    o2.setEnabled(false);
+                    o3.setEnabled(false);
+                    o4.setEnabled(false);
+                    connectedThread.write(("=" + playnum1 + c + ">" + name).getBytes());
                     mChronometer.stop();
                     AlertDialog.Builder builder = new AlertDialog.Builder(SelectQuestions.this);
                     builder.setMessage("Please Wait For Results");
@@ -79,13 +82,6 @@ public class SelectQuestions extends AppCompatActivity {
         o4=(Button)findViewById(R.id.button17);
         t=(TextView)findViewById(R.id.textView3);
         dbh = new DataBaseHandler(this);
-       runOnUiThread(new Runnable() {
-           public void run() {
-               Toast.makeText(getApplicationContext(), "pohonchgya", Toast.LENGTH_SHORT).show();
-
-           }
-
-       });
       connectedThread = new ConnectedThread(bluetoothSocket1);
    connectedThread.start();
    display(null);
@@ -94,69 +90,18 @@ public class SelectQuestions extends AppCompatActivity {
     public void display(View v)
     {
        mChronometer.start();
-        if(connectedThread!=null) {
-   // connectedThread.write("lodu".getBytes());
-    runOnUiThread(new Runnable() {
-        public void run() {
-            Toast.makeText(getApplicationContext(), "connected Thread sending lodu", Toast.LENGTH_SHORT).show();
-
-        }
-    });
-  //  connectedThread.write(("." + playnum1 + name).getBytes());
-
-        }else
-    {
-    runOnUiThread(new Runnable() {
-        public void run() {
-            Toast.makeText(getApplicationContext(), "connected Thread is null", Toast.LENGTH_SHORT).show();
-
-        }
-    });
-    }
-       /* runOnUiThread(new Runnable() {
-            public void run() {
-                Toast.makeText(getApplicationContext(), "pohonchgya", Toast.LENGTH_SHORT).show();
-
-            }
-        });*/
-        for (int i=1;i<=Cleint.a;i++)//Integer.parseInt(Character.valueOf(Cleint.qnumber).toString());i++)
+        for (int i=1;i<=Cleint.a;i++)
         {
-          /*runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "tatti", Toast.LENGTH_SHORT).show();
-
-                }
-            });*/
 
          final RandomQuestionsType rqt= dbh.getRandomQuestionsType(i);
-          if(rqt!=null)
-{
-
-
-       /*   runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "pohonchgya", Toast.LENGTH_SHORT).show();
-
-                }
-            });*/
 }
-}
-
-
-questions();
+        questions();
     }
 public void questions() {
 
 
    if (Integer.parseInt(mChronometer.getText().toString().substring(0,mChronometer.getText().toString().indexOf(":"))) < Integer.parseInt(duration))
     {
-    runOnUiThread(new Runnable() {
-        public void run() {
-            Toast.makeText(getApplicationContext(), "in questions", Toast.LENGTH_SHORT).show();
-
-        }
-    });
-
     if (j <= Cleint.a)
   {
        rqt2=dbh.getRandomQuestionsType(j);
@@ -182,15 +127,6 @@ public void questions() {
         o3.setText(qd.getOption3());
         o4.setText(qd.getOption4());
         ans = qd.getAnswer();
-    /*  if(Cleint.reach>0)
-      {
-          runOnUiThread(new Runnable() {
-              public void run() {
-                  Toast.makeText(getApplicationContext(), "reach is greater than zero", Toast.LENGTH_SHORT).show();
-
-              }
-          });
-      }*/
         o1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -298,6 +234,7 @@ public void questions() {
     }else
     {
         Toast.makeText(SelectQuestions.this, "You finished Quiz Before Time......Please Wait For Results", Toast.LENGTH_LONG).show();
+        mChronometer.stop();
         o1.setEnabled(false);
         o2.setEnabled(false);
         o3.setEnabled(false);
@@ -337,14 +274,6 @@ public void questions() {
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
-                 /*  if(readMessage.contains("reached"))
-                    {
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "reached", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }*/
 
 
                 } catch (Exception e) {

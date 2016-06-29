@@ -81,10 +81,10 @@ public class TwodeviceServer extends AppCompatActivity {
                     public void onClick(View v) {
                         MyName = name.getText().toString();
                         if (MyName.trim().equals("")) {
-                            name.setError("Enter Name");
+                            Toast.makeText(getApplicationContext(),"Please Enter Your Name", Toast.LENGTH_SHORT).show();
                         } else {
                             if (bluetoothAdapter == null) {
-                                Toast.makeText(getApplicationContext(), "Oops! Your device does not support Bluetooth",
+                                Toast.makeText(getApplicationContext(), "Your device does not support Bluetooth",
                                         Toast.LENGTH_SHORT).show();
                             } else if (!refreshEnabled) {
                                 refreshEnabled = true;
@@ -147,7 +147,7 @@ public class TwodeviceServer extends AppCompatActivity {
             }
         } else if (requestCode == DISCOVERABLE_BT_REQUEST_CODE) {
             if (resultCode == DISCOVERABLE_DURATION) {
-                Toast.makeText(getApplicationContext(), "Your device is now discoverable for " + DISCOVERABLE_DURATION + " seconds", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Your device is now discoverable for Clients", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getApplicationContext(), "Fail to enable discoverable mode.", Toast.LENGTH_SHORT).show();
             }
@@ -311,11 +311,6 @@ public class TwodeviceServer extends AppCompatActivity {
             } catch (IOException e) {
 
             }
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "in connected thread" , Toast.LENGTH_SHORT).show();
-                }
-            });
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
         }
@@ -329,23 +324,14 @@ public class TwodeviceServer extends AppCompatActivity {
                 RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
                 //    Toast.makeText(getApplicationContext(),"writing questions",Toast.LENGTH_SHORT).show();
                 final int finalI = i;
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "in loop" + finalI, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
                s+=rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()+";";
             }
             s=s+"+"+CategoryForServer.Duration+"%"+MyName;
            connectedThread.write((s).getBytes());
             Intent ic =new Intent(TwodeviceServer.this,Questions.class);
             startActivity(ic);
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "in run", Toast.LENGTH_SHORT).show();
-                }
-            });
+
+
             String score="0";
             // Keep listening to the InputStream while connected
             while (true) {
@@ -360,7 +346,7 @@ public class TwodeviceServer extends AppCompatActivity {
                            OpponentName=readMessage.substring(1);
                        runOnUiThread(new Runnable() {
                            public void run() {
-                               Toast.makeText(TwodeviceServer.this, "opponent name" + OpponentName, Toast.LENGTH_LONG).show();
+                               Toast.makeText(TwodeviceServer.this, "Opponent Name " + OpponentName, Toast.LENGTH_LONG).show();
 
                            }
 
@@ -371,14 +357,7 @@ public class TwodeviceServer extends AppCompatActivity {
                             opposcore = readMessage.substring(2);
                             runOnUiThread(new Runnable() {
                                 public void run() {
-                                    Toast.makeText(TwodeviceServer.this, "opposcore" + opposcore, Toast.LENGTH_LONG).show();
-
-                                }
-
-                            });
-                            runOnUiThread(new Runnable() {
-                                public void run() {
-                                    Toast.makeText(TwodeviceServer.this, "last question of opponent", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(TwodeviceServer.this, "Opponent Score " + opposcore , Toast.LENGTH_LONG).show();
 
                                 }
 
@@ -416,15 +395,8 @@ public class TwodeviceServer extends AppCompatActivity {
                             }
                         } else {
                                   opposcore = readMessage.substring(1);
-                                  runOnUiThread(new Runnable() {
-                                public void run() {
-
-                                    Toast.makeText(TwodeviceServer.this, "opposcore" + opposcore, Toast.LENGTH_LONG).show();
-
-                                }
-
-                            });
-                        }}
+                        }
+                    }
                 } catch (Exception e) {
 
                 }

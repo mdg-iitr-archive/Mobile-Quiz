@@ -7,7 +7,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/down2"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -20,21 +20,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Twodevices" />
-        <activity android:name=".Server" />
+        <activity android:name=".Twodevices" android:label="Discover Server"/>
+        <activity android:name=".Server" android:label="Leader Board"/>
         <activity
             android:name=".Questions"
-            android:label="@string/title_activity_questions"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Cleint" />
-        <activity android:name=".SelectQuestions" />
+        <activity android:name=".Cleint" android:label="Discover Server" />
+        <activity android:name=".SelectQuestions" android:label="@string/app_name" />
         <activity
             android:name=".QuestionList"
             android:label="@string/title_activity_question_list"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CategoryForServer" />
-        <activity android:name=".TwodeviceServer" />
-        <activity android:name=".ViewQuestion"></activity>
+        <activity android:name=".CategoryForServer" android:label="Select Category" />
+        <activity android:name=".TwodeviceServer" android:label="Discover Clients"/>
+        <activity android:name=".ViewQuestion" android:label="Question"></activity>
     </application>
 
 </manifest>

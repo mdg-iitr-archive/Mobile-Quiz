@@ -94,11 +94,11 @@ DataBaseHandler dbh;
                     public void onClick(View v) {
                         MyName = name.getText().toString();
                         if (MyName.trim().equals("")) {
-                            name.setError("Enter Name");
+                            Toast.makeText(getApplicationContext(),"Please Enter Your Name",Toast.LENGTH_SHORT).show();
                         } else {
 
                             if (bluetoothAdapter == null) {
-                                Toast.makeText(getApplicationContext(), "Oops! Your device does not support Bluetooth",
+                                Toast.makeText(getApplicationContext(), "Your device does not support Bluetooth",
                                         Toast.LENGTH_SHORT).show();
                             } else if (!refreshEnabled) {
                                 refreshEnabled = true;
@@ -162,7 +162,7 @@ DataBaseHandler dbh;
             }
         } else if (requestCode == DISCOVERABLE_BT_REQUEST_CODE) {
             if (resultCode == DISCOVERABLE_DURATION) {
-                Toast.makeText(getApplicationContext(), "Your device is now discoverable for " + DISCOVERABLE_DURATION + " seconds", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Your device is now discoverable for Server", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getApplicationContext(), "Fail to enable discoverable mode.", Toast.LENGTH_SHORT).show();
             }
@@ -211,21 +211,9 @@ DataBaseHandler dbh;
         {
             if(blue[0]==blue[1])
             {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-
-                        Toast.makeText(getApplicationContext(), "sockets equal", Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
             else
             {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-
-                        Toast.makeText(getApplicationContext(), "sockets not equal.", Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
         }
      // Intent ic=new Intent(Cleint.this,SelectQuestions.class);
@@ -285,8 +273,6 @@ DataBaseHandler dbh;
             }
 
         }
-
-        // Cancel an open connection and terminate the thread
         public void cancel() {
             try {
                 bluetoothSocket.close();
@@ -313,11 +299,6 @@ DataBaseHandler dbh;
             } catch (IOException e) {
 
             }
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "in connected thread" , Toast.LENGTH_SHORT).show();
-                }
-            });
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
         }
@@ -325,11 +306,6 @@ DataBaseHandler dbh;
         public void run() {
             byte[] buffer = new byte[1024];
             int bytes;
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "in run", Toast.LENGTH_SHORT).show();
-                }
-            });
             String score="0";
             // Keep listening to the InputStream while connected
             while (true) {
@@ -339,21 +315,6 @@ DataBaseHandler dbh;
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
-                 /* if(readMessage.contains("+")) {
-                        Duration = readMessage.substring(1, readMessage.indexOf("/"));
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "duration" + Duration, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        playnum = readMessage.charAt(readMessage.indexOf("/") + 1);
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "playnum" + playnum, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }*/
-
                    if (readMessage.contains(";")) {
                         String s = null;
                         mbluetoothSocket = mBluetoothSocket;
@@ -366,7 +327,6 @@ DataBaseHandler dbh;
                             runOnUiThread(new Runnable() {
                                 public void run() {
                                     a++;
-                                    Toast.makeText(getApplicationContext(), "in ;" + a + dbh.getRandomQuestionsType(a).getType(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                             b = c + 1;
@@ -375,16 +335,10 @@ DataBaseHandler dbh;
                        Duration = readMessage.substring(b+1,readMessage.indexOf("/"));
                        runOnUiThread(new Runnable() {
                            public void run() {
-                               Toast.makeText(getApplicationContext(), "duration" + Duration, Toast.LENGTH_SHORT).show();
+                               Toast.makeText(getApplicationContext(), "Duration Of Quiz is "+ Duration+" minutes", Toast.LENGTH_SHORT).show();
                            }
                        });
                        playnum = readMessage.charAt(readMessage.indexOf("/") + 1);
-                       runOnUiThread(new Runnable() {
-                           public void run() {
-                               Toast.makeText(getApplicationContext(), "playnum" + playnum, Toast.LENGTH_SHORT).show();
-                           }
-                       });
-
                        runOnUiThread(new Runnable() {
                            public void run() {
                                Intent ic = new Intent(Cleint.this, SelectQuestions.class);
@@ -392,27 +346,6 @@ DataBaseHandler dbh;
                            }
                        });
                     }
-                   /* if(readMessage.contains(";"))
-                    {
-                        mbluetoothSocket=mBluetoothSocket;
-                        RandomQuestionsType rqt=new RandomQuestionsType(Integer.parseInt(readMessage.substring(1,readMessage.indexOf('['))),Integer.parseInt(readMessage.substring(readMessage.indexOf('[')+1,readMessage.indexOf(']'))),readMessage.substring(readMessage.indexOf(']')+1));
-                        dbh.adRandomQuestionsType(rqt);
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                a++;
-                                Toast.makeText(getApplicationContext(), "in ;" + a +dbh.getRandomQuestionsType(a).getType(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }*/
-                 /*  if(readMessage.contains("reached"))
-                    {
-                        reach=1;
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "reached", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }*/
                   if(readMessage.contains("()"))
                     {
                         final String finalReadMessage = readMessage;
@@ -422,23 +355,7 @@ DataBaseHandler dbh;
                             }
                         });
                     }
-                  /*  if(readMessage.contains("..."))
-                    {
-                      qnumber=(readMessage.charAt(3));
-                       runOnUiThread(new Runnable() {
-                            public void run() {
-                                b++;
-                                Toast.makeText(getApplicationContext(), "in ............."+qnumber, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Intent ic = new Intent(Cleint.this, SelectQuestions.class);
-                                startActivity(ic);
-                            }
-                        });
 
-                    }*/
 
                 } catch (Exception e) {
 

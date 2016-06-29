@@ -37,16 +37,15 @@ public class QuestionList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 List<QuestionDetails> stList = QuestionListAdapter.questionList;
-                Toast.makeText(getApplicationContext(), stList.size()+" ", Toast.LENGTH_SHORT).show();
                 for (int i = 0; i <stList.size(); i++) {
                     QuestionDetails qd = stList.get(i);
                     if (qd.isSelected()) {
                         RandomQuestionsType rqt = new RandomQuestionsType(Main2Activity.c, qd.getId(), category);
                         dbh.adRandomQuestionsType(rqt);
-                        Toast.makeText(getApplicationContext(), "saved in database" + Main2Activity.c, Toast.LENGTH_SHORT).show();
                         ++Main2Activity.c;
                     }
                 }
+                Toast.makeText(getApplicationContext(), (Main2Activity.c-1)+" questions selected" , Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

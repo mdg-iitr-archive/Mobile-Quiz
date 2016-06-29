@@ -335,6 +335,9 @@ public void questions() {
         Toast.makeText(Questions.this, "Quiz is over", Toast.LENGTH_LONG).show();
     }
 }
+
+
+
     public class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
@@ -366,33 +369,7 @@ public void questions() {
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
-                 /*   if(readMessage.contains("."))
-                    {
-                        Category.value =Integer.Category.valueOf(readMessage.substring(1));
-                        if(i>2||mChronometer.getText()==(duration+":"+"00"))
-                        {
-                            if(Category.value>c)
-                            {
-                                Toast.makeText( Questions.this,"You Loose",Toast.LENGTH_LONG).show();
-                            }
-                            if(Category.value<c)
-                            {
-                                Toast.makeText( Questions.this,"You Win",Toast.LENGTH_LONG).show();
-                            }
-                            if(Category.value==c)
-                            {
-                                Toast.makeText( Questions.this,"Draw",Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    }*/
-                         /*  if(readMessage.contains("/"))
-                            {
-                                opposcore=readMessage.substring(1);
-                                Toast.makeText( Questions.this,"opposcore"+opposcore,Toast.LENGTH_LONG).show();
-
-                            }*/
-
-
+                 
                 } catch (Exception e) {
 
 

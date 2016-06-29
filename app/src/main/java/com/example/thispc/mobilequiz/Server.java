@@ -105,8 +105,6 @@ public class Server extends AppCompatActivity {
         btn = (Button) findViewById(R.id.btn_find);
         Typeface m2=Typeface.createFromAsset(getAssets(),"MING____.ttf");
         btn.setTypeface(m2);
-      //  name = (EditText) findViewById(R.id.myName);
-       // name.setText(MyName);
         dbh = new DataBaseHandler(this);
         mUuids = new ArrayList<UUID>();
         a = new BluetoothSocket[2];
@@ -116,10 +114,7 @@ public class Server extends AppCompatActivity {
               new View.OnClickListener() {
                   @Override
                   public void onClick(View v) {
-                      /*MyName = name.getText().toString();
-                      if (MyName.trim().equals("")) {
-                          name.setError("Please Enter Your Name");
-                      } else {*/
+
 
                           if (bluetoothAdapter == null) {
                               Toast.makeText(getApplicationContext(), " Your device does not support Bluetooth",
@@ -165,7 +160,6 @@ public class Server extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ENABLE_BT_REQUEST_CODE) {
-            // Bluetooth successfully enabled!
             if (resultCode == Activity.RESULT_OK) {
                 Toast.makeText(getApplicationContext(), "Bluetooth enabled." + "\n" + "Scanning for peers", Toast.LENGTH_SHORT).show();
 
@@ -174,7 +168,6 @@ public class Server extends AppCompatActivity {
 
                 t = new ListeningThread();
                 t.start();
-                Toast.makeText(getApplicationContext(), "listning thread", Toast.LENGTH_SHORT).show();
 
 
             } else {
@@ -182,7 +175,7 @@ public class Server extends AppCompatActivity {
             }
         } else if (requestCode == DISCOVERABLE_BT_REQUEST_CODE) {
             if (resultCode == DISCOVERABLE_DURATION) {
-                Toast.makeText(getApplicationContext(), "Your device is now discoverable for " + DISCOVERABLE_DURATION + " seconds", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Your device is now discoverable for Clients", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getApplicationContext(), "Fail to enable discoverable mode.", Toast.LENGTH_SHORT).show();
             }
@@ -257,46 +250,21 @@ public class Server extends AppCompatActivity {
             String s="";
            for (int i = 1; i < Main2Activity.c; i++) {
                 RandomQuestionsType rqt = dbh.getRandomQuestionsType(i);
-                //    Toast.makeText(getApplicationContext(),"writing questions",Toast.LENGTH_SHORT).show();
                 final int finalI = i;
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "in loop" + finalI, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
                 s+=rqt.getId1() + "[" + rqt.getId2() + "]" + rqt.getType()+";";
             }
             s=s+"+"+CategoryForServer.Duration+"/"+playnum;
             ct.write((s).getBytes());
-
-
-
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "in run", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-
-
             // Keep listening to the InputStream while connected
             while (true) {
                 try {
 
-                    // Read from the InputStream
                     String readMessage = "";
                     bytes = mmInStream.read(buffer);
                     readMessage = new String(buffer, 0, bytes);
-                  //  ct.write("reached".getBytes());
                     if (readMessage.contains(".")) {
                         final String finalReadMessage = readMessage;
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "player name" + finalReadMessage.substring(2), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                       // p1.setText(readMessage.substring(2));
+
                         if(readMessage.charAt(1)=='1')
                         {
                             p1.setText(readMessage.substring(2));
@@ -318,35 +286,10 @@ public class Server extends AppCompatActivity {
                             p5.setText(readMessage.substring(2));
                         }
                     }
-               if(readMessage.contains("lodu"))
-                    {
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "lodu", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
               if (readMessage.contains("?")) {
                     final String finalReadMessage1 = readMessage;
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "score" + finalReadMessage1.substring(2,finalReadMessage1.indexOf(">")), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "playername" + finalReadMessage1.substring(finalReadMessage1.indexOf(">")+1), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    if (readMessage.charAt(1) == '1') {
-                       // ct.write("reached".getBytes());
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), " sending reached", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        final String finalReadMessage = readMessage;
+                  if (readMessage.charAt(1) == '1') {
+                      final String finalReadMessage = readMessage;
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 s1.setText(finalReadMessage.substring(2, finalReadMessage.indexOf(">")));
@@ -398,24 +341,8 @@ public class Server extends AppCompatActivity {
                 }
                     if (readMessage.contains("=")) {
                         final String finalReadMessage1 = readMessage;
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "score" + finalReadMessage1.substring(2,finalReadMessage1.indexOf(">")), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "playername" + finalReadMessage1.substring(finalReadMessage1.indexOf(">")+1), Toast.LENGTH_SHORT).show();
-                            }
-                        });
                          arraylength++;
                         if (readMessage.charAt(1) == '1') {
-                           // ct.write("reached".getBytes());
-                            runOnUiThread(new Runnable() {
-                                public void run() {
-                                    Toast.makeText(getApplicationContext(), " sending reached", Toast.LENGTH_SHORT).show();
-                                }
-                            });
                             final String finalReadMessage = readMessage;
                             runOnUiThread(new Runnable() {
                                 public void run() {
@@ -481,28 +408,13 @@ public class Server extends AppCompatActivity {
         }
       public void waitingforresult()
         {
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "in waiting for result", Toast.LENGTH_LONG).show();
-                }
-            });
             array=new int[a1];
             int d;
             boolean c=true;
             while(c)
             {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "in while", Toast.LENGTH_LONG).show();
-                    }
-                });
                 if(arraylength==a1)
                 {
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "in if of array length", Toast.LENGTH_LONG).show();
-                        }
-                    });
                    array=finalscore;
                     c=false;
                     for (int i=0;i<a1;i++)
@@ -522,11 +434,6 @@ public class Server extends AppCompatActivity {
 
                         if(finalscore[playnum-1]==array[i])
                         {
-                            runOnUiThread(new Runnable() {
-                                public void run() {
-                                    Toast.makeText(getApplicationContext(), "in arranging position", Toast.LENGTH_LONG).show();
-                                }
-                            });
                             ct.write(("()"+(i+1)).getBytes());
                             break;
                         }
@@ -593,16 +500,10 @@ public class Server extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             public void run() {
                                        c++;
-                                Toast.makeText(getApplicationContext(), "A connection has been accepted." + c, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Total "+c+" connection accepted.", Toast.LENGTH_SHORT).show();
                             }
                         });
                         finalscore=new int[a1];
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                c++;
-                                Toast.makeText(getApplicationContext(), "value of a1" + a1, Toast.LENGTH_SHORT).show();
-                            }
-                        });
                         connected(bluetoothSocket,a1);
                     }
 
